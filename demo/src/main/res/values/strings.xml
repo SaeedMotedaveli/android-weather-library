@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">MT Weather Library</string>
+    <string name="tab_text_1">REQUEST</string>
+    <string name="tab_text_2">RESULT</string>
+    <string name="api_key">API key</string>
+    <string name="save_api_key">Save api key</string>
+    <string name="language">Language (example: en)</string>
+    <string name="use_gps">Use GPS</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="request_type">Request type</string>
+    <string name="current_weather">Current weather</string>
+    <string name="daily_weather">Daily weather</string>
+    <string name="hourly_weather">Hourly weather</string>
+    <string name="air_quality">Air quality</string>
+    <string name="all_in_one">All in one</string>
+    <string name="units">Units</string>
+    <string name="cancel">Cancel</string>
+    <string name="today_astronomy">Today astronomy</string>
+</resources>

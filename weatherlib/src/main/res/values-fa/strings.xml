@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="thunderstorm">رعد و برق</string>
+    <string name="hurricane">طوفانی</string>
+    <string name="drizzle">نم‌نم باران</string>
+    <string name="light_drizzle">نم‌نم باران خفیف</string>
+    <string name="heavy_drizzle">نم‌نم باران با شدت بالا</string>
+    <string name="shower_rain">رگبار باران</string>
+    <string name="light_rain">بارش خفیف باران</string>
+    <string name="moderate_rain">بارش باران</string>
+    <string name="heavy_rain">بارش شدید باران</string>
+    <string name="freezing_rain">باران یخ‌زده</string>
+    <string name="heavy_shower_rain">رگبار شدید باران</string>
+    <string name="light_snow">بارش خفیف برف</string>
+    <string name="snow">بارش برف</string>
+    <string name="heavy_snow">بارش شدید برف</string>
+    <string name="sleet">بوران</string>
+    <string name="rain_and_snow">بارش ترکیبی برف و باران</string>
+    <string name="shower_snow">رگبار برف</string>
+    <string name="heavy_shower_snow">رگبار شدید برف</string>
+    <string name="mist">گرد و غبار</string>
+    <string name="fog">مه آلود</string>
+    <string name="smoke">هوای آلوده به دود</string>
+    <string name="volcanic_ash">خاکستر آتشفشانی</string>
+    <string name="tornado">گردباد</string>
+    <string name="clear_sky">آسمان صاف</string>
+    <string name="few_clouds">ابرهای پراکنده</string>
+    <string name="cloudy">ابری</string>
+    <string name="tropical_storm">توفان گرمسیری</string>
+    <string name="cold">هوای به‌شدت سرد</string>
+    <string name="hot">هوای به‌شدت گرم</string>
+    <string name="windy">وزش باد</string>
+    <string name="hail">تگرگ</string>
+    <string name="light_breeze">نسیم ملایم</string>
+    <string name="moderate_breeze">وزش نسیم</string>
+    <string name="strong_breeze">نسیم شدید</string>
+    <string name="moderate_or_heavy_snow_with_thunder">بارش برف همراه با رعد و برق</string>
+    <string name="patchy_heavy_snow">ریزش سنگین برف</string>
+    <string name="patchy_moderate_snow">ریزش برف</string>
+    <string name="patchy_light_snow_thunder">ریزش خفیف برف به همراه رعد و برق</string>
+    <string name="patchy_light_rain_with_thunder">ریزش باران به همراه رعد و برق</string>
+    <string name="moderate_or_heavy_sleet_showers">بوران سنگین</string>
+    <string name="light_shower_rain">رگبار خفیف</string>
+    <string name="light_sleet">بوران خفیف</string>
+    <string name="heavy_freezing_drizzle">نم‌نم شدید باران یخ‌زده</string>
+    <string name="freezing_drizzle">نم‌نم باران یخ‌زده</string>
+    <string name="freezing_fog">مه منجمد</string>
+    <string name="blizzard">کولاک</string>
+    <string name="flurries">طوفان ناگهانی</string>
+    <string name="unknown_precipitation">بارش ناشناخته</string>
+    <string name="thunderstorm_with_light_rain">بارش خفیف باران به همراه رعد و برق</string>
+    <string name="thunderstorm_with_rain">بارش باران به همراه رعد و برق</string>
+    <string name="thunderstorm_with_heavy_rain">بارش شدید باران به همراه رعد و برق</string>
+    <string name="thunderstorm_with_light_drizzle">نم‌نم خفیف باران به همراه رعد و برق</string>
+    <string name="thunderstorm_with_drizzle">نم‌نم باران به همراه رعد و برق</string>
+    <string name="thunderstorm_with_heavy_drizzle">نم‌نم شدید باران به همراه رعد و برق</string>
+    <string name="thunderstorm_with_hail">بارش تگرگ به همراه رعد و برق</string>
+
+
+
+    <string name="uv_risk_low">خطر پایین آسیب ناشی از تابش آفتاب</string>
+    <string name="uv_risk_moderate">خطر متوسط آسیب ناشی از تابش آفتاب</string>
+    <string name="uv_risk_high">خطر بالای آسیب ناشی از تابش آفتاب</string>
+    <string name="uv_risk_very_high">خطر بسیار بالای آسیب ناشی از تابش آفتاب</string>
+    <string name="uv_risk_extreme">خطر آسیب شدید ناشی از تابش آفتاب</string>
+
+    <string name="uv_recommended_protection_low">زیر نور خورشید از عینک آفتابی استفاده کنید. اگر پوست شما روشن است، پوست خود را بپوشانید و کرم ضد آفتاب با SPF بالای ۳۰ استفاده کنید. در نظر داشته باشید که سطوح روشن مثل ماسه، آب و برف بدن شما را بیشتر در معرض اشعه فرابنفش قرار می‌دهد.</string>
+    <string name="uv_recommended_protection_moderate">در هنگام تابش شدید آفتاب در ظهر، در سایه بمانید. در بیرون از محیط‌های سرپوشیده برای محافظت در مقابل نور خورشید، لباس مناسب، کلاه لبه‌دار و عینک آفتابی بپوشید. حتما هر دو ساعت یک بار حتی اگر هوا ابری هم باشد، از کرم ضد آفتاب با SPF بالای ۳۰ استفاده کنید. این کار را بعد از تعریق یا شنا تکرار کنید. در نظر داشته باشید که سطوح روشن مثل ماسه، آب و برف بدن شما را بیشتر در معرض اشعه فرابنفش قرار می‌دهد.</string>
+    <string name="uv_recommended_protection_high">سعی کنید بین ساعت ۱۰ صبح تا ۴ بعد از ظهر، کم‌تر زیر آفتاب بمانید. در بیرون از محیط‌های سرپوشیده برای محافظت در مقابل نور خورشید، لباس مناسب، کلاه لبه‌دار و عینک آفتابی بپوشید. حتما هر دو ساعت یک بار حتی اگر هوا ابری هم باشد، از کرم ضد آفتاب با SPF بالای ۳۰ استفاده کنید. این کار را بعد از تعریق یا شنا تکرار کنید. در نظر داشته باشید که سطوح روشن مثل ماسه، آب و برف بدن شما را بیشتر در معرض اشعه فرابنفش قرار می‌دهد.</string>
+    <string name="uv_recommended_protection_very_high">بین ساعت ۱۰ صبح تا ۴ بعد از ظهر، ماندن زیر تابش نور آفتاب را به حداقل برسانید. در بیرون از محیط‌های سرپوشیده برای محافظت در مقابل نور خورشید، لباس مناسب، کلاه لبه‌دار و عینک آفتابی بپوشید. حتما هر دو ساعت یک بار حتی اگر هوا ابری هم باشد، از کرم ضد آفتاب با SPF بالای ۳۰ استفاده کنید. این کار را بعد از تعریق یا شنا تکرار کنید. در نظر داشته باشید که سطوح روشن مثل ماسه، آب و برف بدن شما را بیشتر در معرض اشعه فرابنفش قرار می‌دهد.</string>
+    <string name="uv_recommended_protection_extreme">بین ساعت ۱۰ صبح تا ۴ بعد از ظهر، زیر تابش نور خورشید قرار نگیرید. در بیرون از محیط‌های سرپوشیده برای محافظت در مقابل نور خورشید، لباس مناسب، کلاه لبه‌دار و عینک آفتابی بپوشید. حتما هر دو ساعت یک بار حتی اگر هوا ابری هم باشد، از کرم ضد آفتاب با SPF بالای ۳۰ استفاده کنید. این کار را بعد از تعریق یا شنا تکرار کنید. در نظر داشته باشید که سطوح روشن مثل ماسه، آب و برف بدن شما را بیشتر در معرض اشعه فرابنفش قرار می‌دهد.</string>
+
+    <string name="air_quality_risk_level_1">سالم</string>
+    <string name="air_quality_risk_level_2">تقریبا سالم</string>
+    <string name="air_quality_risk_level_3">ناسالم برای گروه‌های حساس</string>
+    <string name="air_quality_risk_level_4">ناسالم</string>
+    <string name="air_quality_risk_level_5">به شدت ناسالم</string>
+    <string name="air_quality_risk_level_6">خطرناک</string>
+
+    <string name="air_quality_health_message_1">از هوای پاک لذت ببرید :)</string>
+    <string name="air_quality_health_message_2">کودکان و بزرگسالان فعال و بیماران تنفسی می‌بایست فعالیت‌های طولانی در فضای باز را محدود کنند.</string>
+    <string name="air_quality_health_message_3">کودکان و بزرگسالان فعال و بیماران تنفسی می‌بایست فعالیت‌های طولانی در فضای باز را محدود کنند.</string>
+    <string name="air_quality_health_message_4">کودکان و بزرگسالان فعال و بیماران تنفسی می‌بایست از حضور طولانی در فضای باز خودداری کنند. سایر گروه‌ها خصوصا کودکان می‌بایست فعالیت‌های طولانی در فضای باز را محدود کنند.</string>
+    <string name="air_quality_health_message_5">کودکان و بزرگسالان فعال و بیماران تنفسی به هیچ عنوان نباید در فضای باز حضور یابند. سایر گروه‌ها خصوصا کودکان می‌بایست از حضور در فضای باز خودداری کنند.</string>
+    <string name="air_quality_health_message_6">به هیچ عنوان در فضای باز قرار نگیرید!</string>
+
+
+    <string name="ds_clear">آسمان صاف</string>
+    <string name="ds_no_precipitation">بدون بارش</string>
+    <string name="ds_mixed_precipitation">بارش ترکیبی</string>
+    <string name="ds_possible_very_light_precipitation">احتمال بارش بسیار پراکنده</string>
+    <string name="ds_very_light_precipitation">بارش بسیار پراکنده</string>
+    <string name="ds_possible_light_precipitation">احتمال بارش پراکنده</string>
+    <string name="ds_light_precipitation">بارش پراکنده</string>
+    <string name="ds_medium_precipitation">بارش</string>
+    <string name="ds_heavy_precipitation">بارش شدید</string>
+    <string name="ds_possible_very_light_rain">احتمال رگبار پراکنده</string>
+    <string name="ds_very_light_rain">رگبار پراکنده</string>
+    <string name="ds_possible_light_rain">احتمال بارش پراکنده باران</string>
+    <string name="ds_light_rain">بارش پراکنده باران</string>
+    <string name="ds_medium_rain">بارش باران</string>
+    <string name="ds_heavy_rain">بارش شدید باران</string>
+    <string name="ds_possible_very_light_sleet">احتمال تگرگ بسیار پراکنده</string>
+    <string name="ds_very_light_sleet">تگرگ بسیار پراکنده</string>
+    <string name="ds_possible_light_sleet">احتمال تگرگ پراکنده</string>
+    <string name="ds_light_sleet">تگرگ پراکنده</string>
+    <string name="ds_medium_sleet">تگرگ</string>
+    <string name="ds_heavy_sleet">تگرگ شدید</string>
+    <string name="ds_possible_very_light_snow">احتمال بارش بسیار پراکنده برف</string>
+    <string name="ds_very_light_snow">بارش بسیار پراکنده برف</string>
+    <string name="ds_possible_light_snow">احتمال بارش پراکنده برف</string>
+    <string name="ds_light_snow">بارش پراکنده برف</string>
+    <string name="ds_medium_snow">بارش برف</string>
+    <string name="ds_heavy_snow">بارش شدید برف</string>
+    <string name="ds_possible_thunderstorm">احتمال رعد و برق</string>
+    <string name="ds_thunderstorm">رعد و برق</string>
+    <string name="ds_light_wind">وزش نسیم</string>
+    <string name="ds_medium_wind">وزش باد</string>
+    <string name="ds_heavy_wind">وزش شدید و خطرناک باد</string>
+    <string name="ds_low_humidity">هوای خشک</string>
+    <string name="ds_high_humidity">رطوبت بالا</string>
+    <string name="ds_fog">مه‌آلود</string>
+    <string name="ds_light_clouds">کمی ابری</string>
+    <string name="ds_medium_clouds">کمی تا قسمتی ابری</string>
+    <string name="ds_heavy_clouds">آسمان ابری</string>
+
+
+    <string name="error_api_key_required">مقداری برای api key وارد نشده است.</string>
+    <string name="error_response_is_null">خطا در پاسخ دریافتی: مقدار دریافتی null است.</string>
+    <string name="error_response_not_ok">خطا در پاسخ دریافتی: پاسخ با خطا همراه است.</string>
+    <string name="location_permission_denied">دسترسی ACCESS_FINE_LOCATION و/یا ACCESS_COARSE_LOCATION غیر فعال است. لطفا این دسترسی‌ها را بررسی نمایید.</string>
+    <string name="error_location">متاسفانه در هنگام دریافت موقعیت جغرافیایی خطایی رخ داده است.</string>
+    <string name="error_aq_not_found">متاسفانه داده‌های کیفیت هوا برای این موقعیت جغرافیایی وجود ندارد!</string>
+
+</resources>

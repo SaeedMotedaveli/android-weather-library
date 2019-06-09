@@ -1,0 +1,135 @@
+<resources>
+    <string name="app_name" translatable="false">WeatherLib</string>
+
+    <string name="thunderstorm">Thunderstorm</string>
+    <string name="hurricane">Hurricane</string>
+    <string name="light_drizzle">Light drizzle</string>
+    <string name="drizzle">Drizzle</string>
+    <string name="heavy_drizzle">Heavy intensity drizzle</string>
+    <string name="shower_rain">Shower rain</string>
+    <string name="light_rain">Light rain</string>
+    <string name="moderate_rain">Moderate rain</string>
+    <string name="heavy_rain">Heavy rain</string>
+    <string name="freezing_rain">Freezing rain</string>
+    <string name="heavy_shower_rain">Heavy intensity shower rain</string>
+    <string name="light_snow">Light snow</string>
+    <string name="snow">Snow</string>
+    <string name="heavy_snow">Heavy snow</string>
+    <string name="sleet">Sleet</string>
+    <string name="rain_and_snow">Rain and snow</string>
+    <string name="shower_snow">Shower snow</string>
+    <string name="heavy_shower_snow">Heavy shower snow</string>
+    <string name="mist">Mist</string>
+    <string name="fog">Fog</string>
+    <string name="smoke">Smoke</string>
+    <string name="volcanic_ash">Volcanic ash</string>
+    <string name="tornado">Tornado</string>
+    <string name="clear_sky">Clear sky</string>
+    <string name="few_clouds">Few clouds</string>
+    <string name="cloudy">Cloudy</string>
+    <string name="tropical_storm">Tropical storm</string>
+    <string name="cold">Cold</string>
+    <string name="hot">Hot</string>
+    <string name="windy">Windy</string>
+    <string name="hail">Hail</string>
+    <string name="light_breeze">Light breeze</string>
+    <string name="moderate_breeze">Moderate breeze</string>
+    <string name="strong_breeze">Strong breeze</string>
+    <string name="weather_na" translatable="false">---</string>
+    <string name="moderate_or_heavy_snow_with_thunder">Moderate or heavy snow in area with thunder</string>
+    <string name="patchy_heavy_snow">Patchy heavy snow</string>
+    <string name="patchy_moderate_snow">Patchy moderate snow</string>
+    <string name="patchy_light_snow_thunder">Patchy light snow in area with thunder</string>
+    <string name="patchy_light_rain_with_thunder">Patchy light rain in area with thunder</string>
+    <string name="moderate_or_heavy_sleet_showers">Moderate or heavy sleet showers</string>
+    <string name="light_shower_rain">Light shower rain</string>
+    <string name="light_sleet">Light sleet</string>
+    <string name="heavy_freezing_drizzle">Heavy freezing drizzle</string>
+    <string name="freezing_drizzle">Freezing drizzle</string>
+    <string name="freezing_fog">Freezing fog</string>
+    <string name="blizzard">Blizzard</string>
+    <string name="flurries">Flurries</string>
+    <string name="unknown_precipitation">Unknown precipitation</string>
+    <string name="thunderstorm_with_light_rain">Thunderstorm with light rain</string>
+    <string name="thunderstorm_with_rain">Thunderstorm with rain</string>
+    <string name="thunderstorm_with_heavy_rain">Thunderstorm with heavy rain</string>
+    <string name="thunderstorm_with_light_drizzle">Thunderstorm with light drizzle</string>
+    <string name="thunderstorm_with_drizzle">Thunderstorm with drizzle</string>
+    <string name="thunderstorm_with_heavy_drizzle">Thunderstorm with heavy drizzle</string>
+    <string name="thunderstorm_with_hail">Thunderstorm with hail</string>
+
+
+
+    <string name="air_quality_risk_level_1">Air pollution level: Good</string>
+    <string name="air_quality_risk_level_2">Air pollution level: Moderate</string>
+    <string name="air_quality_risk_level_3">Air pollution level: Unhealthy for sensitive groups</string>
+    <string name="air_quality_risk_level_4">Air pollution level: Unhealthy</string>
+    <string name="air_quality_risk_level_5">Air pollution level: Very unhealthy</string>
+    <string name="air_quality_risk_level_6">Air pollution level: Hazardous</string>
+
+    <string name="air_quality_health_message_1">Enjoy the clean air :)</string>
+    <string name="air_quality_health_message_2">Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.</string>
+    <string name="air_quality_health_message_3">Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.</string>
+    <string name="air_quality_health_message_4">Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion.</string>
+    <string name="air_quality_health_message_5">Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.</string>
+    <string name="air_quality_health_message_6">Everyone should avoid all outdoor exertion.</string>
+
+    <string name="uv_risk_low">Low risk of harm from unprotected sun exposure</string>
+    <string name="uv_risk_moderate">Moderate risk of harm from unprotected sun exposure</string>
+    <string name="uv_risk_high">High risk of harm from unprotected sun exposure</string>
+    <string name="uv_risk_very_high">Very high risk of harm from unprotected sun exposure</string>
+    <string name="uv_risk_extreme">Extreme risk of harm from unprotected sun exposure</string>
+
+    <string name="uv_recommended_protection_low">Wear sunglasses on bright days. If you burn easily, cover up and use broad spectrum SPF 30+ sunscreen. Bright surfaces, such as sand, water and snow, will increase UV exposure.</string>
+    <string name="uv_recommended_protection_moderate">Stay in shade near midday when the sun is strongest. If outdoors, wear sun protective clothing, a wide-brimmed hat, and UV-blocking sunglasses. Generously apply broad spectrum SPF 30+ sunscreen every 2 hours, even on cloudy days, and after swimming or sweating. Bright surfaces, such as sand, water and snow, will increase UV exposure.</string>
+    <string name="uv_recommended_protection_high">Reduce time in the sun between 10 a.m. and 4 p.m. If outdoors, seek shade and wear sun protective clothing, a wide-brimmed hat, and UV-blocking sunglasses. Generously apply broad spectrum SPF 30+ sunscreen every 2 hours, even on cloudy days, and after swimming or sweating. Bright surfaces, such sand, water and snow, will increase UV exposure.</string>
+    <string name="uv_recommended_protection_very_high">Minimize sun exposure between 10 a.m. and 4 p.m. If outdoors, seek shade and wear sun protective clothing, a wide-brimmed hat, and UV-blocking sunglasses. Generously apply broad spectrum SPF 30+ sunscreen every 2 hours, even on cloudy days, and after swimming or sweating. Bright surfaces, such as sand, water and snow, will increase UV exposure.</string>
+    <string name="uv_recommended_protection_extreme">Try to avoid sun exposure between 10 a.m. and 4 p.m. If outdoors, seek shade and wear sun protective clothing, a wide-brimmed hat, and UV-blocking sunglasses. Generously apply broad spectrum SPF 30+ sunscreen every 2 hours, even on cloudy days, and after swimming or sweating. Bright surfaces, such as sand, water and snow, will increase UV exposure.</string>
+
+    <string name="ds_clear">Clear</string>
+    <string name="ds_no_precipitation">No precipitation</string>
+    <string name="ds_mixed_precipitation">Mixed precipitation</string>
+    <string name="ds_possible_very_light_precipitation">Possible very light precipitation</string>
+    <string name="ds_very_light_precipitation">Very light precipitation</string>
+    <string name="ds_possible_light_precipitation">Possible light precipitation</string>
+    <string name="ds_light_precipitation">Light precipitation</string>
+    <string name="ds_medium_precipitation">Medium precipitation</string>
+    <string name="ds_heavy_precipitation">Heavy precipitation</string>
+    <string name="ds_possible_very_light_rain">Possible very light rain</string>
+    <string name="ds_very_light_rain">Very light rain</string>
+    <string name="ds_possible_light_rain">Possible light rain</string>
+    <string name="ds_light_rain">Light rain</string>
+    <string name="ds_medium_rain">Medium rain</string>
+    <string name="ds_heavy_rain">Heavy rain</string>
+    <string name="ds_possible_very_light_sleet">Possible very light sleet</string>
+    <string name="ds_very_light_sleet">Very light sleet</string>
+    <string name="ds_possible_light_sleet">Possible light sleet</string>
+    <string name="ds_light_sleet">Light sleet</string>
+    <string name="ds_medium_sleet">Medium sleet</string>
+    <string name="ds_heavy_sleet">Heavy sleet</string>
+    <string name="ds_possible_very_light_snow">Possible very light snow</string>
+    <string name="ds_very_light_snow">Very light snow</string>
+    <string name="ds_possible_light_snow">Possible light snow</string>
+    <string name="ds_light_snow">Light snow</string>
+    <string name="ds_medium_snow">Medium snow</string>
+    <string name="ds_heavy_snow">Heavy snow</string>
+    <string name="ds_possible_thunderstorm">Possible thunderstorm</string>
+    <string name="ds_thunderstorm">Thunderstorm</string>
+    <string name="ds_light_wind">Light wind</string>
+    <string name="ds_medium_wind">Medium wind</string>
+    <string name="ds_heavy_wind">Heavy wind</string>
+    <string name="ds_low_humidity">Low humidity</string>
+    <string name="ds_high_humidity">High humidity</string>
+    <string name="ds_fog">Fog</string>
+    <string name="ds_light_clouds">Light clouds</string>
+    <string name="ds_medium_clouds">Medium clouds</string>
+    <string name="ds_heavy_clouds">Heavy clouds</string>
+
+    <string name="error_api_key_required">API key not initialized.</string>
+    <string name="error_response_is_null">Error in response: Response is null.</string>
+    <string name="error_response_not_ok">Error in response: Response not OK.</string>
+    <string name="location_permission_denied">ACCESS_FINE_LOCATION or/and ACCESS_COARSE_LOCATION is denied. Check these permission.</string>
+    <string name="error_location">Error occurred while getting location.</string>
+    <string name="error_aq_not_found">Sorry! Air quality not exists for this location.</string>
+
+</resources>
