@@ -27,7 +27,7 @@
    WeatherConfig config = WeatherConfig.create();
    ```
 
-Or create your configure:
+   Or create your configure:
 
    ```java
    String language = "en";   // Language of weather data
@@ -52,7 +52,7 @@ Or create your configure:
       .build();
    ```
 
-For air quality:
+   For air quality:
 
    ```java
    AirQualityClient aqClient = new AirQualityClient.Builder()
@@ -82,8 +82,8 @@ For air quality:
    });
    ```
 
-or other options like ``` client.todayAstronomy() ```, ``` client.hourlyWeather() ``` and ``` client.dailyWeather() ```.
-If you want get all this data in one request use ``` client.allWeather() ```.
+   or other options like ``` client.todayAstronomy() ```, ``` client.hourlyWeather() ``` and ``` client.dailyWeather() ```.
+   If you want get all this data in one request, use ``` client.allWeather() ```.
 
    ```java
    client.allWeather(new AllWeatherListener() {
@@ -105,7 +105,7 @@ If you want get all this data in one request use ``` client.allWeather() ```.
    });
    ```
 
-For get air quality use this method:
+   For get air quality use this method:
 
    ```java
    aqClient.airQuality(new AirQualityListener() {
