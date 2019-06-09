@@ -15,100 +15,100 @@
 
 1. Include the library as local library project.
 
-	```
-  dependencies {
-    implementation 'ir.mtapps:weatherlib:beta01'
-  }
-	```
+   ```
+   dependencies {
+      implementation 'ir.mtapps:weatherlib:beta01'
+   }
+   ```
 
 2. Use default Configure:
 
-  ```java
-  WeatherConfig config = WeatherConfig.create();
-  ```
+   ```java
+   WeatherConfig config = WeatherConfig.create();
+   ```
 
 Or create your configure:
 
-  ```java
-  String language = "en";   // Language of weather data
-  UNIT_SYSTEM unit_system = UNIT_SYSTEM.METRIC; // or UNIT_SYSTEM.IMPERIAL. You can also change unit for every parameter.
+   ```java
+   String language = "en";   // Language of weather data
+   UNIT_SYSTEM unit_system = UNIT_SYSTEM.METRIC; // or UNIT_SYSTEM.IMPERIAL. You can also change unit for every parameter.
 
-  WeatherConfig config = WeatherConfig.edit()
-          .language(language)
-          .unitSystem(unit_system)
-          .disableCache() // NOTE: caching data enable by default
-          .create();
-  ```
+   WeatherConfig config = WeatherConfig.edit()
+      .language(language)
+      .unitSystem(unit_system)
+      .disableCache() // NOTE: caching data enable by default
+      .create();
+   ```
 
 3. Create client. For weather client:
 
-  ```java
-  WeatherClient client = new WeatherClient.Builder()
-          .attach(context)
-          .config(config)
-          .provider(provider) // PROVIDER.ACCUWEATHER, PROVIDER.DARK_SKY, ...
-          .apiKey(key)  // provider api key
-          .coordinate(latitude, longitude)  // remove it if you want to use GPS
-          .build();
-  ```
+   ```java
+   WeatherClient client = new WeatherClient.Builder()
+      .attach(context)
+      .config(config)
+      .provider(provider) // PROVIDER.ACCUWEATHER, PROVIDER.DARK_SKY, ...
+      .apiKey(key)  // provider api key
+      .coordinate(latitude, longitude)  // remove it if you want to use GPS
+      .build();
+   ```
 
 For air quality:
 
-  ```java
-  AirQualityClient aqClient = new AirQualityClient.Builder()
-          .attach(context)
-          .config(config)
-          .provider(provider) // AIR_QUALITY_PROVIDER.WORLD_AIR_POLLUTION
-          .apiKey(key)  // provider api key
-          .coordinate(latitude, longitude)  // remove it if you want to use GPS
-          .build();
-  ```
+   ```java
+   AirQualityClient aqClient = new AirQualityClient.Builder()
+      .attach(context)
+      .config(config)
+      .provider(provider) // AIR_QUALITY_PROVIDER.WORLD_AIR_POLLUTION
+      .apiKey(key)  // provider api key
+      .coordinate(latitude, longitude)  // remove it if you want to use GPS
+      .build();
+   ```
 
 4. Get current weather:
 
-  ```java
-  client.currentCondition(new CurrentWeatherListener() {
+   ```java
+   client.currentCondition(new CurrentWeatherListener() {
       @Override
       public void onSuccessful(City city, CurrentWeather weather) {
-          // do something with city or weather
-          // ...
+         // do something with city or weather
+         // ...
       }
 
       @Override
       public void onError(int code, String message) {
-          // do something with error
-          // ...
+         // do something with error
+         // ...
       }
-  });
-  ```
+   });
+   ```
 
 or other options like ``` client.todayAstronomy() ```, ``` client.hourlyWeather() ``` and ``` client.dailyWeather() ```.
 If you want get all this data in one request use ``` client.allWeather() ```.
 
-  ```java
-  client.allWeather(new AllWeatherListener() {
+   ```java
+   client.allWeather(new AllWeatherListener() {
       @Override
       public void onSuccessful(City city,
                                CurrentWeather weather,
                                Astronomy astronomy,
                                List<HourlyWeather> hourlyWeatherList,
                                List<DailyWeather> dailyWeatherList) {
-          // do something with this data
-          // ...
+         // do something with this data
+         // ...
       }
 
       @Override
       public void onError(int code, String message) {
-        // do something with error
-        // ...
+         // do something with error
+         // ...
       }
-  });
-  ```
+   });
+   ```
 
 For get air quality use this method:
 
-  ```java
-  aqClient.airQuality(new AirQualityListener() {
+   ```java
+   aqClient.airQuality(new AirQualityListener() {
       @Override
       public void onSuccessful(AirQuality airQuality) {
           // do something with airQuality
@@ -117,11 +117,11 @@ For get air quality use this method:
 
       @Override
       public void onError(int code, String message) {
-        // do something with error
-        // ...
+         // do something with error
+         // ...
       }
-  });
-  ```
+   });
+   ```
 
   ## License
 
