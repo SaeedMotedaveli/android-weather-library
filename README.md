@@ -19,7 +19,7 @@
 
    ```
    dependencies {
-      implementation 'ir.mtapps:WeatherLib:beta-01'
+      implementation 'ir.mtapps:WeatherLib:0.9.0'
    }
    ```
 
