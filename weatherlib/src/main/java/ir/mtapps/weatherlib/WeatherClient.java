@@ -68,10 +68,18 @@ public abstract class WeatherClient {
         }
 
         /**
-         * Set API Key. <b style="color: red;">Required</b>
+         * Set API Key for all provider except AerisWeather. <b style="color: red;">Required</b>
          */
         public Builder apiKey(@NonNull String apiKey) {
             this.mApiKey = apiKey;
+            return this;
+        }
+
+        /**
+         * Set client id and client secret Key just for AerisWeather. <b style="color: red;">Required</b>
+         */
+        public Builder apiKey(@NonNull String clientId, @NonNull String clientSecret) {
+            this.mApiKey = clientId + "," + clientSecret;
             return this;
         }
 

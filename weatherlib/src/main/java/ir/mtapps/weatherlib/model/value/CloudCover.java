@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class CloudCover implements Parcelable {
 
-    private int value;
+    private final int value;
 
     public CloudCover(int value) {
         this.value = value;

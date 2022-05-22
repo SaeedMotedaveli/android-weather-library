@@ -1,20 +1,28 @@
 <resources>
-    <string name="app_name">MT Weather Library</string>
-    <string name="tab_text_1">REQUEST</string>
-    <string name="tab_text_2">RESULT</string>
-    <string name="api_key">API key</string>
-    <string name="save_api_key">Save api key</string>
-    <string name="language">Language (example: en)</string>
-    <string name="use_gps">Use GPS</string>
-    <string name="latitude">Latitude</string>
-    <string name="longitude">Longitude</string>
-    <string name="request_type">Request type</string>
-    <string name="current_weather">Current weather</string>
-    <string name="daily_weather">Daily weather</string>
-    <string name="hourly_weather">Hourly weather</string>
-    <string name="air_quality">Air quality</string>
-    <string name="all_in_one">All in one</string>
-    <string name="units">Units</string>
-    <string name="cancel">Cancel</string>
-    <string name="today_astronomy">Today astronomy</string>
+    <string name="app_name" translatable="false">Weather Library</string>
+    <string name="tab_text_1" translatable="false">REQUEST</string>
+    <string name="tab_text_2" translatable="false">RESULT</string>
+    <string name="api_key" translatable="false">API key</string>
+    <string name="save_api_key" translatable="false">Save api key</string>
+    <string name="language" translatable="false">Language (example: en)</string>
+    <string name="use_gps" translatable="false">Use GPS</string>
+    <string name="latitude" translatable="false">Latitude</string>
+    <string name="longitude" translatable="false">Longitude</string>
+    <string name="current_weather" translatable="false">Current weather</string>
+    <string name="daily_weather" translatable="false">Daily weather</string>
+    <string name="hourly_weather" translatable="false">Hourly weather</string>
+    <string name="air_quality" translatable="false">Air quality</string>
+    <string name="all_in_one" translatable="false">All in one</string>
+    <string name="cancel" translatable="false">Cancel</string>
+    <string name="today_astronomy" translatable="false">Today astronomy</string>
+    <string name="title_activity_main" translatable="false">MainActivity</string>
+    <string name="provider_title" translatable="false">Provider:</string>
+    <string name="api_key_title" translatable="false">API key:</string>
+    <string name="client_id" translatable="false">Client Id</string>
+    <string name="client_secret" translatable="false">Client Secret</string>
+    <string name="language_title" translatable="false">Language:</string>
+    <string name="coordinate_title" translatable="false">Latitude and Longitude:</string>
+    <string name="units_title" translatable="false">Units:</string>
+    <string name="request_type_title" translatable="false">Request type:</string>
+
 </resources>

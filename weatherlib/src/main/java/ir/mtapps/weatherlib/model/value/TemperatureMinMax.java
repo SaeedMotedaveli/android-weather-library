@@ -5,9 +5,9 @@ import android.os.Parcelable;
 
 public class TemperatureMinMax implements Parcelable {
 
-    private float min;
-    private float max;
-    private String unit;
+    private final float min;
+    private final float max;
+    private final String unit;
 
     public TemperatureMinMax(float min, float max, String unit) {
         this.min = min;

@@ -17,6 +17,7 @@ public enum WIND_DIRECTION {
         int sector = degRotated / (360 / 16);
         switch (sector) {
             case 0:
+            case 16:
                 return WIND_DIRECTION.N;
             case 1:
                 return WIND_DIRECTION.NNE;
@@ -48,8 +49,6 @@ public enum WIND_DIRECTION {
                 return WIND_DIRECTION.NW;
             case 15:
                 return WIND_DIRECTION.NNW;
-            case 16:
-                return WIND_DIRECTION.N;
         }
         return WIND_DIRECTION.N;
     }

@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 public class Astronomy implements Parcelable {
 
-    private long riseTime;
-    private long setTime;
+    private final long riseTime;
+    private final long setTime;
 
     public Astronomy(long rise, long set) {
         this.riseTime = rise;

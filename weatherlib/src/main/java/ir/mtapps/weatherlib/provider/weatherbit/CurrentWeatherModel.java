@@ -29,7 +29,7 @@ class CurrentWeatherModel {
 //        String windCdir;
 
         @SerializedName("rh")
-        int humidity;
+        float humidity;
 
         @SerializedName("pod")
         String pod;
@@ -39,6 +39,9 @@ class CurrentWeatherModel {
 
         @SerializedName("pres")
         float pressure;
+
+//        @SerializedName("slp")
+//        float seeLevelPressure;
 
 //        @SerializedName("timezone")
 //        String timezone;
@@ -50,7 +53,7 @@ class CurrentWeatherModel {
         String countryCode;
 
         @SerializedName("clouds")
-        int clouds;
+        float clouds;
 
         @SerializedName("vis")
         float visibility;
@@ -130,6 +133,9 @@ class CurrentWeatherModel {
         @SerializedName("app_temp")
         float appTemp;
 
+//        @SerializedName("aqi")
+//        float airQuality;
+
         static class Weather {
 
             @SerializedName("icon")
@@ -171,7 +177,7 @@ class CurrentWeatherModel {
                         config.getTemperatureUnit().str())
                 .setPressure(PRESSURE.convert(PRESSURE.mb, config.getPressureUnit(), current.pressure),
                         config.getPressureUnit().str())
-                .setHumidity(current.humidity)
+                .setHumidity(Math.round(current.humidity))
                 .setVisibility(LENGTH.convert(LENGTH.Km, config.getVisibilityUnit(), current.visibility),
                         config.getVisibilityUnit().str())
 
@@ -179,7 +185,7 @@ class CurrentWeatherModel {
                         current.windDir,
                         config.getSpeedUnit().str())
 
-                .setCloudCover(current.clouds)
+                .setCloudCover(Math.round(current.clouds))
 
                 .setUvIndex(current.uvIndex)
 

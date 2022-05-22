@@ -62,7 +62,7 @@ public class AirQuality implements Parcelable {
 
     public static class Builder {
 
-        private AirQuality airQuality = new AirQuality();
+        private final AirQuality airQuality = new AirQuality();
 
         public Builder setIndex(float index, String riskLevel, String healthMessage) {
 

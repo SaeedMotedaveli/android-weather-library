@@ -27,7 +27,7 @@ public class WeatherConfig {
     private LENGTH visibilityUnit = LENGTH.Km;
 
     // Cache
-    private boolean useCache = true;
+    private boolean useCache = false;
     private int cacheValidity = 3600000;
 
     // Limit hourly and daily items

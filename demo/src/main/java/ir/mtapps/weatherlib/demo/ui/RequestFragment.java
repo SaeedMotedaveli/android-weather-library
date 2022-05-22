@@ -12,20 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
@@ -33,6 +27,7 @@ import ir.mtapps.weatherlib.AirQualityClient;
 import ir.mtapps.weatherlib.WeatherClient;
 import ir.mtapps.weatherlib.WeatherConfig;
 import ir.mtapps.weatherlib.demo.R;
+import ir.mtapps.weatherlib.demo.databinding.FragmentRequestBinding;
 import ir.mtapps.weatherlib.enums.AIR_QUALITY_PROVIDER;
 import ir.mtapps.weatherlib.enums.PROVIDER;
 import ir.mtapps.weatherlib.enums.UNIT_SYSTEM;
@@ -65,22 +60,15 @@ public class RequestFragment extends Fragment {
     private PageViewModel mPageViewModel;
     private WeatherClient mWeatherClient;
     private AirQualityClient mAirQualityClient;
-    private FloatingActionButton fab;
 
-    private View progressView;
-    private View requestView;
-
-    private EditText apiKeyEt;
-    private EditText languageEt;
-    private EditText latitudeEt;
-    private EditText longitudeEt;
-    private SwitchCompat useGpsSwitch;
-    private RadioGroup requestTypeRadioGroup;
+    private FragmentRequestBinding binding;
 
     private PROVIDER mProvider = PROVIDER.ACCUWEATHER;
     private AIR_QUALITY_PROVIDER mAirQualityProvider = AIR_QUALITY_PROVIDER.WORLD_AIR_POLLUTION;
     private boolean useGps = false;
     private boolean useMetricUnits = true;
+
+    ActivityResultLauncher<String[]> launcher;
 
     static RequestFragment newInstance(int index) {
         RequestFragment fragment = new RequestFragment();
@@ -93,23 +81,26 @@ public class RequestFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPageViewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
-
+        mPageViewModel = new ViewModelProvider(getActivity()).get(PageViewModel.class);
         mPref = getActivity().getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+
+        launcher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+            if (result.containsKey(false)) {
+                useGps = false;
+                binding.switchUseGps.setChecked(false);
+            }
+        });
     }
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_request, container, false);
 
-        progressView = root.findViewById(R.id.progress_parent);
-        requestView = root.findViewById(R.id.request_parent);
+        binding = FragmentRequestBinding.inflate(inflater, container, false);
 
         // Provider
-        Spinner providerSpinner = root.findViewById(R.id.spinner_provider);
-        providerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spinnerProvider.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -117,6 +108,9 @@ public class RequestFragment extends Fragment {
                 mAirQualityProvider = null;
 
                 showOnlyWeatherMethod();
+
+                binding.etApiKey.setVisibility(View.VISIBLE);
+                binding.clientApiParent.setVisibility(View.GONE);
 
                 switch (position) {
 
@@ -141,6 +135,20 @@ public class RequestFragment extends Fragment {
                         break;
 
                     case 5:
+                        mProvider = PROVIDER.VISUAL_CROSSING;
+                        break;
+
+                    case 6:
+                        mProvider = PROVIDER.TOMORROW;
+                        break;
+
+                    case 7:
+                        mProvider = PROVIDER.AERIS_WEATHER;
+                        binding.etApiKey.setVisibility(View.GONE);
+                        binding.clientApiParent.setVisibility(View.VISIBLE);
+                        break;
+
+                    case 8:
                         showOnlyAirQualityMethod();
                         mAirQualityProvider = AIR_QUALITY_PROVIDER.WORLD_AIR_POLLUTION;
                         break;
@@ -149,15 +157,21 @@ public class RequestFragment extends Fragment {
 
                 if (mProvider != null) {
                     if (mPref.contains(mProvider.toString())) {
-                        apiKeyEt.setText(mPref.getString(mProvider.toString(), null));
+                        if (mProvider != PROVIDER.AERIS_WEATHER) {
+                            binding.etApiKey.setText(mPref.getString(mProvider.toString(), null));
+                        } else {
+                            String[] apiKeys = mPref.getString(mProvider.toString(), null).split(",");
+                            binding.etClientId.setText(apiKeys[0]);
+                            binding.etClientSecret.setText(apiKeys[1]);
+                        }
                     } else {
-                        apiKeyEt.setText(null);
+                        binding.etApiKey.setText(null);
                     }
                 } else if (mAirQualityProvider != null) {
                     if (mPref.contains(mAirQualityProvider.toString())) {
-                        apiKeyEt.setText(mPref.getString(mAirQualityProvider.toString(), null));
+                        binding.etApiKey.setText(mPref.getString(mAirQualityProvider.toString(), null));
                     } else {
-                        apiKeyEt.setText(null);
+                        binding.etApiKey.setText(null);
                     }
                 }
 
@@ -170,44 +184,51 @@ public class RequestFragment extends Fragment {
         });
 
         // Api Key
-        apiKeyEt = root.findViewById(R.id.et_api_key);
-
         if (mPref.contains(mProvider.toString())) {
-            apiKeyEt.setText(mPref.getString(mProvider.toString(), null));
+            if (mProvider != PROVIDER.AERIS_WEATHER) {
+                binding.etApiKey.setText(mPref.getString(mProvider.toString(), null));
+            } else {
+                String[] apiKeys = mPref.getString(mProvider.toString(), null).split(",");
+                binding.etClientId.setText(apiKeys[0]);
+                binding.etClientSecret.setText(apiKeys[1]);
+            }
         }
 
         // Save api key
-        Button saveApiKeyButton = root.findViewById(R.id.button_save_api_key);
-        saveApiKeyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.buttonSaveApiKey.setOnClickListener(v -> {
 
-                String apiKey = apiKeyEt.getText().toString();
+            String apiKey = null;
+            if (mProvider != null && mProvider == PROVIDER.AERIS_WEATHER) {
+                String clientId = binding.etClientId.getText().toString();
+                String clientSecret = binding.etClientSecret.getText().toString();
 
-                if (apiKey.isEmpty()) {
-                    Toast.makeText(getActivity(), "Error: Api Key is empty", Toast.LENGTH_SHORT).show();
-                } else {
+                if (!clientId.isEmpty() && !clientSecret.isEmpty()) {
+                    apiKey = clientId + "," + clientSecret;
+                }
+            } else {
+                apiKey = binding.etApiKey.getText().toString();
+            }
 
-                    if (mProvider != null) {
-                        mPref.edit().putString(mProvider.toString(), apiKey).apply();
+            if (apiKey == null || apiKey.isEmpty()) {
+                Toast.makeText(getActivity(), "Error: Api Key is empty", Toast.LENGTH_SHORT).show();
+            } else {
 
-                    } else if (mAirQualityProvider != null) {
-                        mPref.edit().putString(mAirQualityProvider.toString(), apiKey).apply();
-                    }
-
+                if (mProvider != null) {
+                    mPref.edit().putString(mProvider.toString(), apiKey).apply();
+                } else if (mAirQualityProvider != null) {
+                    mPref.edit().putString(mAirQualityProvider.toString(), apiKey).apply();
                 }
 
             }
+
         });
 
         // Language
-        languageEt = root.findViewById(R.id.et_language);
-
         if (mPref.contains(PREF_LANGUAGE)) {
-            languageEt.setText(mPref.getString(PREF_LANGUAGE, null));
+            binding.etLanguage.setText(mPref.getString(PREF_LANGUAGE, null));
         }
 
-        languageEt.addTextChangedListener(new TextWatcher() {
+        binding.etLanguage.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -229,18 +250,15 @@ public class RequestFragment extends Fragment {
         });
 
         // Coordinate
-        latitudeEt = root.findViewById(R.id.et_latitude);
-        longitudeEt = root.findViewById(R.id.et_longitude);
-
         if (mPref.contains(PREF_LATITUDE)) {
-            latitudeEt.setText(mPref.getString(PREF_LATITUDE, null));
+            binding.etLatitude.setText(mPref.getString(PREF_LATITUDE, null));
         }
 
         if (mPref.contains(PREF_LONGITUDE)) {
-            longitudeEt.setText(mPref.getString(PREF_LONGITUDE, null));
+            binding.etLongitude.setText(mPref.getString(PREF_LONGITUDE, null));
         }
 
-        latitudeEt.addTextChangedListener(new TextWatcher() {
+        binding.etLatitude.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -261,7 +279,7 @@ public class RequestFragment extends Fragment {
             }
         });
 
-        longitudeEt.addTextChangedListener(new TextWatcher() {
+        binding.etLongitude.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -282,31 +300,26 @@ public class RequestFragment extends Fragment {
             }
         });
 
-        useGpsSwitch = root.findViewById(R.id.switch_use_gps);
-        useGpsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                useGps = isChecked;
+        binding.switchUseGps.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            useGps = isChecked;
 
-                if (isChecked) {
+            if (isChecked) {
 
-                    if (!isLocationPermissionGranted()) {
-                        requestPermissions();
-                        return;
-                    }
-
-                    latitudeEt.setEnabled(false);
-                    longitudeEt.setEnabled(false);
-                } else {
-                    latitudeEt.setEnabled(true);
-                    longitudeEt.setEnabled(true);
+                if (!isLocationPermissionGranted()) {
+                    requestPermissions();
+                    return;
                 }
+
+                binding.etLatitude.setEnabled(false);
+                binding.etLongitude.setEnabled(false);
+            } else {
+                binding.etLatitude.setEnabled(true);
+                binding.etLongitude.setEnabled(true);
             }
         });
 
         // Units
-        Spinner unitsSpinner = root.findViewById(R.id.spinner_units);
-        unitsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spinnerUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -320,67 +333,56 @@ public class RequestFragment extends Fragment {
             }
         });
 
-        // Request type
-        requestTypeRadioGroup = root.findViewById(R.id.rg_request_type);
-
         // Send request
-        fab = root.findViewById(R.id.fab_request);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.fabRequest.setOnClickListener(v -> {
 
-                showProgressView(true);
-                mPageViewModel.clear();
+            showProgressView(true);
+            mPageViewModel.clear();
 
-                int checkedId = requestTypeRadioGroup.getCheckedRadioButtonId();
+            int checkedId = binding.rgRequestType.getCheckedRadioButtonId();
 
-                switch (checkedId) {
-
-                    case R.id.rb_current_weather:
-                        getCurrentWeather();
-                        break;
-
-                    case R.id.rb_today_astronomy:
-                        getTodayAstronomy();
-                        break;
-
-                    case R.id.rb_hourly_weather:
-                        getHourlyWeather();
-                        break;
-
-                    case R.id.rb_daily_weather:
-                        getDailyWeather();
-                        break;
-
-                    case R.id.rb_all_weather:
-                        getAllWeather();
-                        break;
-
-                    case R.id.rb_air_quality:
-                        getAirQuality();
-                        break;
-
-                }
-
+            if (checkedId == R.id.rb_current_weather) {
+                getCurrentWeather();
+            } else if (checkedId == R.id.rb_today_astronomy) {
+                getTodayAstronomy();
+            } else if (checkedId == R.id.rb_hourly_weather) {
+                getHourlyWeather();
+            } else if (checkedId == R.id.rb_daily_weather) {
+                getDailyWeather();
+            } else if (checkedId == R.id.rb_all_weather) {
+                getAllWeather();
+            } else if (checkedId == R.id.rb_air_quality) {
+                getAirQuality();
             }
+
         });
 
-        return root;
+        return binding.getRoot();
     }
 
     private WeatherClient getWeatherClient() {
 
         // Get provider key
-        String key = apiKeyEt.getText().toString();
+        String apiKey = null;
+        if (mProvider == PROVIDER.AERIS_WEATHER) {
+            String clientId = binding.etClientId.getText().toString();
+            String clientSecret = binding.etClientSecret.getText().toString();
 
-        if (key.isEmpty()) {
+            if (!clientId.isEmpty() && !clientSecret.isEmpty()) {
+                apiKey = clientId + "," + clientSecret;
+            }
+        } else {
+            apiKey = binding.etApiKey.getText().toString();
+        }
+
+        if (apiKey == null || apiKey.isEmpty()) {
             Toast.makeText(getActivity(), "Error: API Key is null", Toast.LENGTH_SHORT).show();
             showProgressView(false);
             return null;
         }
 
         // Language
-        String language = languageEt.getText().toString();
+        String language = binding.etLanguage.getText().toString();
 
         if (language.isEmpty()) {
             Toast.makeText(getActivity(), "Error: Language is null", Toast.LENGTH_SHORT).show();
@@ -395,7 +397,7 @@ public class RequestFragment extends Fragment {
         if (!useGps) {
 
             // Parsing latitude
-            String latStr = latitudeEt.getText().toString();
+            String latStr = binding.etLatitude.getText().toString();
             if (!latStr.isEmpty()) {
                 latitude = Double.parseDouble(latStr);
             } else {
@@ -405,7 +407,7 @@ public class RequestFragment extends Fragment {
             }
 
             // Parsing longitude
-            String lngStr = longitudeEt.getText().toString();
+            String lngStr = binding.etLongitude.getText().toString();
             if (!lngStr.isEmpty()) {
                 longitude = Double.parseDouble(lngStr);
             } else {
@@ -430,7 +432,7 @@ public class RequestFragment extends Fragment {
                 .attach(getActivity())
                 .config(config)
                 .provider(mProvider)
-                .apiKey(key);
+                .apiKey(apiKey);
 
         if (!useGps) {
             builder.coordinate(latitude, longitude);
@@ -442,7 +444,7 @@ public class RequestFragment extends Fragment {
     private AirQualityClient getAirQualityClient() {
 
         // Get provider key
-        String key = apiKeyEt.getText().toString();
+        String key = binding.etApiKey.getText().toString();
 
         if (key.isEmpty()) {
             Toast.makeText(getActivity(), "Error: API Key is null", Toast.LENGTH_SHORT).show();
@@ -451,7 +453,7 @@ public class RequestFragment extends Fragment {
         }
 
         // Language
-        String language = languageEt.getText().toString();
+        String language = binding.etLanguage.getText().toString();
 
         if (language.isEmpty()) {
             Toast.makeText(getActivity(), "Error: Language is null", Toast.LENGTH_SHORT).show();
@@ -466,7 +468,7 @@ public class RequestFragment extends Fragment {
         if (!useGps) {
 
             // Parsing latitude
-            String latStr = latitudeEt.getText().toString();
+            String latStr = binding.etLatitude.getText().toString();
             if (!latStr.isEmpty()) {
                 latitude = Double.parseDouble(latStr);
             } else {
@@ -476,7 +478,7 @@ public class RequestFragment extends Fragment {
             }
 
             // Parsing longitude
-            String lngStr = longitudeEt.getText().toString();
+            String lngStr = binding.etLongitude.getText().toString();
             if (!lngStr.isEmpty()) {
                 longitude = Double.parseDouble(lngStr);
             } else {
@@ -670,13 +672,13 @@ public class RequestFragment extends Fragment {
     private void showProgressView(boolean show) {
 
         if (show) {
-            progressView.setVisibility(View.VISIBLE);
-            requestView.setVisibility(View.GONE);
-            fab.setAlpha(0f);
+            binding.progressParent.setVisibility(View.VISIBLE);
+            binding.requestParent.setVisibility(View.GONE);
+            binding.fabRequest.setAlpha(0f);
         } else {
-            progressView.setVisibility(View.GONE);
-            requestView.setVisibility(View.VISIBLE);
-            fab.setAlpha(1f);
+            binding.progressParent.setVisibility(View.GONE);
+            binding.requestParent.setVisibility(View.VISIBLE);
+            binding.fabRequest.setAlpha(1f);
         }
 
     }
@@ -703,7 +705,7 @@ public class RequestFragment extends Fragment {
             getView().findViewById(id).setVisibility(View.GONE);
         }
 
-        requestTypeRadioGroup.check(R.id.rb_current_weather);
+        binding.rgRequestType.check(R.id.rb_current_weather);
 
     }
 
@@ -729,7 +731,7 @@ public class RequestFragment extends Fragment {
             getView().findViewById(id).setVisibility(View.VISIBLE);
         }
 
-        requestTypeRadioGroup.check(R.id.rb_air_quality);
+        binding.rgRequestType.check(R.id.rb_air_quality);
     }
 
     // ---------------------------- REQUEST LOCATION PERMISSION ------------------------
@@ -759,28 +761,30 @@ public class RequestFragment extends Fragment {
         final String[] permissions = new String[]{fineLocation, coarseLocation};
 
         // Request Permissions
-        requestPermissions(permissions, PERMISSION_REQUEST_CODE);
+//        requestPermissions(permissions, PERMISSION_REQUEST_CODE);
+
+        launcher.launch(permissions);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-
-            // Check for request result
-            boolean isLocationPermissionsGranted = false;
-
-            for (int result : grantResults) {
-                isLocationPermissionsGranted = result == PackageManager.PERMISSION_GRANTED;
-            }
-
-            if (!isLocationPermissionsGranted) {
-                useGps = false;
-                useGpsSwitch.setChecked(false);
-            }
-
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        if (requestCode == PERMISSION_REQUEST_CODE) {
+//
+//            // Check for request result
+//            boolean isLocationPermissionsGranted = false;
+//
+//            for (int result : grantResults) {
+//                isLocationPermissionsGranted = result == PackageManager.PERMISSION_GRANTED;
+//            }
+//
+//            if (!isLocationPermissionsGranted) {
+//                useGps = false;
+//                binding.switchUseGps.setChecked(false);
+//            }
+//
+//        }
+//    }
 
 }

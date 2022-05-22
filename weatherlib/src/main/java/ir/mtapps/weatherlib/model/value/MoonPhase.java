@@ -5,9 +5,9 @@ import android.os.Parcelable;
 
 public class MoonPhase implements Parcelable {
 
-    private float phase;
-    private int percent;
-    private int age;
+    private final float phase;
+    private final int percent;
+    private final int age;
 
     public MoonPhase(float phase) {
 

@@ -87,7 +87,7 @@ class Util {
 
             // Sunny
             case 1:
-                return WEATHER_ICON.SUNNY;
+                return WEATHER_ICON.CLEAR_DAY;
 
             // Mostly Sunny
             case 2:
@@ -123,7 +123,7 @@ class Util {
 
             // Showers
             case 12:
-                return WEATHER_ICON.SHOWERS;
+                return WEATHER_ICON.SHOWER_RAIN;
 
             // Mostly Cloudy w/ Showers
             case 13:
@@ -139,11 +139,11 @@ class Util {
 
             // Mostly Cloudy w/ T-Storms
             case 16:
-                return WEATHER_ICON.THUNDERSTORM_DAY;
+                return WEATHER_ICON.THUNDERSTORM_WITH_RAIN_DAY;
 
             // Partly Sunny w/ T-Storms
             case 17:
-                return WEATHER_ICON.THUNDERSTORM_DAY;
+                return WEATHER_ICON.THUNDERSTORM_WITH_RAIN_DAY;
 
             // Rain
             case 18:
@@ -175,11 +175,11 @@ class Util {
 
             // Sleet
             case 25:
-                return WEATHER_ICON.SLEET;
+                return WEATHER_ICON.HAIL;
 
             // Freezing Rain
             case 26:
-                return WEATHER_ICON.SLEET;
+                return WEATHER_ICON.HAIL;
 
             // Rain and Snow
             case 29:
@@ -231,11 +231,11 @@ class Util {
 
             // Partly Cloudy w/ T-Storms
             case 41:
-                return WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
 
             // Mostly Cloudy w/ T-Storms
             case 42:
-                return WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
 
             // Mostly Cloudy w/ Flurries
             case 43:

@@ -7,9 +7,9 @@ import ir.mtapps.weatherlib.enums.WIND_DIRECTION;
 
 public class Wind implements Parcelable {
 
-    private float speed;
-    private float direction;
-    private String unit;
+    private final float speed;
+    private final float direction;
+    private final String unit;
 
     public Wind(float speed, float direction, String unit) {
         this.speed = speed;

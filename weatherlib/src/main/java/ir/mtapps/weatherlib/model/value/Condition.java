@@ -6,8 +6,8 @@ import android.os.Parcelable;
 import ir.mtapps.weatherlib.enums.WEATHER_ICON;
 
 public class Condition implements Parcelable {
-    private WEATHER_ICON icon;
-    private String description;
+    private final WEATHER_ICON icon;
+    private final String description;
 
     public Condition(WEATHER_ICON icon, String description) {
         this.icon = icon;

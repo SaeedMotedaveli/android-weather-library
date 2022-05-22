@@ -7,6 +7,8 @@ public class Error {
      */
     public static int API_KEY_REQUIRE = 1000;
 
+    public static int PREMIUM_API_KEY_REQUIRE = 1001;
+
     public static int RESPONSE_IS_NULL = 2000;
 
     public static int PROVIDER_RETURN_ERROR = 2001;

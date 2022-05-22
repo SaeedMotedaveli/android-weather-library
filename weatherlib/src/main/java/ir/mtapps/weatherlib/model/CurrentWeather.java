@@ -212,7 +212,7 @@ public class CurrentWeather implements Parcelable {
 
     public static class Builder {
 
-        private CurrentWeather weather;
+        private final CurrentWeather weather;
 
         public Builder() {
             weather = new CurrentWeather();

@@ -4,7 +4,7 @@ public enum TEMPERATURE {
 
     C("°C"), F("°F"), K("°K");
 
-    private String str;
+    private final String str;
 
     TEMPERATURE(String str) {
         this.str = str;

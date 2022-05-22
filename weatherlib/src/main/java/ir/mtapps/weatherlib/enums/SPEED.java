@@ -3,7 +3,7 @@ package ir.mtapps.weatherlib.enums;
 public enum SPEED {
     Km_h("Km/h"), m_s("m/s"), mph("mph"), Knot("Knot");
 
-    private String str;
+    private final String str;
 
     SPEED(String str) {
         this.str = str;

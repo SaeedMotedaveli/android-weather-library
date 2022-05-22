@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
     }
 
-    public void selectResultPage() {
+    public void switchToResultPage() {
         viewPager.setCurrentItem(1, true);
     }
 

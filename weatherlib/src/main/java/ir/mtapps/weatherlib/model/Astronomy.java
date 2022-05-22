@@ -110,7 +110,7 @@ public class Astronomy implements Parcelable {
 
     public static class Builder {
 
-        private Astronomy astronomy;
+        private final Astronomy astronomy;
 
         public Builder() {
             astronomy = new Astronomy();

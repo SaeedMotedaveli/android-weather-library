@@ -2,208 +2,191 @@ package ir.mtapps.weatherlib.provider.open_weather;
 
 import android.content.Context;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 import ir.mtapps.weatherlib.WeatherConfig;
 import ir.mtapps.weatherlib.enums.AMOUNT;
+import ir.mtapps.weatherlib.enums.LENGTH;
 import ir.mtapps.weatherlib.enums.PRESSURE;
 import ir.mtapps.weatherlib.enums.SPEED;
 import ir.mtapps.weatherlib.enums.TEMPERATURE;
-import ir.mtapps.weatherlib.model.Astronomy;
 import ir.mtapps.weatherlib.model.City;
 import ir.mtapps.weatherlib.model.CurrentWeather;
 
 class CurrentWeatherModel {
 
-    @SerializedName("coord")
-    Coord coord;
+    @SerializedName("lat")
+    @Expose
+    float lat;
 
-    @SerializedName("weather")
-    List<Weather> weather = null;
+    @SerializedName("lon")
+    @Expose
+    float lon;
 
-//    @SerializedName("base")
-//    public String base;
+//    @SerializedName("timezone")
+//    @Expose
+//    String timezone;
 
-    @SerializedName("main")
-    Main main;
+//    @SerializedName("timezone_offset")
+//    @Expose
+//    int timezoneOffset;
 
-    @SerializedName("wind")
-    Wind wind;
+    @SerializedName("current")
+    @Expose
+    Current current;
 
-    @SerializedName("clouds")
-    Clouds clouds;
+    public static class Current {
 
-    @SerializedName("rain")
-    Rain rain;
+        @SerializedName("dt")
+        @Expose
+        long dt;
 
-    @SerializedName("snow")
-    Snow snow;
+        @SerializedName("sunrise")
+        @Expose
+        long sunrise;
 
-//    @SerializedName("dt")
-//    public int dt;
+        @SerializedName("sunset")
+        @Expose
+        long sunset;
 
-    @SerializedName("sys")
-    Sys sys;
+        @SerializedName("temp")
+        @Expose
+        float temp;
 
-//    @SerializedName("id")
-//    public int id;
+        @SerializedName("feels_like")
+        @Expose
+        float feelsLike;
 
-    @SerializedName("name")
-    String name;
+        @SerializedName("pressure")
+        @Expose
+        float pressure;
 
-    @SerializedName("cod")
-    int cod;
+        @SerializedName("humidity")
+        @Expose
+        float humidity;
 
-    @SerializedName("message")
-    String message;
+        @SerializedName("dew_point")
+        @Expose
+        float dewPoint;
 
-    static class Coord {
+        @SerializedName("uvi")
+        @Expose
+        float uvi;
 
-        @SerializedName("lon")
-        double lon;
+        @SerializedName("clouds")
+        @Expose
+        float clouds;
 
-        @SerializedName("lat")
-        double lat;
+        @SerializedName("visibility")
+        @Expose
+        float visibility;
 
+        @SerializedName("wind_speed")
+        @Expose
+        float windSpeed;
+
+        @SerializedName("wind_deg")
+        @Expose
+        float windDeg;
+
+//        @SerializedName("wind_gust")
+//        @Expose
+//        float windGust;
+
+        @SerializedName("weather")
+        @Expose
+        List<Weather> weather = null;
+
+        @SerializedName("rain")
+        Rain rain;
+
+        @SerializedName("snow")
+        Snow snow;
     }
 
     static class Weather {
 
         @SerializedName("id")
+        @Expose
         int id;
 
         @SerializedName("main")
+        @Expose
         String main;
 
         @SerializedName("description")
+        @Expose
         String description;
 
         @SerializedName("icon")
+        @Expose
         String icon;
-    }
-
-    static class Main {
-
-        @SerializedName("temp")
-        float temp;
-
-        @SerializedName("pressure")
-        float pressure;
-
-        @SerializedName("humidity")
-        int humidity;
-
-//        @SerializedName("temp_min")
-//        float tempMin;
-
-//        @SerializedName("temp_max")
-//        float tempMax;
-
-//        @SerializedName("sea_level")
-//        private float seaLevel;
-
-//        @SerializedName("grnd_level")
-//        public float grndLevel;
-
-    }
-
-    static class Wind {
-
-        @SerializedName("speed")
-        float speed;
-
-        @SerializedName("deg")
-        float deg;
-
-    }
-
-    static class Clouds {
-
-        @SerializedName("all")
-        int all;
-
     }
 
     static class Rain {
 
-        @SerializedName("3h")
-        float _3h;
+        @SerializedName("1h")
+        float _1h;
 
     }
 
     static class Snow {
 
-        @SerializedName("3h")
-        float _3h;
+        @SerializedName("1h")
+        float _1h;
 
     }
 
-    static class Sys {
+    // ---------------------------------------------------------------------------------------------
 
-//        @SerializedName("type")
-//        public int type;
-
-//        @SerializedName("id")
-//        public int id;
-
-//        @SerializedName("message")
-//        public float message;
-
-        @SerializedName("country")
-        String country;
-
-        @SerializedName("sunrise")
-        long sunrise;
-
-        @SerializedName("sunset")
-        long sunset;
-
-    }
-
-    CurrentWeather createModel(Context context, WeatherConfig config) {
+    CurrentWeather createCurrentWeatherModel(Context context, WeatherConfig config) {
 
         // Condition
-        boolean isDay = weather.get(0).icon.contains("d");
-        int iconCode = weather.get(0).id;
+        long ct = System.currentTimeMillis() / 1000L;
+        boolean isDay = ct >= current.sunrise && ct < current.sunset;
+        int iconCode = current.weather.get(0).id;
 
         // Precipitation
         float precipitation = 0;
-        if (snow != null && snow._3h > 0) {
-            precipitation = AMOUNT.convert(AMOUNT.mm, config.getPrecipitationAmountUnit(), snow._3h);
-        } else if (rain != null && rain._3h > 0) {
-            precipitation = AMOUNT.convert(AMOUNT.mm, config.getPrecipitationAmountUnit(), rain._3h);
+        if (current.snow != null && current.snow._1h > 0) {
+            precipitation = AMOUNT.convert(AMOUNT.mm, config.getPrecipitationAmountUnit(), current.snow._1h);
+        } else if (current.rain != null && current.rain._1h > 0) {
+            precipitation = AMOUNT.convert(AMOUNT.mm, config.getPrecipitationAmountUnit(), current.rain._1h);
         }
 
         return new CurrentWeather.Builder()
 
                 .setCondition(Util.getIcon(iconCode, isDay),
-                        Util.getDescription(context, config.getLanguage(), weather.get(0).description, iconCode))
+                        Util.getDescription(context, config.getLanguage(), current.weather.get(0).description, iconCode))
 
-                .setTemperature(TEMPERATURE.convert(TEMPERATURE.C, config.getTemperatureUnit(), main.temp),
+                .setTemperature(TEMPERATURE.convert(TEMPERATURE.C, config.getTemperatureUnit(), current.temp),
                         config.getTemperatureUnit().str())
-                .setPressure(PRESSURE.convert(PRESSURE.hPa, config.getPressureUnit(), main.pressure),
-                        config.getPressureUnit().str())
-                .setHumidity(Math.round(main.humidity))
+                .setApparentTemperature(TEMPERATURE.convert(TEMPERATURE.C, config.getTemperatureUnit(), current.feelsLike),
+                        config.getTemperatureUnit().str())
 
-                .setWind(SPEED.convert(SPEED.m_s, config.getSpeedUnit(), wind.speed),
-                        wind.deg,
+
+                .setPressure(PRESSURE.convert(PRESSURE.hPa, config.getPressureUnit(), current.pressure),
+                        config.getPressureUnit().str())
+                .setHumidity(Math.round(current.humidity))
+
+                .setWind(SPEED.convert(SPEED.m_s, config.getSpeedUnit(), current.windSpeed),
+                        current.windDeg,
                         config.getSpeedUnit().str())
 
-                .setCloudCover(Math.round(clouds.all))
+                .setCloudCover(Math.round(current.clouds))
 
                 .setPrecipitation(precipitation, config.getPrecipitationAmountUnit().str())
 
-                .build();
+                .setDewPoint(TEMPERATURE.convert(TEMPERATURE.C, config.getTemperatureUnit(), current.dewPoint),
+                        config.getTemperatureUnit().str())
 
-    }
+                .setUvIndex(current.uvi)
 
-    Astronomy createAstronomyModel() {
-
-        return new Astronomy.Builder()
-
-                .setSunAstronomy(sys.sunrise * 1000, sys.sunset * 1000)
+                .setVisibility(LENGTH.convert(LENGTH.m, config.getVisibilityUnit(), current.visibility),
+                        config.getVisibilityUnit().str())
 
                 .build();
 
@@ -212,9 +195,9 @@ class CurrentWeatherModel {
     City getCity() {
 
         return new City.Builder()
-                .setName(name)
-                .setCountry(sys.country)
-                .setCoordinate(coord.lat, coord.lon)
+//                .setName(name)
+//                .setCountry(sys.country)
+                .setCoordinate(lat, lon)
                 .build();
 
     }

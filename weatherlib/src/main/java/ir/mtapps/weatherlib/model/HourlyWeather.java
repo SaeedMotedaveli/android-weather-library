@@ -217,7 +217,7 @@ public class HourlyWeather implements Parcelable {
 
     public static class Builder {
 
-        private HourlyWeather weather;
+        private final HourlyWeather weather;
 
         public Builder() {
             weather = new HourlyWeather();

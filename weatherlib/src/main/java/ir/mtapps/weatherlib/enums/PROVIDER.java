@@ -15,9 +15,18 @@ public enum PROVIDER {
     ACCUWEATHER("Accuweather"),
 
     /** Weatherbit */
-    WEATHERBIT("Weatherbit");
+    WEATHERBIT("Weatherbit"),
 
-    private String name;
+    /** Visual Crossing */
+    VISUAL_CROSSING("Visual Crossing"),
+
+    /** Tomorrow.io */
+    TOMORROW("Tomorrow.io"),
+
+    /** Aeris Weather */
+    AERIS_WEATHER("Aeris Weather");
+
+    private final String name;
 
     PROVIDER(String name) {
         this.name = name;

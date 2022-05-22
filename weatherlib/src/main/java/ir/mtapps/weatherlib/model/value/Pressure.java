@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 public class Pressure implements Parcelable {
 
-    private float value;
-    private String unit;
+    private final float value;
+    private final String unit;
 
     public Pressure(float value, String unit) {
         this.value = value;

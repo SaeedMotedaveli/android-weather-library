@@ -92,7 +92,7 @@ public class City implements Parcelable {
 
     public static class Builder {
 
-        private City city;
+        private final City city;
 
         public Builder() {
             city = new City();

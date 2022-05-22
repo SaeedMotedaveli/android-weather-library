@@ -9,23 +9,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
-import java.util.List;
+import androidx.lifecycle.ViewModelProvider;
 
 import ir.mtapps.weatherlib.demo.MainActivity;
 import ir.mtapps.weatherlib.demo.R;
-import ir.mtapps.weatherlib.model.AirQuality;
-import ir.mtapps.weatherlib.model.Astronomy;
-import ir.mtapps.weatherlib.model.City;
-import ir.mtapps.weatherlib.model.CurrentWeather;
-import ir.mtapps.weatherlib.model.DailyWeather;
-import ir.mtapps.weatherlib.model.HourlyWeather;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class ResultFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -45,7 +33,7 @@ public class ResultFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
+        pageViewModel = new ViewModelProvider(getActivity()).get(PageViewModel.class);
     }
 
     @Override
@@ -57,91 +45,65 @@ public class ResultFragment extends Fragment {
 
         resultTv = root.findViewById(R.id.tv_result);
 
-        pageViewModel.getClear().observe(this, new Observer<Void>() {
-            @Override
-            public void onChanged(Void aVoid) {
-                resultTv.setText(null);
-            }
+        pageViewModel.getClear().observe(getViewLifecycleOwner(), aVoid -> resultTv.setText(null));
+
+        pageViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            setText(error, true);
+            switchToResultPage();
         });
 
-        pageViewModel.getError().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                setText(s, true);
-                ((MainActivity) getActivity()).selectResultPage();
-            }
+        pageViewModel.getCity().observe(getViewLifecycleOwner(), city -> {
+            setText(city.toString());
+            switchToResultPage();
         });
 
-        pageViewModel.getCity().observe(this, new Observer<City>() {
-            @Override
-            public void onChanged(City city) {
-                setText(city.toString());
-                ((MainActivity) getActivity()).selectResultPage();
-            }
+        pageViewModel.getCurrentWeather().observe(getViewLifecycleOwner(), currentWeather -> {
+            setText(currentWeather.toString());
+            switchToResultPage();
         });
 
-        pageViewModel.getCurrentWeather().observe(this, new Observer<CurrentWeather>() {
-            @Override
-            public void onChanged(CurrentWeather currentWeather) {
-                setText(currentWeather.toString());
-                ((MainActivity) getActivity()).selectResultPage();
-            }
+        pageViewModel.getAstronomy().observe(getViewLifecycleOwner(), astronomy -> {
+            setText(astronomy.toString());
+            switchToResultPage();
         });
 
-        pageViewModel.getAstronomy().observe(this, new Observer<Astronomy>() {
-            @Override
-            public void onChanged(Astronomy astronomy) {
-                setText(astronomy.toString());
-                ((MainActivity) getActivity()).selectResultPage();
-            }
-        });
+        pageViewModel.getHourlyWeather().observe(getViewLifecycleOwner(), hourlyWeathers -> {
 
-        pageViewModel.getHourlyWeather().observe(this, new Observer<List<HourlyWeather>>() {
-            @Override
-            public void onChanged(List<HourlyWeather> hourlyWeathers) {
+            StringBuilder builder = new StringBuilder();
+            int size = 3;
 
-                StringBuilder builder = new StringBuilder();
-                int size = 3;
+            for (int i = 0; i < size; i++) {
+                builder.append(hourlyWeathers.get(i).toString());
 
-                for (int i = 0; i < size; i++) {
-                    builder.append(hourlyWeathers.get(i).toString());
-
-                    if (i < (size - 1)) {
-                        builder.append("\n\n");
-                    }
+                if (i < (size - 1)) {
+                    builder.append("\n\n");
                 }
-
-                setText(builder.toString());
-                ((MainActivity) getActivity()).selectResultPage();
             }
+
+            setText(builder.toString());
+            switchToResultPage();
         });
 
-        pageViewModel.getDailyWeather().observe(this, new Observer<List<DailyWeather>>() {
-            @Override
-            public void onChanged(List<DailyWeather> dailyWeathers) {
+        pageViewModel.getDailyWeather().observe(getViewLifecycleOwner(), dailyWeathers -> {
 
-                StringBuilder builder = new StringBuilder();
-                int size = 3;
+            StringBuilder builder = new StringBuilder();
+            int size = 3;
 
-                for (int i = 0; i < size; i++) {
-                    builder.append(dailyWeathers.get(i).toString());
+            for (int i = 0; i < size; i++) {
+                builder.append(dailyWeathers.get(i).toString());
 
-                    if (i < (size - 1)) {
-                        builder.append("\n\n");
-                    }
+                if (i < (size - 1)) {
+                    builder.append("\n\n");
                 }
-
-                setText(builder.toString());
-                ((MainActivity) getActivity()).selectResultPage();
             }
+
+            setText(builder.toString());
+            switchToResultPage();
         });
 
-        pageViewModel.getAirQuality().observe(this, new Observer<AirQuality>() {
-            @Override
-            public void onChanged(AirQuality airQuality) {
-                setText(airQuality.toString());
-                ((MainActivity) getActivity()).selectResultPage();
-            }
+        pageViewModel.getAirQuality().observe(getViewLifecycleOwner(), airQuality -> {
+            setText(airQuality.toString());
+            switchToResultPage();
         });
 
         return root;
@@ -170,5 +132,14 @@ public class ResultFragment extends Fragment {
             resultTv.setTextColor(Color.BLACK);
         }
 
+    }
+    
+    private void switchToResultPage() {
+        
+        MainActivity activity = (MainActivity) getActivity();
+        
+        if (activity != null) {
+            activity.switchToResultPage();
+        }
     }
 }

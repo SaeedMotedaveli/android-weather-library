@@ -18,6 +18,9 @@ import ir.mtapps.weatherlib.model.HourlyWeather;
 
 class HourlyWeatherModel {
 
+    @SerializedName("error")
+    String error;
+
     @SerializedName("data")
     List<Datum> data = null;
 

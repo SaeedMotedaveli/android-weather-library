@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="provider_list">
+        <item>AccuWeather</item>
+        <item>Dark Sky</item>
+        <item>Open Weather</item>
+        <item>Weatherbit</item>
+        <item>World Weather Online</item>
+        <item>Visual Crossing</item>
+        <item>Tomorrow.io</item>
+        <item>Aeris Weather</item>
+        <item>Waqi (Air Quality)</item>
+    </string-array>
+
+    <string-array name="unit_list">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </string-array>
+
+</resources>

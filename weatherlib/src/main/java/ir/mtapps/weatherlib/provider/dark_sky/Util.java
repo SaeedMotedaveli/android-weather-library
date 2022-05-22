@@ -67,7 +67,7 @@ class Util {
     static WEATHER_ICON getIcon(String icon) {
         switch (icon) {
             case "clear-day":
-                return WEATHER_ICON.SUNNY;
+                return WEATHER_ICON.CLEAR_DAY;
             case "clear-night":
                 return WEATHER_ICON.CLEAR_NIGHT;
             case "partly-cloudy-night":
@@ -79,7 +79,7 @@ class Util {
             case "rain":
                 return WEATHER_ICON.RAIN;
             case "sleet":
-                return WEATHER_ICON.SLEET;
+                return WEATHER_ICON.HAIL;
             case "snow":
                 return WEATHER_ICON.SNOW;
             case "hail":

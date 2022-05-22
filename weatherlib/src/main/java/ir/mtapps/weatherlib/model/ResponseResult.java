@@ -56,7 +56,7 @@ public class ResponseResult implements Parcelable {
 
     public static class Builder {
 
-        private ResponseResult mResult;
+        private final ResponseResult mResult;
 
         public Builder() {
             mResult = new ResponseResult();

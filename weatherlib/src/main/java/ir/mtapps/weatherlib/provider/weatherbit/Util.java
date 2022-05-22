@@ -27,11 +27,13 @@ class Util {
             "et", // Estonian
             "fi", // Finnish
             "fr", // French
+            "ja", // Japanese
             "hr", // Croatian
             "hu", // Hungarian
             "id", // Indonesian
             "is", // Icelandic
             "it", // Italian
+            "iw", // Hebrew
             "kw", // Cornish
             "lt", // Lithuanian
             "nb", // Norwegian Bokmål
@@ -69,47 +71,47 @@ class Util {
 
             // Thunderstorm with light rain
             case 200:
-                return isDay ? WEATHER_ICON.THUNDERSTORM_DAY : WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return isDay ? WEATHER_ICON.THUNDERSTORM_WITH_RAIN_DAY : WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
 
             // Thunderstorm with rain
             case 201:
-                return isDay ? WEATHER_ICON.THUNDERSTORM_DAY : WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return isDay ? WEATHER_ICON.THUNDERSTORM_WITH_RAIN_DAY : WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
 
             // Thunderstorm with heavy rain
             case 202:
-                return isDay ? WEATHER_ICON.THUNDERSTORM_DAY : WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return isDay ? WEATHER_ICON.THUNDERSTORM_WITH_RAIN_DAY : WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
 
             // Thunderstorm with light drizzle
             case 230:
-                return isDay ? WEATHER_ICON.THUNDERSTORM : WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return isDay ? WEATHER_ICON.THUNDERSTORM : WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
 
             // Thunderstorm with drizzle
             case 231:
-                return isDay ? WEATHER_ICON.THUNDERSTORM : WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return isDay ? WEATHER_ICON.THUNDERSTORM : WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
 
             // Thunderstorm with heavy drizzle
             case 232:
-                return isDay ? WEATHER_ICON.THUNDERSTORM : WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return isDay ? WEATHER_ICON.THUNDERSTORM : WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
 
             // Thunderstorm with Hail
             case 233:
-                return isDay ? WEATHER_ICON.THUNDERSTORM : WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return isDay ? WEATHER_ICON.THUNDERSTORM : WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
 
             // Light Drizzle
             case 300:
-                return WEATHER_ICON.SHOWERS;
+                return WEATHER_ICON.SHOWER_RAIN;
 
             // Drizzle
             case 301:
-                return WEATHER_ICON.SHOWERS;
+                return WEATHER_ICON.SHOWER_RAIN;
 
             // Heavy Drizzle
             case 302:
-                return WEATHER_ICON.SHOWERS;
+                return WEATHER_ICON.SHOWER_RAIN;
 
             // Light Rain
             case 500:
-                return WEATHER_ICON.RAIN_LIGHT;
+                return WEATHER_ICON.LIGHT_RAIN;
 
             // Moderate Rain
             case 501:
@@ -153,11 +155,11 @@ class Util {
 
             // Sleet
             case 611:
-                return WEATHER_ICON.SLEET;
+                return WEATHER_ICON.HAIL;
 
             // Heavy sleet
             case 612:
-                return WEATHER_ICON.SLEET;
+                return WEATHER_ICON.HEAVY_HAIL;
 
             // Snow shower
             case 621:
@@ -198,7 +200,7 @@ class Util {
 
             // Clear sky
             case 800:
-                return isDay ? WEATHER_ICON.SUNNY : WEATHER_ICON.CLEAR_NIGHT;
+                return isDay ? WEATHER_ICON.CLEAR_DAY : WEATHER_ICON.CLEAR_NIGHT;
 
             // Few clouds
             case 801:

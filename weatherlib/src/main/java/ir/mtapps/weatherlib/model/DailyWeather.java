@@ -266,7 +266,7 @@ public class DailyWeather implements Parcelable  {
 
     public static class Builder {
 
-        private DailyWeather weather;
+        private final DailyWeather weather;
 
         public Builder() {
             weather = new DailyWeather();

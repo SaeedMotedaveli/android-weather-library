@@ -1,5 +1,11 @@
 package ir.mtapps.weatherlib;
 
+import static ir.mtapps.weatherlib.Loging.log_e;
+import static ir.mtapps.weatherlib.Loging.log_e_debug;
+import static ir.mtapps.weatherlib.Loging.log_i_debug;
+import static ir.mtapps.weatherlib.Loging.log_v_debug;
+import static ir.mtapps.weatherlib.Loging.log_w_debug;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -12,8 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.room.Room;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -33,13 +37,11 @@ import ir.mtapps.weatherlib.interfaces.HourlyWeatherListener;
 import ir.mtapps.weatherlib.model.ResponseResult;
 import ir.mtapps.weatherlib.provider.WeatherProvider;
 
-import static ir.mtapps.weatherlib.Loging.*;
-
 class HttpClient extends WeatherClient {
 
     private final static String CACHE_DATABASE_NAME = "wcache";
 
-    private abstract class JsonResponseListener {
+    private abstract static class JsonResponseListener {
         abstract void onSuccessful(@NonNull String json, @Nullable String geo);
 
         abstract void onError(int code, String message);
@@ -108,6 +110,18 @@ class HttpClient extends WeatherClient {
 
             case WEATHERBIT:
                 mWeatherProvider = new ir.mtapps.weatherlib.provider.weatherbit.Provider();
+                break;
+
+            case VISUAL_CROSSING:
+                mWeatherProvider = new ir.mtapps.weatherlib.provider.visualcrossing.Provider();
+                break;
+
+            case TOMORROW:
+                mWeatherProvider = new ir.mtapps.weatherlib.provider.tomorrow.Provider();
+                break;
+
+            case AERIS_WEATHER:
+                mWeatherProvider = new ir.mtapps.weatherlib.provider.aeris_weather.Provider();
                 break;
 
             default:
@@ -259,7 +273,7 @@ class HttpClient extends WeatherClient {
 
         if (mUseAutoCoordinate) {
 
-            log_v_debug("Use gps to edit data form provider...");
+            log_v_debug("Use gps to get data form provider...");
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && mContext.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -278,28 +292,29 @@ class HttpClient extends WeatherClient {
                     LocationServices.getFusedLocationProviderClient(mContext);
 
 
-            fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
 
-                                log_i_debug("Location received from gps: [" + location.getLatitude()
-                                        + ", " + location.getLongitude() + "]");
+                            log_i_debug("Location received from gps: [" + location.getLatitude()
+                                    + ", " + location.getLongitude() + "]");
 
-                                mWeatherProvider.setCoordinate(location.getLatitude(), location.getLongitude());
+                            mWeatherProvider.setCoordinate(location.getLatitude(), location.getLongitude());
 
-                                checkForNeedGeoRequest(urlType, listener);
+                            checkForNeedGeoRequest(urlType, listener);
 
-                            } else {
+                        } else {
 
-                                log_e("GPS location that received from getLastLocation() is null.");
+                            log_e("GPS location that received from getLastLocation() is null.");
 
-                                Resources resources = Util.getLocalizedResources(mContext, new Locale(mParams.config.getLanguage()));
-                                listener.onError(Error.LOCATION_ERROR, resources.getString(R.string.error_location));
-                            }
+                            Resources resources = Util.getLocalizedResources(mContext, new Locale(mParams.config.getLanguage()));
+                            listener.onError(Error.LOCATION_ERROR, resources.getString(R.string.error_location));
                         }
+                    })
+                    .addOnFailureListener(e -> {
+                        log_e("GPS location failed.");
+                        Resources resources = Util.getLocalizedResources(mContext, new Locale(mParams.config.getLanguage()));
+                        listener.onError(Error.LOCATION_ERROR, resources.getString(R.string.error_location));
                     });
 
         } else {
@@ -528,53 +543,47 @@ class HttpClient extends WeatherClient {
         // Get string
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
 
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                response -> {
 
-                        ResponseResult result = mWeatherProvider.checkForJsonValidity(response);
+                    ResponseResult result = mWeatherProvider.checkForJsonValidity(response);
 
-                        if (result.isSuccessful()) {
+                    if (result.isSuccessful() && result.getCode() == 200) {
 
-                            log_i_debug("Json received from server successfully.");
+                        log_i_debug("Json received from server successfully.");
 
-                            listener.onSuccessful(response, geo);
+                        listener.onSuccessful(response, geo);
 
-                            // Save result to database
-                            if (mParams.config.isCacheEnable()) {
+                        // Save result to database
+                        if (mParams.config.isCacheEnable()) {
 
-                                if (mCache == null) {
+                            if (mCache == null) {
 
-                                    mCache = new Cache();
-                                    mCache.setProvider(mProviderType);
-                                    mCache.setCoordinate(mParams.latitude, mParams.longitude);
-
-                                }
-
-                                mCache = mWeatherProvider.updateCache(mCache, urlType, response);
-
-                                if (isGoodTimeForUpdatingCache) {
-                                    updateCache();
-                                }
+                                mCache = new Cache();
+                                mCache.setProvider(mProviderType);
+                                mCache.setCoordinate(mParams.latitude, mParams.longitude);
 
                             }
-                        } else {
 
-                            log_e("result not successful.");
+                            mCache = mWeatherProvider.updateCache(mCache, urlType, response);
 
-                            listener.onError(result.getCode(), result.getMessage());
+                            if (isGoodTimeForUpdatingCache) {
+                                updateCache();
+                            }
 
                         }
+                    } else {
+
+                        log_e("result not successful.");
+
+                        listener.onError(result.getCode(), result.getMessage());
+
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                error -> {
 
-                        log_e(error.getMessage());
+                    log_e(error.getMessage());
 
-                        listener.onError(Error.NETWORK_ERROR, error.getMessage());
-                    }
+                    listener.onError(Error.NETWORK_ERROR, error.getMessage());
                 }
         );
 

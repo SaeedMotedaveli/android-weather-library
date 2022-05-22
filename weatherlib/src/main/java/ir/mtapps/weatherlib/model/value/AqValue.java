@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class AqValue implements Parcelable {
 
-    private float value;
+    private final float value;
 
     public AqValue(float value) {
         this.value = value;

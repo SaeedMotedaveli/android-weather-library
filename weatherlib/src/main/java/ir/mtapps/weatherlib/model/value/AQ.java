@@ -5,9 +5,9 @@ import android.os.Parcelable;
 
 public class AQ implements Parcelable {
 
-    private float index;
-    private String riskLevel;
-    private String healthMessage;
+    private final float index;
+    private final String riskLevel;
+    private final String healthMessage;
 
     public AQ(float index,
             String riskLevel,

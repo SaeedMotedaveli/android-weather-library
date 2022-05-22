@@ -1,12 +1,10 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 32
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 28
-        versionCode 1
-        versionName 'beta-01'
+        targetSdkVersion 32
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -17,27 +15,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '28.0.3'
     productFlavors {
     }
+    namespace 'ir.mtapps.weatherlib'
 }
 
 dependencies {
-
-    def room_version = '2.1.0-rc01'
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Android and Google libraries
-    implementation "androidx.appcompat:appcompat:1.0.2"
+    implementation "androidx.appcompat:appcompat:1.4.1"
 
     // Google Room
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    implementation 'com.google.android.gms:play-services-location:16.0.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.android.volley:volley:1.1.1'
-    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    implementation "androidx.room:room-runtime:2.4.2"
+    annotationProcessor "androidx.room:room-compiler:2.4.2"
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
+    implementation 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
 
     androidTestImplementation 'com.google.code.findbugs:jsr305:3.0.2'
 }

@@ -3,7 +3,7 @@ package ir.mtapps.weatherlib.enums;
 public enum LENGTH {
     m("m"), Km("Km"), miles("miles");
 
-    private String str;
+    private final String str;
 
     LENGTH(String str) {
         this.str = str;

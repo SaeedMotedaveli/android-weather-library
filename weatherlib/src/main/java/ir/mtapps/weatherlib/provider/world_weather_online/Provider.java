@@ -21,7 +21,7 @@ public final class Provider extends WeatherProvider {
             + "q={lat},{lng}&format=json&extra=isDayTime&num_of_days=10&fx24=yes"
             + "&includelocation=yes&tp=1&mca=no&lang={lang}&key={key}";
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Override
     public void allWeather(@NonNull String json, String geo, AllWeatherListener listener) {

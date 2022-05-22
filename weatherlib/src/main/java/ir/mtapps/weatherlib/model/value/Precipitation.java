@@ -5,12 +5,13 @@ import android.os.Parcelable;
 
 public class Precipitation implements Parcelable {
 
-    private float amount;
-    private int probably;
-    private String unit;
+    private final float amount;
+    private final int probably;
+    private final String unit;
 
     public Precipitation(float amount, String unit) {
         this.amount = amount;
+        this.probably = -1;
         this.unit = unit;
     }
 

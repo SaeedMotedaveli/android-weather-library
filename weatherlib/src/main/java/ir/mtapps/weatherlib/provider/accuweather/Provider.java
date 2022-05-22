@@ -28,7 +28,7 @@ public final class Provider extends WeatherProvider {
     private final static String URL_DAILY = BASE_URL + "forecasts/v1/daily/5day/{city}?apikey={key}&language={lang}&details=true&metric=true";
     private final static String URL_HOURLY = BASE_URL + "forecasts/v1/hourly/12hour/{city}?apikey={key}&language={lang}&details=true&metric=true";
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Override
     public void allWeather(@NonNull String json, String geo, AllWeatherListener listener) {}

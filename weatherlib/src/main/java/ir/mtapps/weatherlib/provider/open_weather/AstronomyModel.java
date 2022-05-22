@@ -1,7 +1,6 @@
 package ir.mtapps.weatherlib.provider.open_weather;
 
-import android.content.Context;
-
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -11,49 +10,52 @@ import ir.mtapps.weatherlib.model.City;
 
 class AstronomyModel {
 
-    @SerializedName("coord")
-    Coord coord;
+    @SerializedName("lat")
+    @Expose
+    float lat;
 
-    @SerializedName("sys")
-    Sys sys;
+    @SerializedName("lon")
+    @Expose
+    float lon;
 
-    @SerializedName("name")
-    String name;
+    @SerializedName("daily")
+    @Expose
+    List<Daily> daily = null;
 
-    @SerializedName("cod")
-    int cod;
-
-    @SerializedName("message")
-    String message;
-
-    static class Coord {
-
-        @SerializedName("lon")
-        double lon;
-
-        @SerializedName("lat")
-        double lat;
-
-    }
-
-    static class Sys {
-
-        @SerializedName("country")
-        String country;
+    public static class Daily {
 
         @SerializedName("sunrise")
+        @Expose
         long sunrise;
 
         @SerializedName("sunset")
+        @Expose
         long sunset;
 
+        @SerializedName("moonrise")
+        @Expose
+        long moonrise;
+
+        @SerializedName("moonset")
+        @Expose
+        long moonset;
+
+        @SerializedName("moon_phase")
+        @Expose
+        float moonPhase;
     }
 
-    Astronomy createModel() {
+    // ---------------------------------------------------------------------------------------------
+
+    Astronomy createTodayAstronomyModel() {
+
+        Daily currentDay = daily.get(0);
 
         return new Astronomy.Builder()
 
-                .setSunAstronomy(sys.sunrise * 1000, sys.sunset * 1000)
+                .setSunAstronomy(currentDay.sunrise * 1000, currentDay.sunset * 1000)
+                .setMoonAstronomy(currentDay.moonrise * 1000, currentDay.moonset * 1000)
+                .setMoonPhase(currentDay.moonPhase)
 
                 .build();
 
@@ -62,9 +64,9 @@ class AstronomyModel {
     City getCity() {
 
         return new City.Builder()
-                .setName(name)
-                .setCountry(sys.country)
-                .setCoordinate(coord.lat, coord.lon)
+//                .setName(name)
+//                .setCountry(sys.country)
+                .setCoordinate(lat, lon)
                 .build();
 
     }

@@ -19,7 +19,7 @@ import ir.mtapps.weatherlib.model.CurrentWeather;
 import ir.mtapps.weatherlib.model.DailyWeather;
 import ir.mtapps.weatherlib.model.HourlyWeather;
 
-class AllWeatherModel {
+public class AllWeatherModel {
 
     @SerializedName("latitude")
     double latitude;

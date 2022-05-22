@@ -2,6 +2,7 @@ package ir.mtapps.weatherlib.provider.open_weather;
 
 import android.content.Context;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import ir.mtapps.weatherlib.WeatherConfig;
 import ir.mtapps.weatherlib.enums.AMOUNT;
+import ir.mtapps.weatherlib.enums.LENGTH;
 import ir.mtapps.weatherlib.enums.PRESSURE;
 import ir.mtapps.weatherlib.enums.SPEED;
 import ir.mtapps.weatherlib.enums.TEMPERATURE;
@@ -17,167 +19,123 @@ import ir.mtapps.weatherlib.model.HourlyWeather;
 
 class HourlyWeatherModel {
 
-    @SerializedName("city")
-    City city;
+    @SerializedName("lat")
+    @Expose
+    float lat;
 
-    @SerializedName("cod")
-    int cod;
+    @SerializedName("lon")
+    @Expose
+    float lon;
+    @SerializedName("hourly")
+    @Expose
+    List<Hourly> hourly = null;
 
-    @SerializedName("message")
-    String message;
-
-//    @SerializedName("cnt")
-//    int cnt;
-
-    @SerializedName("list")
-    List<DataList> list = null;
-
-    static class City {
-
-        @SerializedName("id")
-
-        int id;
-        @SerializedName("name")
-
-        String name;
-        @SerializedName("coord")
-
-        Coord coord;
-        @SerializedName("country")
-
-        String country;
-
-        static class Coord {
-
-            @SerializedName("lon")
-
-            double lon;
-            @SerializedName("lat")
-
-            double lat;
-
-        }
-    }
-
-    static class DataList {
+    static class Hourly {
 
         @SerializedName("dt")
+        @Expose
         long dt;
 
-        @SerializedName("main")
-        Main main;
+        @SerializedName("temp")
+        @Expose
+        float temp;
 
-        @SerializedName("weather")
-        List<Weather> weather = null;
+        @SerializedName("feels_like")
+        @Expose
+        float feelsLike;
+
+        @SerializedName("pressure")
+        @Expose
+        float pressure;
+
+        @SerializedName("humidity")
+        @Expose
+        float humidity;
+
+        @SerializedName("dew_point")
+        @Expose
+        float dewPoint;
+
+        @SerializedName("uvi")
+        @Expose
+        float uvi;
 
         @SerializedName("clouds")
-        Clouds clouds;
+        @Expose
+        float clouds;
 
-        @SerializedName("wind")
-        Wind wind;
+        @SerializedName("visibility")
+        @Expose
+        float visibility;
 
-        @SerializedName("sys")
-        Sys sys;
+        @SerializedName("wind_speed")
+        @Expose
+        float windSpeed;
+
+        @SerializedName("wind_deg")
+        @Expose
+        float windDeg;
+
+        @SerializedName("wind_gust")
+        @Expose
+        float windGust;
+
+        @SerializedName("weather")
+        @Expose
+        List<Weather> weather = null;
+
+        @SerializedName("pop")
+        @Expose
+        float pop;
 
         @SerializedName("rain")
         Rain rain;
 
         @SerializedName("snow")
         Snow snow;
+    }
 
-//        @SerializedName("dt_txt")
-//        String dtTxt;
+    static class Weather {
 
-        static class Main {
+        @SerializedName("id")
+        @Expose
+        int id;
 
-            @SerializedName("temp")
-            float temp;
+        @SerializedName("main")
+        @Expose
+        String main;
 
-//            @SerializedName("temp_min")
-//            float tempMin;
+        @SerializedName("description")
+        @Expose
+        String description;
 
-//            @SerializedName("temp_max")
-//            float tempMax;
+        @SerializedName("icon")
+        @Expose
+        String icon;
+    }
 
-            @SerializedName("pressure")
-            float pressure;
+    static class Rain {
 
-//            @SerializedName("sea_level")
-//            float seaLevel;
-
-//            @SerializedName("grnd_level")
-//            float grndLevel;
-
-            @SerializedName("humidity")
-            int humidity;
-
-//            @SerializedName("temp_kf")
-//            float tempKf;
-
-        }
-
-        static class Weather {
-
-            @SerializedName("id")
-            int id;
-
-//            @SerializedName("main")
-//            String main;
-
-            @SerializedName("description")
-            String description;
-
-//            @SerializedName("icon")
-//            String icon;
-
-        }
-
-        static class Clouds {
-
-            @SerializedName("all")
-            int all;
-
-        }
-
-        static class Wind {
-
-            @SerializedName("speed")
-            float speed;
-
-            @SerializedName("deg")
-            float deg;
-
-        }
-
-        static class Sys {
-
-            @SerializedName("pod")
-            String pod;
-
-        }
-
-        static class Rain {
-
-            @SerializedName("3h")
-            float _3h;
-
-        }
-
-        static class Snow {
-
-            @SerializedName("3h")
-            float _3h;
-
-        }
+        @SerializedName("1h")
+        float _1h;
 
     }
 
-    List<HourlyWeather> createModel(Context context, WeatherConfig config) {
+    static class Snow {
+
+        @SerializedName("1h")
+        float _1h;
+
+    }
+
+    // ---------------------------------------------------------------------------------------------
+
+    List<HourlyWeather> createHourlyModel(Context context, WeatherConfig config) {
 
         int limitNextHours = config.getLimitNextHours();
 
         if (limitNextHours < 0) {
-            limitNextHours = list.size();
+            limitNextHours = hourly.size();
         } else if (limitNextHours == 0) {
             limitNextHours = 1;
         } else {
@@ -188,7 +146,7 @@ class HourlyWeatherModel {
 
         int count = 1;
 
-        for (HourlyWeatherModel.DataList hourly : this.list) {
+        for (Hourly hourly : hourly) {
 
             if (count > limitNextHours) {
                 break;
@@ -196,34 +154,46 @@ class HourlyWeatherModel {
 
             // Precipitation
             float precipitation = 0;
-            if (hourly.snow != null && hourly.snow._3h > 0) {
-                precipitation = AMOUNT.convert(AMOUNT.mm, config.getPrecipitationAmountUnit(), hourly.snow._3h);
-            } else if (hourly.rain != null && hourly.rain._3h > 0) {
-                precipitation = AMOUNT.convert(AMOUNT.mm, config.getPrecipitationAmountUnit(), hourly.rain._3h);
+            if (hourly.snow != null && hourly.snow._1h > 0) {
+                precipitation = AMOUNT.convert(AMOUNT.mm, config.getPrecipitationAmountUnit(), hourly.snow._1h);
+            } else if (hourly.rain != null && hourly.rain._1h > 0) {
+                precipitation = AMOUNT.convert(AMOUNT.mm, config.getPrecipitationAmountUnit(), hourly.rain._1h);
             }
 
             weatherList.add(new HourlyWeather.Builder()
 
                     .setDate(hourly.dt * 1000)
 
-                    .setCondition(Util.getIcon(hourly.weather.get(0).id, hourly.sys.pod.contentEquals("d")),
+                    .setCondition(Util.getIcon(hourly.weather.get(0).id, hourly.weather.get(0).icon.contains("d")),
                             Util.getDescription(context, config.getLanguage(),
                                     hourly.weather.get(0).description,
                                     hourly.weather.get(0).id))
 
-                    .setTemperature(TEMPERATURE.convert(TEMPERATURE.C, config.getTemperatureUnit(), hourly.main.temp),
+                    .setTemperature(TEMPERATURE.convert(TEMPERATURE.C, config.getTemperatureUnit(), hourly.temp),
                             config.getTemperatureUnit().str())
-                    .setPressure(PRESSURE.convert(PRESSURE.hPa, config.getPressureUnit(), hourly.main.pressure),
-                            config.getPressureUnit().str())
-                    .setHumidity(Math.round(hourly.main.humidity))
+                    .setApparentTemperature(TEMPERATURE.convert(TEMPERATURE.C, config.getTemperatureUnit(), hourly.feelsLike),
+                            config.getTemperatureUnit().str())
 
-                    .setWind(SPEED.convert(SPEED.m_s, config.getSpeedUnit(), hourly.wind.speed),
-                            hourly.wind.deg,
+                    .setDewPoint(TEMPERATURE.convert(TEMPERATURE.C, config.getTemperatureUnit(), hourly.dewPoint),
+                            config.getTemperatureUnit().str())
+
+                    .setPressure(PRESSURE.convert(PRESSURE.hPa, config.getPressureUnit(), hourly.pressure),
+                            config.getPressureUnit().str())
+
+                    .setHumidity(Math.round(hourly.humidity))
+
+                    .setWind(SPEED.convert(SPEED.m_s, config.getSpeedUnit(), hourly.windSpeed),
+                            hourly.windDeg,
                             config.getSpeedUnit().str())
 
-                    .setCloudCover(Math.round(hourly.clouds.all))
+                    .setVisibility(LENGTH.convert(LENGTH.m, config.getVisibilityUnit(), hourly.visibility),
+                            config.getVisibilityUnit().str())
 
-                    .setPrecipitation(precipitation, config.getPrecipitationAmountUnit().str())
+                    .setCloudCover(Math.round(hourly.clouds))
+
+                    .setPrecipitation(precipitation, Math.round(hourly.pop), config.getPrecipitationAmountUnit().str())
+
+                    .setUvIndex(hourly.uvi)
 
                     .build());
 
@@ -234,12 +204,12 @@ class HourlyWeatherModel {
         return weatherList;
     }
 
-    ir.mtapps.weatherlib.model.City getCity() {
+    City getCity() {
 
-        return new ir.mtapps.weatherlib.model.City.Builder()
-                .setName(city.name)
-                .setCountry(city.country)
-                .setCoordinate(city.coord.lat, city.coord.lon)
+        return new City.Builder()
+//                .setName(name)
+//                .setCountry(sys.country)
+                .setCoordinate(lat, lon)
                 .build();
 
     }

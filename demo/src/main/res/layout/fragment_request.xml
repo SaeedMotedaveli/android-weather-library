@@ -11,11 +11,11 @@
         android:id="@+id/progress_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -39,28 +39,82 @@
             android:paddingEnd="24dp"
             android:paddingBottom="96dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text="@string/provider_title"
+                android:textSize="12sp" />
+
             <Spinner
                 android:id="@+id/spinner_provider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/provider_list"
+                android:foreground="@drawable/bg_spinner"
+                android:minHeight="48dp"
                 android:spinnerMode="dropdown" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:paddingBottom="4dp"
+                android:text="@string/api_key_title"
+                android:textSize="12sp" />
 
             <EditText
                 android:id="@+id/et_api_key"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:ems="10"
                 android:fontFamily="monospace"
                 android:hint="@string/api_key"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/client_api_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_client_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:fontFamily="monospace"
+                    android:hint="@string/client_id"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:textSize="12sp" />
+
+                <Space
+                    android:layout_width="16dp"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/et_client_secret"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:fontFamily="monospace"
+                    android:hint="@string/client_secret"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="end">
+                android:gravity="end"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/button_save_api_key"
@@ -69,11 +123,18 @@
                     android:text="@string/save_api_key" />
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:paddingBottom="4dp"
+                android:text="@string/language_title"
+                android:textSize="12sp" />
+
             <EditText
                 android:id="@+id/et_language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:ems="10"
                 android:hint="@string/language"
                 android:inputType="textPersonName" />
@@ -85,10 +146,17 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/use_gps" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingBottom="4dp"
+                android:text="@string/coordinate_title"
+                android:textSize="12sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="4dp"
                 android:orientation="horizontal">
 
                 <EditText
@@ -117,20 +185,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/units" />
+                android:paddingBottom="4dp"
+                android:text="@string/units_title"
+                android:textSize="12sp" />
 
             <Spinner
                 android:id="@+id/spinner_units"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:entries="@array/unit_list" />
+                android:entries="@array/unit_list"
+                android:foreground="@drawable/bg_spinner"
+                android:minHeight="48dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/request_type" />
+                android:paddingBottom="4dp"
+                android:text="@string/request_type_title"
+                android:textSize="12sp" />
 
             <RadioGroup
                 android:id="@+id/rg_request_type"

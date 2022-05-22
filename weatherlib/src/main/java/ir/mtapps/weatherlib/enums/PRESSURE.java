@@ -3,7 +3,7 @@ package ir.mtapps.weatherlib.enums;
 public enum PRESSURE {
     mb("mb"), mmHg("mmHg"), inHg("inHg"), hPa("hPa"), kPa("kPa"), atm("atm");
 
-    private String str;
+    private final String str;
 
     PRESSURE(String str) {
         this.str = str;

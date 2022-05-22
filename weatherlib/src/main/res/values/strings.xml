@@ -8,9 +8,11 @@
     <string name="heavy_drizzle">Heavy intensity drizzle</string>
     <string name="shower_rain">Shower rain</string>
     <string name="light_rain">Light rain</string>
+    <string name="rain">Rain</string>
     <string name="moderate_rain">Moderate rain</string>
     <string name="heavy_rain">Heavy rain</string>
     <string name="freezing_rain">Freezing rain</string>
+    <string name="heavy_freezing_rain">Heavy freezing rain</string>
     <string name="heavy_shower_rain">Heavy intensity shower rain</string>
     <string name="light_snow">Light snow</string>
     <string name="snow">Snow</string>
@@ -20,6 +22,7 @@
     <string name="shower_snow">Shower snow</string>
     <string name="heavy_shower_snow">Heavy shower snow</string>
     <string name="mist">Mist</string>
+    <string name="light_fog">Light fog</string>
     <string name="fog">Fog</string>
     <string name="smoke">Smoke</string>
     <string name="volcanic_ash">Volcanic ash</string>
@@ -28,6 +31,7 @@
     <string name="few_clouds">Few clouds</string>
     <string name="cloudy">Cloudy</string>
     <string name="tropical_storm">Tropical storm</string>
+    <string name="mostly_cloudy">Mostly cloudy</string>
     <string name="cold">Cold</string>
     <string name="hot">Hot</string>
     <string name="windy">Windy</string>
@@ -57,8 +61,17 @@
     <string name="thunderstorm_with_drizzle">Thunderstorm with drizzle</string>
     <string name="thunderstorm_with_heavy_drizzle">Thunderstorm with heavy drizzle</string>
     <string name="thunderstorm_with_hail">Thunderstorm with hail</string>
-
-
+    <string name="light_ice_pallets">Light ice pallets</string>
+    <string name="ice_pallets">Ice pallets</string>
+    <string name="heavy_ice_pallets">Heavy ice pallets</string>
+    <string name="snow_and_freezing_rain">Snow and freezing rain</string>
+    <string name="snow_and_ice_pallets">Snow and ice pallets</string>
+    <string name="blowing_dust">Blowing dust</string>
+    <string name="blowing_sand">Blowing sand</string>
+    <string name="haze">Haze</string>
+    <string name="ice_fog">Freezing fog</string>
+    <string name="wintry_mix">Wintry mix (snow, sleet and rain)</string>
+    <string name="waterspouts">Waterspouts</string>
 
     <string name="air_quality_risk_level_1">Air pollution level: Good</string>
     <string name="air_quality_risk_level_2">Air pollution level: Moderate</string>
@@ -124,6 +137,64 @@
     <string name="ds_light_clouds">Light clouds</string>
     <string name="ds_medium_clouds">Medium clouds</string>
     <string name="ds_heavy_clouds">Heavy clouds</string>
+
+    <string name="arw_coverage_areas_of">Areas of</string>
+    <string name="arw_coverage_brief">Brief</string>
+    <string name="arw_coverage_chance_of">Chance of</string>
+    <string name="arw_coverage_definite">Definite</string>
+    <string name="arw_coverage_frequent">Frequent</string>
+    <string name="arw_coverage_intermittent">Intermittent</string>
+    <string name="arw_coverage_isolated">Isolated</string>
+    <string name="arw_coverage_likely">Likely</string>
+    <string name="arw_coverage_numerous">Numerous</string>
+    <string name="arw_coverage_occasional">Occasional</string>
+    <string name="arw_coverage_patchy">Patchy</string>
+    <string name="arw_coverage_periods_of">Periods of</string>
+    <string name="arw_coverage_slight_chance">Slight chance</string>
+    <string name="arw_coverage_scattered">Scattered</string>
+    <string name="arw_coverage_in_the_nearby">In the vicinity/Nearby</string>
+    <string name="arw_coverage_widespread">Widespread</string>
+
+    <string name="arw_intensity_very_light">very light</string>
+    <string name="arw_intensity_light">light</string>
+    <string name="arw_intensity_heavy">heavy</string>
+    <string name="arw_intensity_very_heavy">very heavy</string>
+    <string name="arw_intensity_moderate">moderate</string>
+
+    <string name="arw_weather_hail">%1$s %2$s hail</string>
+    <string name="arw_weather_blowing_dust">%1$s %2$s blowing dust</string>
+    <string name="arw_weather_blowing_sand">%1$s %2$s blowing sand</string>
+    <string name="arw_weather_mist">%1$s %2$s mist</string>
+    <string name="arw_weather_blowing_snow">%1$s %2$s blowing snow</string>
+    <string name="arw_weather_blowing_spray">%1$s %2$s blowing spray</string>
+    <string name="arw_weather_fog">%1$s %2$s fog</string>
+    <string name="arw_weather_frost">%1$s %2$s forest</string>
+    <string name="arw_weather_haze">%1$s %2$s haze</string>
+    <string name="arw_weather_ice_crystals">%1$s %2$s ice crystals</string>
+    <string name="arw_weather_ice_fog">%1$s %2$s ice fog</string>
+    <string name="arw_weather_sleet">%1$s %2$s ice pellets / Sleet</string>
+    <string name="arw_weather_smoke">%1$s %2$s smoke</string>
+    <string name="arw_weather_drizzle">%1$s %2$s drizzle</string>
+    <string name="arw_weather_rain">%1$s %2$s rain</string>
+    <string name="arw_weather_rain_showers">%1$s %2$s rain showers</string>
+    <string name="arw_weather_rain_snow">%1$s %2$s rain/snow mix</string>
+    <string name="arw_weather_snow_sleet">%1$s %2$s snow/sleet mix</string>
+    <string name="arw_weather_rain_snow_sleet">%1$s %2$s wintry mix (snow, sleet and rain)</string>
+    <string name="arw_weather_snow">%1$s %2$s snow</string>
+    <string name="arw_weather_snow_showers">%1$s %2$s snow showers</string>
+    <string name="arw_weather_thunderstorms">%1$s %2$s thunderstorms</string>
+    <string name="arw_weather_unknown_precipitation">unknown precipitation</string>
+    <string name="arw_weather_volcanic_ash">%1$s %2$s volcanic ash</string>
+    <string name="arw_weather_waterspouts">%1$s %2$s waterspouts</string>
+    <string name="arw_weather_freezing_fog">%1$s %2$s freezing fog</string>
+    <string name="arw_weather_freezing_drizzle">%1$s %2$s freezing drizzle</string>
+    <string name="arw_weather_freezing_rain">%1$s %2$s freezing rain</string>
+    <string name="arw_weather_freezing_spray">%1$s %2$s freezing spray</string>
+    <string name="arw_weather_clear">Clear</string>
+    <string name="arw_weather_fair">Fair cloudy</string>
+    <string name="arw_weather_partly_cloudy">Partly cloudy</string>
+    <string name="arw_weather_mostly_cloudy">Mostly cloudy</string>
+    <string name="arw_weather_cloudy">Cloudy</string>
 
     <string name="error_api_key_required">API key not initialized.</string>
     <string name="error_response_is_null">Error in response: Response is null.</string>

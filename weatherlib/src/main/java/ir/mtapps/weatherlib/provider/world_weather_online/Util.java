@@ -76,25 +76,25 @@ class Util {
             case 329:   // Patchy moderate snow
                 return WEATHER_ICON.SNOW;
             case 392:   // Patchy light snow in area with thunder
-                return WEATHER_ICON.SNOW_LIGHT;
+                return WEATHER_ICON.LIGHT_SNOW;
             case 389:  // Moderate or heavy rain in area with thunder
                 if (isDay)
-                    return WEATHER_ICON.THUNDERSTORM_DAY;
+                    return WEATHER_ICON.THUNDERSTORM_WITH_RAIN_DAY;
                 else
-                    return WEATHER_ICON.THUNDERSTORM_NIGHT;
+                    return WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
             case 386:   // Patchy light rain in area with thunder
-                return WEATHER_ICON.RAIN_LIGHT;
+                return WEATHER_ICON.LIGHT_RAIN;
             case 377:   // Moderate or heavy showers of ice pellets
             case 374:   // Light showers of ice pellets
             case 350:   // Ice pellets
-                return WEATHER_ICON.SLEET;
+                return WEATHER_ICON.HAIL;
             case 371:   // Moderate or heavy snow showers
             case 230:   // Blizzard
                 return WEATHER_ICON.SNOW;
             case 620:   // Light snow showers
             case 621:   // Light snow
             case 326:
-                return WEATHER_ICON.SNOW_LIGHT;
+                return WEATHER_ICON.LIGHT_SNOW;
             case 323:   // Patchy light snow
             case 227:   // Blowing snow
             case 179:   // Patchy snow nearby
@@ -102,15 +102,15 @@ class Util {
             case 365:   // Moderate or heavy sleet showers
             case 362:   // Light sleet showers
             case 182:   // Patchy sleet nearby
-                return WEATHER_ICON.SLEET;
+                return WEATHER_ICON.HEAVY_HAIL;
             case 320:   // Moderate or heavy sleet
             case 317:   // Light sleet
-                return WEATHER_ICON.SLEET;
+                return WEATHER_ICON.HEAVY_HAIL;
             case 359:   // Torrential rain shower
             case 356:   // Moderate or heavy rain shower
-                return WEATHER_ICON.SHOWERS;
+                return WEATHER_ICON.SHOWER_RAIN;
             case 353:  // Light rain shower
-                return WEATHER_ICON.SHOWERS;
+                return WEATHER_ICON.SHOWER_RAIN;
             case 314:   // Moderate or Heavy freezing rain
             case 311:   // Light freezing rain
                 return WEATHER_ICON.COLD;
@@ -122,20 +122,20 @@ class Util {
             case 296:   // Light rain
             case 293:   // Patchy light rain
             case 176:   // Patchy rain nearby
-                return WEATHER_ICON.RAIN_LIGHT;
+                return WEATHER_ICON.LIGHT_RAIN;
             case 284:   // Heavy freezing drizzle
             case 281:   // Freezing drizzle
             case 185:   // Patchy freezing drizzle nearby
                 return WEATHER_ICON.COLD;
             case 266:   // Light drizzle
             case 263:   // Patchy light drizzle
-                return WEATHER_ICON.SHOWERS;
+                return WEATHER_ICON.SHOWER_RAIN;
             case 260:   // Freezing fog
             case 248:   // fog
             case 143:   // Mist
                 return WEATHER_ICON.FOG;
             case 200:   // Thundery outbreaks in nearby
-                return isDay ? WEATHER_ICON.THUNDERSTORM_DAY : WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return isDay ? WEATHER_ICON.THUNDERSTORM_WITH_RAIN_DAY : WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
 
             case 122:   // Overcast
                 return isDay ? WEATHER_ICON.MOSTLY_CLOUDY_DAY : WEATHER_ICON.MOSTLY_CLOUDY_NIGHT;
@@ -148,7 +148,7 @@ class Util {
                     return WEATHER_ICON.MOSTLY_CLOUDY_NIGHT;
             case 113:  // Clear/Sunny
                 if (isDay)
-                    return WEATHER_ICON.SUNNY;
+                    return WEATHER_ICON.CLEAR_DAY;
                 else
                     return WEATHER_ICON.CLEAR_NIGHT;
 

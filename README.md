@@ -1,6 +1,6 @@
 # MT Weather Library
-#### An android library for request weather from multi provider
-*For testing library, please have a look at the Demo Project (demo) or download apk file from [here](https://github.com/SaeedMotedaveli/android-weather-library/releases/download/beta-01/android-weather-library-demo.apk).*
+#### An android library for request weather from different providers
+*For testing library, please have a look at the Demo Project (demo) or download apk file from [here](https://github.com/SaeedMotedaveli/android-weather-library/releases).*
 
 <img src="/assets/demo-preview.png" />
 
@@ -23,13 +23,13 @@
    }
    ```
 
-2. Use default Configure:
+2. Use default Configuration:
 
    ```java
    WeatherConfig config = WeatherConfig.create();
    ```
 
-   Or create your configure:
+   Or create your configuration:
 
    ```java
    String language = "en";   // Language of weather data

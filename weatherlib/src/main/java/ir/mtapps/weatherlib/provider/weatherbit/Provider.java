@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import androidx.annotation.NonNull;
 import ir.mtapps.weatherlib.database.Cache;
+import ir.mtapps.weatherlib.errors.Error;
 import ir.mtapps.weatherlib.interfaces.AllWeatherListener;
 import ir.mtapps.weatherlib.interfaces.AstronomyListener;
 import ir.mtapps.weatherlib.interfaces.CurrentWeatherListener;
@@ -19,7 +20,7 @@ public final class Provider extends WeatherProvider {
     private final static String URL_HOURLY = BASE_URL + "forecast/hourly?key={key}&lang={lang}&lat={lat}&lon={lng}";
     private final static String URL_DAILY = BASE_URL + "forecast/daily?key={key}&lang={lang}&lat={lat}&lon={lng}";
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Override
     public void allWeather(@NonNull String json, String geo, AllWeatherListener listener) {}
@@ -71,7 +72,12 @@ public final class Provider extends WeatherProvider {
 
         HourlyWeatherModel model = gson.fromJson(json, HourlyWeatherModel.class);
 
-        listener.onSuccessful(model.getCity(), model.createModel(getContext(), getParams().config));
+        if (model.error == null) {
+            listener.onSuccessful(model.getCity(), model.createModel(getContext(), getParams().config));
+        } else {
+            listener.onError(Error.PREMIUM_API_KEY_REQUIRE, model.error);
+        }
+
     }
 
     @Override
@@ -212,5 +218,4 @@ public final class Provider extends WeatherProvider {
         return cache;
 
     }
-
 }

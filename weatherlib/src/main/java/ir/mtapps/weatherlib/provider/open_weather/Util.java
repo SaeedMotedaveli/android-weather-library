@@ -12,39 +12,55 @@ import ir.mtapps.weatherlib.enums.WEATHER_ICON;
 class Util {
 
     private static final String[] SUPPORTED_LANGUAGE = {
-            "ar", //Arabic
+            "af", // Afrikaans
+            "al", // Albanian
+            "ar", // Arabic
+            "az", // Azerbaijani
             "bg", // Bulgarian
             "ca", // Catalan
             "cz", // Czech
+            "da", // Danish
             "de", // German
             "el", // Greek
             "en", // English
+            "eu", // Basque
             "fa", // Persian (Farsi)
             "fi", // Finnish
             "fr", // French
             "gl", // Galician
+            "he", // Hebrew
+            "hi", // Hindi
             "hr", // Croatian
             "hu", // Hungarian
+            "id", // Indonesian
             "it", // Italian
             "ja", // Japanese
             "kr", // Korean
             "la", // Latvian
             "lt", // Lithuanian
             "mk", // Macedonian
+            "no", // Norwegian
             "nl", // Dutch
             "pl", // Polish
             "pt", // Portuguese
+            "pt_br", // Português Brasil
             "ro", // Romanian
             "ru", // Russian
             "se", // Swedish
+            "sv", // Swedish
             "sk", // Slovak
             "sl", // Slovenian
             "es", // Spanish
+            "sp", // Spanish
+            "sr", // Serbian
+            "th", // Thai
             "tr", // Turkish
             "ua", // Ukrainian
+            "uk", // Ukrainian
             "vi", // Vietnamese
             "zh_cn", // Chinese Simplified
-            "zh_tw" // Chinese Traditional
+            "zh_tw", // Chinese Traditional
+            "zu" // Zulu
     };
 
     static String getLanguageForUrl(String language) {
@@ -63,7 +79,7 @@ class Util {
             case 200:
             case 201:
             case 202:
-                return isDay ? WEATHER_ICON.THUNDERSTORM_DAY : WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return isDay ? WEATHER_ICON.THUNDERSTORM_WITH_RAIN_DAY : WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
             case 210:
                 return WEATHER_ICON.THUNDERSTORM;
             case 211:
@@ -75,7 +91,7 @@ class Util {
             case 230:
             case 231:
             case 232:
-                return isDay ? WEATHER_ICON.THUNDERSTORM_DAY : WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return isDay ? WEATHER_ICON.THUNDERSTORM_WITH_RAIN_DAY : WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
             case 300:
             case 301:
                 return WEATHER_ICON.RAIN;
@@ -87,7 +103,7 @@ class Util {
             case 310:
                 return WEATHER_ICON.RAIN_AND_SNOW;
             case 313:
-                return WEATHER_ICON.SHOWERS;
+                return WEATHER_ICON.SHOWER_RAIN;
             case 321:
                 return WEATHER_ICON.RAIN;
             case 500:
@@ -100,19 +116,19 @@ class Util {
             case 511:
                 return WEATHER_ICON.RAIN_AND_SNOW;
             case 520:
-                return WEATHER_ICON.SHOWERS;
+                return WEATHER_ICON.SHOWER_RAIN;
             case 521:
-                return WEATHER_ICON.SHOWERS;
+                return WEATHER_ICON.SHOWER_RAIN;
             case 522:
-                return WEATHER_ICON.SHOWERS;
+                return WEATHER_ICON.SHOWER_RAIN;
             case 531:
-                return isDay ? WEATHER_ICON.THUNDERSTORM_DAY : WEATHER_ICON.THUNDERSTORM_NIGHT;
+                return isDay ? WEATHER_ICON.THUNDERSTORM_WITH_RAIN_DAY : WEATHER_ICON.THUNDERSTORM_WITH_RAIN_NIGHT;
             case 600:
                 return WEATHER_ICON.SNOW;
             case 601:
                 return WEATHER_ICON.SNOW;
             case 602:
-                return WEATHER_ICON.SLEET;
+                return WEATHER_ICON.HAIL;
             case 611:
                 return WEATHER_ICON.RAIN_AND_SNOW;
             case 612:
@@ -128,7 +144,7 @@ class Util {
             case 622:
                 return WEATHER_ICON.SNOW;
             case 701:
-                return WEATHER_ICON.SHOWERS;
+                return WEATHER_ICON.SHOWER_RAIN;
             case 711:
                 return WEATHER_ICON.SMOKE;
             case 721:
@@ -142,17 +158,17 @@ class Util {
             case 762:
                 return WEATHER_ICON.DUST;
             case 771:
-                return WEATHER_ICON.CLOUDY_GUSTS;
+                return WEATHER_ICON.CLOUDY_WINDY;
             case 781:
                 return WEATHER_ICON.TORNADO;
             case 800:
-                return isDay ? WEATHER_ICON.SUNNY : WEATHER_ICON.CLEAR_NIGHT;
+                return isDay ? WEATHER_ICON.CLEAR_DAY : WEATHER_ICON.CLEAR_NIGHT;
             case 801:
-                return WEATHER_ICON.CLOUDY_GUSTS;
+                return WEATHER_ICON.CLOUDY_WINDY;
             case 802:
-                return WEATHER_ICON.CLOUDY_GUSTS;
+                return WEATHER_ICON.CLOUDY_WINDY;
             case 803:
-                return WEATHER_ICON.CLOUDY_GUSTS;
+                return WEATHER_ICON.CLOUDY_WINDY;
             case 804:
                 return isDay ? WEATHER_ICON.MOSTLY_CLOUDY_DAY : WEATHER_ICON.MOSTLY_CLOUDY_NIGHT;
             case 900:
@@ -160,7 +176,7 @@ class Util {
             case 901:
                 return WEATHER_ICON.THUNDERSTORM;
             case 902:
-                return WEATHER_ICON.HURRICANE;
+                return WEATHER_ICON.TORNADO;
             case 903:
                 return WEATHER_ICON.COLD;
             case 904:

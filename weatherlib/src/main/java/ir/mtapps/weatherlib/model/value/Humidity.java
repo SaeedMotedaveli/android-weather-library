@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class Humidity implements Parcelable {
 
-    private int value;
+    private final int value;
 
     public Humidity(int value) {
         this.value = value;

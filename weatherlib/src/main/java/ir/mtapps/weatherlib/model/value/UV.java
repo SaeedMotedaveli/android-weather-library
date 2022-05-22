@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class UV implements Parcelable {
     
-    private float value;
+    private final float value;
 
     public UV(float index) {
         this.value = index;

@@ -3,7 +3,7 @@ package ir.mtapps.weatherlib.enums;
 public enum AMOUNT {
     mm("mm"), inch("inches"), Cm("Cm");
 
-    private String str;
+    private final String str;
 
     AMOUNT(String str) {
         this.str = str;
