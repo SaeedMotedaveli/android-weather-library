@@ -24,10 +24,6 @@ android {
     }
 
     namespace 'ir.mtapps.weatherlib'
-
-    publishing {
-        singleVariant("release") {}
-    }
 }
 
 dependencies {
