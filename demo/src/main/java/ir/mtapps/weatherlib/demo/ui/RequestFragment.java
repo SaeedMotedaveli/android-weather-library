@@ -53,8 +53,6 @@ public class RequestFragment extends Fragment {
     private static final String PREF_LATITUDE = "latitude";
     private static final String PREF_LONGITUDE = "longitude";
 
-    private final static int PERMISSION_REQUEST_CODE = 12345;
-
     private SharedPreferences mPref;
 
     private PageViewModel mPageViewModel;
@@ -303,18 +301,14 @@ public class RequestFragment extends Fragment {
         binding.switchUseGps.setOnCheckedChangeListener((buttonView, isChecked) -> {
             useGps = isChecked;
 
-            if (isChecked) {
+            binding.etLatitude.setEnabled(!isChecked);
+            binding.etLongitude.setEnabled(!isChecked);
 
+            if (isChecked) {
                 if (!isLocationPermissionGranted()) {
                     requestPermissions();
                     return;
                 }
-
-                binding.etLatitude.setEnabled(false);
-                binding.etLongitude.setEnabled(false);
-            } else {
-                binding.etLatitude.setEnabled(true);
-                binding.etLongitude.setEnabled(true);
             }
         });
 
@@ -424,12 +418,10 @@ public class RequestFragment extends Fragment {
         WeatherConfig config = WeatherConfig.edit()
                 .language(language)
                 .unitSystem(unit_system)
-                .disableCache()
                 .create();
 
         // Create weather client
         WeatherClient.Builder builder = new WeatherClient.Builder()
-                .attach(getActivity())
                 .config(config)
                 .provider(mProvider)
                 .apiKey(apiKey);
@@ -495,7 +487,6 @@ public class RequestFragment extends Fragment {
         WeatherConfig config = WeatherConfig.edit()
                 .language(language)
                 .unitSystem(unit_system)
-                .disableCache()
                 .validRadiusOfAirQuality(100)
                 .create();
 
@@ -521,7 +512,7 @@ public class RequestFragment extends Fragment {
             return;
         }
 
-        mWeatherClient.currentCondition(new CurrentWeatherListener() {
+        mWeatherClient.currentCondition(getContext(), new CurrentWeatherListener() {
             @Override
             public void onSuccessful(City city, CurrentWeather weather) {
                 mPageViewModel.setCity(city);
@@ -530,7 +521,7 @@ public class RequestFragment extends Fragment {
             }
 
             @Override
-            public void onError(int code, String message) {
+            public void onFailure(int code, String message) {
                 mPageViewModel.setError(message);
                 showProgressView(false);
             }
@@ -546,7 +537,7 @@ public class RequestFragment extends Fragment {
             return;
         }
 
-        mWeatherClient.todayAstronomy(new AstronomyListener() {
+        mWeatherClient.todayAstronomy(getContext(), new AstronomyListener() {
             @Override
             public void onSuccessful(City city, Astronomy astronomy) {
                 mPageViewModel.setCity(city);
@@ -555,7 +546,7 @@ public class RequestFragment extends Fragment {
             }
 
             @Override
-            public void onError(int code, String message) {
+            public void onFailure(int code, String message) {
                 mPageViewModel.setError(message);
                 showProgressView(false);
             }
@@ -571,7 +562,7 @@ public class RequestFragment extends Fragment {
             return;
         }
 
-        mWeatherClient.hourlyWeather(new HourlyWeatherListener() {
+        mWeatherClient.hourlyWeather(getContext(), new HourlyWeatherListener() {
             @Override
             public void onSuccessful(City city, List<HourlyWeather> hourlyWeatherList) {
                 mPageViewModel.setCity(city);
@@ -580,7 +571,7 @@ public class RequestFragment extends Fragment {
             }
 
             @Override
-            public void onError(int code, String message) {
+            public void onFailure(int code, String message) {
                 mPageViewModel.setError(message);
                 showProgressView(false);
             }
@@ -596,7 +587,7 @@ public class RequestFragment extends Fragment {
             return;
         }
 
-        mWeatherClient.dailyWeather(new DailyWeatherListener() {
+        mWeatherClient.dailyWeather(getContext(), new DailyWeatherListener() {
             @Override
             public void onSuccessful(City city, List<DailyWeather> dailyWeatherList) {
                 mPageViewModel.setCity(city);
@@ -605,7 +596,7 @@ public class RequestFragment extends Fragment {
             }
 
             @Override
-            public void onError(int code, String message) {
+            public void onFailure(int code, String message) {
                 mPageViewModel.setError(message);
                 showProgressView(false);
             }
@@ -621,7 +612,7 @@ public class RequestFragment extends Fragment {
             return;
         }
 
-        mWeatherClient.allWeather(new AllWeatherListener() {
+        mWeatherClient.allWeather(getContext(), new AllWeatherListener() {
             @Override
             public void onSuccessful(City city,
                                      CurrentWeather weather,
@@ -637,7 +628,7 @@ public class RequestFragment extends Fragment {
             }
 
             @Override
-            public void onError(int code, String message) {
+            public void onFailure(int code, String message) {
                 mPageViewModel.setError(message);
                 showProgressView(false);
             }
@@ -661,7 +652,7 @@ public class RequestFragment extends Fragment {
             }
 
             @Override
-            public void onError(int code, String message) {
+            public void onFailure(int code, String message) {
                 mPageViewModel.setError(message);
                 showProgressView(false);
             }
@@ -759,32 +750,7 @@ public class RequestFragment extends Fragment {
         final String fineLocation = Manifest.permission.ACCESS_FINE_LOCATION;
         final String coarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION;
         final String[] permissions = new String[]{fineLocation, coarseLocation};
-
-        // Request Permissions
-//        requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-
         launcher.launch(permissions);
     }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//        if (requestCode == PERMISSION_REQUEST_CODE) {
-//
-//            // Check for request result
-//            boolean isLocationPermissionsGranted = false;
-//
-//            for (int result : grantResults) {
-//                isLocationPermissionsGranted = result == PackageManager.PERMISSION_GRANTED;
-//            }
-//
-//            if (!isLocationPermissionsGranted) {
-//                useGps = false;
-//                binding.switchUseGps.setChecked(false);
-//            }
-//
-//        }
-//    }
 
 }

@@ -1,5 +1,5 @@
 package ir.mtapps.weatherlib.interfaces;
 
 public interface WeatherListener {
-    void onError(int code, String message);
+    void onFailure(int code, String message);
 }

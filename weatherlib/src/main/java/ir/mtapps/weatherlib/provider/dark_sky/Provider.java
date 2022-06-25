@@ -1,9 +1,12 @@
 package ir.mtapps.weatherlib.provider.dark_sky;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import androidx.annotation.NonNull;
-import ir.mtapps.weatherlib.database.Cache;
+
 import ir.mtapps.weatherlib.interfaces.AllWeatherListener;
 import ir.mtapps.weatherlib.interfaces.AstronomyListener;
 import ir.mtapps.weatherlib.interfaces.CurrentWeatherListener;
@@ -18,37 +21,49 @@ public final class Provider extends WeatherProvider {
     private final Gson gson = new Gson();
 
     @Override
-    public void allWeather(@NonNull String json, String geo, AllWeatherListener listener) {
+    public void allWeather(@NonNull Context context,
+                           @NonNull String json,
+                           String geo,
+                           @NonNull AllWeatherListener listener) {
 
         AllWeatherModel model = gson.fromJson(json, AllWeatherModel.class);
 
         listener.onSuccessful(model.getCity(),
-                model.createCurrentWeatherModel(getContext(), getParams().config),
+                model.createCurrentWeatherModel(context, getParams().config),
                 model.createTodayAstronomyModel(),
-                model.createHourlyModel(getContext(), getParams().config),
-                model.createDailyModel(getContext(), getParams().config));
+                model.createHourlyModel(context, getParams().config),
+                model.createDailyModel(context, getParams().config));
 
     }
 
     @Override
-    public void allWeather(@NonNull String currently,
+    public void allWeather(@NonNull Context context,
+                           @NonNull String currently,
                            @NonNull String hourly,
                            @NonNull String daily,
                            String geo,
-                           AllWeatherListener listener) {}
+                           @NonNull AllWeatherListener listener) {}
 
 
     @Override
-    public void currentCondition(@NonNull String json, String geo, CurrentWeatherListener listener) {
+    public void currentCondition(@NonNull Context context,
+                                 @NonNull String json,
+                                 String geo,
+                                 @NonNull CurrentWeatherListener listener) {
 
         CurrentWeatherModel model = gson.fromJson(json, CurrentWeatherModel.class);
 
-        listener.onSuccessful(model.getCity(), model.createModel(getContext(), getParams().config));
+        Log.i("weather", "temp: " + model.currently.summary);
+
+        listener.onSuccessful(model.getCity(), model.createModel(context, getParams().config));
 
     }
 
     @Override
-    public void todayAstronomy(@NonNull String json, String geo, AstronomyListener listener) {
+    public void todayAstronomy(@NonNull Context context,
+                               @NonNull String json,
+                               String geo,
+                               @NonNull AstronomyListener listener) {
 
         AstronomyModel model = gson.fromJson(json, AstronomyModel.class);
 
@@ -57,19 +72,25 @@ public final class Provider extends WeatherProvider {
     }
 
     @Override
-    public void hourlyWeather(@NonNull String json, String geo, HourlyWeatherListener listener) {
+    public void hourlyWeather(@NonNull Context context,
+                              @NonNull String json,
+                              String geo,
+                              @NonNull HourlyWeatherListener listener) {
 
         HourlyWeatherModel model = gson.fromJson(json, HourlyWeatherModel.class);
 
-        listener.onSuccessful(model.getCity(), model.createModel(getContext(), getParams().config));
+        listener.onSuccessful(model.getCity(), model.createModel(context, getParams().config));
     }
 
     @Override
-    public void dailyWeather(@NonNull String json, String geo, DailyWeatherListener listener) {
+    public void dailyWeather(@NonNull Context context,
+                             @NonNull String json,
+                             String geo,
+                             @NonNull DailyWeatherListener listener) {
 
         DailyWeatherModel model = gson.fromJson(json, DailyWeatherModel.class);
 
-        listener.onSuccessful(model.getCity(), model.createModel(getContext(), getParams().config));
+        listener.onSuccessful(model.getCity(), model.createModel(context, getParams().config));
 
     }
 
@@ -83,39 +104,6 @@ public final class Provider extends WeatherProvider {
         url = url.replace("{lang}", Util.getLanguageForUrl(getParams().config.getLanguage()));
 
         return url;
-    }
-
-    @Override
-    public String getJsonFromCache(Cache cache, URL urlType) {
-
-        if (cache != null && cache.getWeatherCache() != null) {
-
-            long current = System.currentTimeMillis();
-            long cacheUpdatedTime = cache.getWeatherCache().getUpdatedAt();
-            long diffs = current - cacheUpdatedTime;
-
-            if (diffs <= getParams().config.getCacheValidity()) {
-
-                return cache.getWeatherCache().getCache();
-
-            }
-
-        }
-
-        return null;
-    }
-
-    @NonNull
-    @Override
-    public Cache updateCache(@NonNull Cache cache, @NonNull URL urlType, @NonNull String json) {
-
-        if (urlType == URL.GEO) {
-            cache.setGeoCache(json, System.currentTimeMillis());
-        } else {
-            cache.setWeatherCache(json, System.currentTimeMillis());
-        }
-
-        return cache;
     }
 
     @Override

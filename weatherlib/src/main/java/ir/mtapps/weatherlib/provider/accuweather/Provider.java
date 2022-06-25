@@ -1,5 +1,7 @@
 package ir.mtapps.weatherlib.provider.accuweather;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -9,7 +11,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import ir.mtapps.weatherlib.R;
-import ir.mtapps.weatherlib.database.Cache;
 import ir.mtapps.weatherlib.errors.Error;
 import ir.mtapps.weatherlib.interfaces.AllWeatherListener;
 import ir.mtapps.weatherlib.interfaces.AstronomyListener;
@@ -31,14 +32,15 @@ public final class Provider extends WeatherProvider {
     private final Gson gson = new Gson();
 
     @Override
-    public void allWeather(@NonNull String json, String geo, AllWeatherListener listener) {}
+    public void allWeather(@NonNull Context context, @NonNull String json, String geo, @NonNull AllWeatherListener listener) {}
 
     @Override
-    public void allWeather(@NonNull String currently,
+    public void allWeather(@NonNull Context context,
+                           @NonNull String currently,
                            @NonNull String hourly,
                            @NonNull String daily,
                            String geo,
-                           AllWeatherListener listener) {
+                           @NonNull AllWeatherListener listener) {
 
         // Current Weather
         Type currentlyListType = new TypeToken<List<CurrentWeatherModel>>() {}.getType();
@@ -46,7 +48,7 @@ public final class Provider extends WeatherProvider {
 
         // Check for not null model
         if (currentlyModelList == null || currentlyModelList.isEmpty()) {
-            listener.onError(Error.RESPONSE_IS_NULL, getResources().getString(R.string.error_response_is_null));
+            listener.onFailure(Error.RESPONSE_IS_NULL, getResources(context).getString(R.string.error_response_is_null));
             return;
         }
 
@@ -56,7 +58,7 @@ public final class Provider extends WeatherProvider {
 
         // Check for not null model
         if (hourlyModelList == null || hourlyModelList.isEmpty()) {
-            listener.onError(Error.RESPONSE_IS_NULL, getResources().getString(R.string.error_response_is_null));
+            listener.onFailure(Error.RESPONSE_IS_NULL, getResources(context).getString(R.string.error_response_is_null));
             return;
         }
 
@@ -77,7 +79,7 @@ public final class Provider extends WeatherProvider {
                 break;
             }
 
-            hourlyWeatherList.add(hourlyItem.createModel(getContext(), getParams().config));
+            hourlyWeatherList.add(hourlyItem.createModel(context, getParams().config));
 
             count += 1;
         }
@@ -90,15 +92,18 @@ public final class Provider extends WeatherProvider {
 
         // Pass data
         listener.onSuccessful(geoPositionModel.getCity(),
-                currentlyModelList.get(0).createModel(getContext(), getParams().config),
+                currentlyModelList.get(0).createModel(context, getParams().config),
                 dailyModel.createAstronomyModel(),
                 hourlyWeatherList,
-                dailyModel.createModel(getContext(), getParams().config));
+                dailyModel.createModel(context, getParams().config));
     }
 
 
     @Override
-    public void currentCondition(@NonNull String json, String geo, CurrentWeatherListener listener) {
+    public void currentCondition(@NonNull Context context,
+                                 @NonNull String json,
+                                 String geo,
+                                 @NonNull CurrentWeatherListener listener) {
 
         // Current Weather
         Type listType = new TypeToken<List<CurrentWeatherModel>>() {}.getType();
@@ -106,7 +111,7 @@ public final class Provider extends WeatherProvider {
 
         // Check for not null model
         if (modelList == null || modelList.isEmpty()) {
-            listener.onError(Error.RESPONSE_IS_NULL, getResources().getString(R.string.error_response_is_null));
+            listener.onFailure(Error.RESPONSE_IS_NULL, getResources(context).getString(R.string.error_response_is_null));
             return;
         }
 
@@ -115,12 +120,15 @@ public final class Provider extends WeatherProvider {
 
         // Pass data
         listener.onSuccessful(geoPositionModel.getCity(),
-                modelList.get(0).createModel(getContext(), getParams().config));
+                modelList.get(0).createModel(context, getParams().config));
 
     }
 
     @Override
-    public void todayAstronomy(@NonNull String json, String geo, AstronomyListener listener) {
+    public void todayAstronomy(@NonNull Context context,
+                               @NonNull String json,
+                               String geo,
+                               @NonNull AstronomyListener listener) {
 
         AstronomyModel model = gson.fromJson(json, AstronomyModel.class);
 
@@ -130,7 +138,10 @@ public final class Provider extends WeatherProvider {
     }
 
     @Override
-    public void hourlyWeather(@NonNull String json, String geo, HourlyWeatherListener listener) {
+    public void hourlyWeather(@NonNull Context context,
+                              @NonNull String json,
+                              String geo,
+                              @NonNull HourlyWeatherListener listener) {
 
         // Parsing Hourly weather json response
         Type listType = new TypeToken<List<HourlyWeatherModel>>() {}.getType();
@@ -138,7 +149,7 @@ public final class Provider extends WeatherProvider {
 
         // Check for not null model
         if (modelList == null || modelList.isEmpty()) {
-            listener.onError(Error.RESPONSE_IS_NULL, getResources().getString(R.string.error_response_is_null));
+            listener.onFailure(Error.RESPONSE_IS_NULL, getResources(context).getString(R.string.error_response_is_null));
             return;
         }
 
@@ -159,7 +170,7 @@ public final class Provider extends WeatherProvider {
                 break;
             }
 
-            weatherList.add(hourly.createModel(getContext(), getParams().config));
+            weatherList.add(hourly.createModel(context, getParams().config));
 
             count += 1;
         }
@@ -173,14 +184,17 @@ public final class Provider extends WeatherProvider {
     }
 
     @Override
-    public void dailyWeather(@NonNull String json, String geo, DailyWeatherListener listener) {
+    public void dailyWeather(@NonNull Context context,
+                             @NonNull String json,
+                             String geo,
+                             @NonNull DailyWeatherListener listener) {
 
         DailyWeatherModel model = gson.fromJson(json, DailyWeatherModel.class);
 
         // Geo Location
         GeoPositionModel geoPositionModel = gson.fromJson(geo, GeoPositionModel.class);
 
-        listener.onSuccessful(geoPositionModel.getCity(), model.createModel(getContext(), getParams().config));
+        listener.onSuccessful(geoPositionModel.getCity(), model.createModel(context, getParams().config));
 
     }
 
@@ -256,101 +270,6 @@ public final class Provider extends WeatherProvider {
         }
 
         return url;
-    }
-
-    @Override
-    public String getJsonFromCache(Cache cache, URL urlType) {
-
-        if (cache == null) {
-            return null;
-        }
-
-        String json = null;
-        long cacheUpdatedTime = 0;
-
-        switch (urlType) {
-
-            case GEO:
-
-                if (cache.getGeoCache() != null) {
-                    json = cache.getGeoCache().getCache();
-                    cacheUpdatedTime = cache.getGeoCache().getUpdatedAt();
-                }
-
-                break;
-
-            case CURRENTLY:
-
-                if (cache.getWeatherCache() != null) {
-                    json = cache.getWeatherCache().getCache();
-                    cacheUpdatedTime = cache.getWeatherCache().getUpdatedAt();
-                }
-
-                break;
-
-            case HOURLY:
-
-                if (cache.getHourlyWeatherCache() != null) {
-                    json = cache.getHourlyWeatherCache().getCache();
-                    cacheUpdatedTime = cache.getHourlyWeatherCache().getUpdatedAt();
-                }
-
-                break;
-
-            case ASTRONOMY:
-            case DAILY:
-
-                if (cache.getDailyWeatherCache() != null) {
-                    json = cache.getDailyWeatherCache().getCache();
-                    cacheUpdatedTime = cache.getDailyWeatherCache().getUpdatedAt();
-                }
-
-                break;
-
-        }
-
-        if (json != null && !json.isEmpty()) {
-
-            long current = System.currentTimeMillis();
-            long diffs = current - cacheUpdatedTime;
-
-            if (diffs <= getParams().config.getCacheValidity()) {
-
-                return json;
-
-            }
-
-        }
-
-        return null;
-    }
-
-    @NonNull
-    @Override
-    public Cache updateCache(@NonNull Cache cache, @NonNull URL urlType, @NonNull String json) {
-
-        switch (urlType) {
-
-            case GEO:
-                cache.setGeoCache(json, System.currentTimeMillis());
-                break;
-
-            case CURRENTLY:
-                cache.setWeatherCache(json, System.currentTimeMillis());
-                break;
-
-            case HOURLY:
-                cache.setHourlyWeatherCache(json, System.currentTimeMillis());
-                break;
-
-            case ASTRONOMY:
-            case DAILY:
-                cache.setDailyWeatherCache(json, System.currentTimeMillis());
-                break;
-
-        }
-
-        return cache;
     }
 
     @Override

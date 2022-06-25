@@ -4,29 +4,23 @@ import static ir.mtapps.weatherlib.Loging.log_e;
 import static ir.mtapps.weatherlib.Loging.log_e_debug;
 import static ir.mtapps.weatherlib.Loging.log_i_debug;
 import static ir.mtapps.weatherlib.Loging.log_v_debug;
-import static ir.mtapps.weatherlib.Loging.log_w_debug;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.location.Location;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.room.Room;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.Locale;
 
-import ir.mtapps.weatherlib.database.Cache;
-import ir.mtapps.weatherlib.database.Database;
 import ir.mtapps.weatherlib.enums.PROVIDER;
 import ir.mtapps.weatherlib.errors.Error;
 import ir.mtapps.weatherlib.interfaces.AllWeatherListener;
@@ -39,55 +33,39 @@ import ir.mtapps.weatherlib.provider.WeatherProvider;
 
 class HttpClient extends WeatherClient {
 
-    private final static String CACHE_DATABASE_NAME = "wcache";
-
-    private abstract static class JsonResponseListener {
-        abstract void onSuccessful(@NonNull String json, @Nullable String geo);
-
-        abstract void onError(int code, String message);
-
-        void onAllReceive(String geo, String currently, String hourly, String daily) {
-        }
+    private interface JsonResponseListener {
+        void onSuccessful(@NonNull String json, @Nullable String geo);
+        void onError(int code, String message);
+        default void onAllReceive(String geo, String currently, String hourly, String daily) {}
     }
 
-
-    private static HttpClient mClient = null;
+    private static HttpClient mClient;
 
     // Weather Provider
     private WeatherProvider mWeatherProvider = null;
 
-    // Cache database
-    private Database db;
-    private Cache mCache = null;
-
     // Values
-    private Context mContext;
-    private PROVIDER mProviderType;
     private boolean mUseAutoCoordinate;
 
     private WeatherProvider.Params mParams;
 
-    static HttpClient getInstance(Context context,
-                                  PROVIDER provider,
+    static HttpClient getInstance(PROVIDER provider,
                                   boolean autoCoordinate,
                                   WeatherProvider.Params params) {
+
         if (mClient == null) {
             mClient = new HttpClient();
         }
 
-        mClient.init(context, provider, autoCoordinate, params);
+        mClient.init(provider, autoCoordinate, params);
 
         return mClient;
-
     }
 
-    private void init(Context context,
-                      PROVIDER provider,
+    private void init(PROVIDER provider,
                       boolean autoCoordinate,
                       WeatherProvider.Params params) {
 
-        mProviderType = provider;
-        mContext = context.getApplicationContext();
         mUseAutoCoordinate = autoCoordinate;
         mParams = params;
 
@@ -128,10 +106,7 @@ class HttpClient extends WeatherClient {
                 mWeatherProvider = new ir.mtapps.weatherlib.provider.open_weather.Provider();
         }
 
-        mWeatherProvider.setContext(mContext);
         mWeatherProvider.setParams(params);
-
-        mCache = null;
     }
 
 
@@ -140,27 +115,27 @@ class HttpClient extends WeatherClient {
     // ********************************************************************************************
 
     @Override
-    public void allWeather(@NonNull final AllWeatherListener listener) {
+    public void allWeather(@NonNull Context context, @NonNull final AllWeatherListener listener) {
 
-        getJson(WeatherProvider.URL.ALL, new JsonResponseListener() {
+        getJson(context, WeatherProvider.URL.ALL, new JsonResponseListener() {
             @Override
             public void onSuccessful(@NonNull String json, String geo) {
 
-                mWeatherProvider.allWeather(json, geo, listener);
+                mWeatherProvider.allWeather(context, json, geo, listener);
 
             }
 
             @Override
-            void onAllReceive(String geo, String currently, String hourly, String daily) {
+            public void onAllReceive(String geo, String currently, String hourly, String daily) {
 
-                mWeatherProvider.allWeather(currently, hourly, daily, geo, listener);
+                mWeatherProvider.allWeather(context, currently, hourly, daily, geo, listener);
 
             }
 
             @Override
             public void onError(int code, String message) {
 
-                listener.onError(code, message);
+                listener.onFailure(code, message);
 
             }
         });
@@ -168,20 +143,20 @@ class HttpClient extends WeatherClient {
     }
 
     @Override
-    public void currentCondition(@NonNull final CurrentWeatherListener listener) {
+    public void currentCondition(@NonNull Context context, @NonNull final CurrentWeatherListener listener) {
 
-        getJson(WeatherProvider.URL.CURRENTLY, new JsonResponseListener() {
+        getJson(context, WeatherProvider.URL.CURRENTLY, new JsonResponseListener() {
             @Override
             public void onSuccessful(@NonNull String json, String geo) {
 
-                mWeatherProvider.currentCondition(json, geo, listener);
+                mWeatherProvider.currentCondition(context, json, geo, listener);
 
             }
 
             @Override
             public void onError(int code, String message) {
 
-                listener.onError(code, message);
+                listener.onFailure(code, message);
 
             }
         });
@@ -189,20 +164,20 @@ class HttpClient extends WeatherClient {
     }
 
     @Override
-    public void todayAstronomy(@NonNull final AstronomyListener listener) {
+    public void todayAstronomy(@NonNull Context context, @NonNull final AstronomyListener listener) {
 
-        getJson(WeatherProvider.URL.ASTRONOMY, new JsonResponseListener() {
+        getJson(context, WeatherProvider.URL.ASTRONOMY, new JsonResponseListener() {
             @Override
             public void onSuccessful(@NonNull String json, String geo) {
 
-                mWeatherProvider.todayAstronomy(json, geo, listener);
+                mWeatherProvider.todayAstronomy(context, json, geo, listener);
 
             }
 
             @Override
             public void onError(int code, String message) {
 
-                listener.onError(code, message);
+                listener.onFailure(code, message);
 
             }
         });
@@ -210,20 +185,20 @@ class HttpClient extends WeatherClient {
     }
 
     @Override
-    public void hourlyWeather(@NonNull final HourlyWeatherListener listener) {
+    public void hourlyWeather(@NonNull Context context, @NonNull final HourlyWeatherListener listener) {
 
-        getJson(WeatherProvider.URL.HOURLY, new JsonResponseListener() {
+        getJson(context, WeatherProvider.URL.HOURLY, new JsonResponseListener() {
             @Override
             public void onSuccessful(@NonNull String json, String geo) {
 
-                mWeatherProvider.hourlyWeather(json, geo, listener);
+                mWeatherProvider.hourlyWeather(context, json, geo, listener);
 
             }
 
             @Override
             public void onError(int code, String message) {
 
-                listener.onError(code, message);
+                listener.onFailure(code, message);
 
             }
         });
@@ -231,20 +206,20 @@ class HttpClient extends WeatherClient {
     }
 
     @Override
-    public void dailyWeather(@NonNull final DailyWeatherListener listener) {
+    public void dailyWeather(@NonNull Context context, @NonNull final DailyWeatherListener listener) {
 
-        getJson(WeatherProvider.URL.DAILY, new JsonResponseListener() {
+        getJson(context, WeatherProvider.URL.DAILY, new JsonResponseListener() {
             @Override
             public void onSuccessful(@NonNull String json, String geo) {
 
-                mWeatherProvider.dailyWeather(json, geo, listener);
+                mWeatherProvider.dailyWeather(context, json, geo, listener);
 
             }
 
             @Override
             public void onError(int code, String message) {
 
-                listener.onError(code, message);
+                listener.onFailure(code, message);
 
             }
         });
@@ -257,7 +232,7 @@ class HttpClient extends WeatherClient {
 
     // STEP 1: Check for user location
 
-    private void getJson(final WeatherProvider.URL urlType, final JsonResponseListener listener) {
+    private void getJson(Context context, final WeatherProvider.URL urlType, final JsonResponseListener listener) {
 
         log_v_debug("Start getting json...");
 
@@ -265,7 +240,7 @@ class HttpClient extends WeatherClient {
 
             log_e("API key is null.");
 
-            Resources resources = Util.getLocalizedResources(mContext, new Locale(mParams.config.getLanguage()));
+            Resources resources = Util.getLocalizedResources(context, new Locale(mParams.config.getLanguage()));
             listener.onError(Error.API_KEY_REQUIRE, resources.getString(R.string.error_api_key_required));
             return;
         }
@@ -276,12 +251,12 @@ class HttpClient extends WeatherClient {
             log_v_debug("Use gps to get data form provider...");
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                    && mContext.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && mContext.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    && context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
                 log_e("Location permission denied.");
 
-                Resources resources = Util.getLocalizedResources(mContext, new Locale(mParams.config.getLanguage()));
+                Resources resources = Util.getLocalizedResources(context, new Locale(mParams.config.getLanguage()));
                 listener.onError(Error.LOCATION_PERMISSION_DENIED,
                         resources.getString(R.string.location_permission_denied));
                 return;
@@ -289,7 +264,7 @@ class HttpClient extends WeatherClient {
 
 
             FusedLocationProviderClient fusedLocationClient =
-                    LocationServices.getFusedLocationProviderClient(mContext);
+                    LocationServices.getFusedLocationProviderClient(context);
 
 
             fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
@@ -301,25 +276,25 @@ class HttpClient extends WeatherClient {
 
                             mWeatherProvider.setCoordinate(location.getLatitude(), location.getLongitude());
 
-                            checkForNeedGeoRequest(urlType, listener);
+                            checkForNeedGeoRequest(context, urlType, listener);
 
                         } else {
 
                             log_e("GPS location that received from getLastLocation() is null.");
 
-                            Resources resources = Util.getLocalizedResources(mContext, new Locale(mParams.config.getLanguage()));
+                            Resources resources = Util.getLocalizedResources(context, new Locale(mParams.config.getLanguage()));
                             listener.onError(Error.LOCATION_ERROR, resources.getString(R.string.error_location));
                         }
                     })
                     .addOnFailureListener(e -> {
                         log_e("GPS location failed.");
-                        Resources resources = Util.getLocalizedResources(mContext, new Locale(mParams.config.getLanguage()));
+                        Resources resources = Util.getLocalizedResources(context, new Locale(mParams.config.getLanguage()));
                         listener.onError(Error.LOCATION_ERROR, resources.getString(R.string.error_location));
                     });
 
         } else {
 
-            checkForNeedGeoRequest(urlType, listener);
+            checkForNeedGeoRequest(context, urlType, listener);
 
         }
 
@@ -327,42 +302,17 @@ class HttpClient extends WeatherClient {
 
     // STEP 2: Check for need geo
 
-    private void checkForNeedGeoRequest(WeatherProvider.URL urlType, JsonResponseListener listener) {
+    private void checkForNeedGeoRequest(Context context, WeatherProvider.URL urlType, JsonResponseListener listener) {
 
         if (mWeatherProvider.isGeoRequestRequired()) {
 
             log_v_debug("Provider api need geo key...");
 
-            if (mParams.config.isCacheEnable()) {
-
-                log_v_debug("Get geo key from cache...");
-
-                initCache();
-                String geo = mWeatherProvider.getJsonFromCache(mCache, WeatherProvider.URL.GEO);
-
-                if (geo != null) {
-
-                    log_i_debug("Geo key successfully received.");
-
-                    getJsonFromCacheOrServer(urlType, geo, listener);
-
-                } else {
-
-                    log_w_debug("Geo cache is null. Then geo will getting from server.");
-
-                    getGeo(urlType, listener);
-
-                }
-
-            } else {
-
-                getGeo(urlType, listener);
-
-            }
+            getGeo(context, urlType, listener);
 
         } else {
 
-            getJsonFromCacheOrServer(urlType, null, listener);
+            getJsonFromServer(context, urlType, null, listener);
 
         }
 
@@ -370,19 +320,19 @@ class HttpClient extends WeatherClient {
 
     // STEP 3: If geo required -> edit geo
 
-    private void getGeo(final WeatherProvider.URL urlType, final JsonResponseListener listener) {
+    private void getGeo(Context context, final WeatherProvider.URL urlType, final JsonResponseListener listener) {
 
         String geoUrl = mWeatherProvider.getUrl(WeatherProvider.URL.GEO);
 
         log_v_debug("Get geo from server: " + geoUrl);
 
-        sendRequest(WeatherProvider.URL.GEO, geoUrl, null, new JsonResponseListener() {
+        sendRequest(context, geoUrl, null, new JsonResponseListener() {
             @Override
             public void onSuccessful(@NonNull String geo, String ignore) {
 
                 log_i_debug("Geo received successfully from server.");
 
-                getJsonFromCacheOrServer(urlType, geo, listener);
+                getJsonFromServer(context, urlType, geo, listener);
 
             }
 
@@ -400,23 +350,25 @@ class HttpClient extends WeatherClient {
 
     // STEP 4: edit geo from cache or server
 
-    private void getJsonFromCacheOrServer(WeatherProvider.URL urlType,
-                                          String geo,
-                                          JsonResponseListener listener) {
+    private void getJsonFromServer(Context context,
+                                   WeatherProvider.URL urlType,
+                                   String geo,
+                                   JsonResponseListener listener) {
 
         log_v_debug("Get json from cache or server.");
 
         if (urlType == WeatherProvider.URL.ALL) {
-            getMultiJsonFromCacheOrServer(geo, listener);
+            getMultiJsonFromServer(context, geo, listener);
         } else {
-            getSingleJsonFromCacheOrServer(urlType, geo, listener);
+            getSingleJsonFromServer(context, urlType, geo, listener);
         }
 
     }
 
-    private void getSingleJsonFromCacheOrServer(WeatherProvider.URL urlType,
-                                                String geo,
-                                                JsonResponseListener listener) {
+    private void getSingleJsonFromServer(Context context,
+                                         WeatherProvider.URL urlType,
+                                         String geo,
+                                         JsonResponseListener listener) {
 
         String url;
 
@@ -426,44 +378,18 @@ class HttpClient extends WeatherClient {
             url = mWeatherProvider.getUrl(urlType);
         }
 
-        // Check and use cache
-        if (mParams.config.isCacheEnable()) {
-
-            log_v_debug("Get json from cache...");
-
-            initCache();
-            String json = mWeatherProvider.getJsonFromCache(mCache, urlType);
-
-            if (json != null) {
-
-                log_i_debug("Json getting from cache successfully.");
-
-                listener.onSuccessful(json, geo);
-
-            } else {
-
-                log_w_debug("Json that received from cache is null. Then edit it from server.");
-
-                sendRequest(urlType, url, geo, listener);
-
-            }
-
-        } else {
-
-            sendRequest(urlType, url, geo, listener);
-
-        }
-
+        sendRequest(context, url, geo, listener);
     }
 
-    private void getMultiJsonFromCacheOrServer(String geo,
-                                               final JsonResponseListener listener) {
+    private void getMultiJsonFromServer(Context context,
+                                        String geo,
+                                        final JsonResponseListener listener) {
 
         if (mWeatherProvider.isSupportAllInOneUrl()) {
 
             log_v_debug("---> SINGLE REQUEST <---");
 
-            getSingleJsonFromCacheOrServer(WeatherProvider.URL.CURRENTLY, geo, listener);
+            getSingleJsonFromServer(context, WeatherProvider.URL.CURRENTLY, geo, listener);
 
         } else {
 
@@ -483,59 +409,21 @@ class HttpClient extends WeatherClient {
                 dailyUrl = mWeatherProvider.getUrl(WeatherProvider.URL.DAILY);
             }
 
-            // Check and use cache
-            if (mParams.config.isCacheEnable()) {
-
-                log_v_debug("Get json from cache...");
-
-                initCache();
-                String currently = mWeatherProvider.getJsonFromCache(mCache, WeatherProvider.URL.CURRENTLY);
-                String hourly = mWeatherProvider.getJsonFromCache(mCache, WeatherProvider.URL.HOURLY);
-                String daily = mWeatherProvider.getJsonFromCache(mCache, WeatherProvider.URL.DAILY);
-
-                if (currently != null && hourly != null && daily != null) {
-
-                    log_i_debug("Json getting from cache successfully.");
-
-                    listener.onAllReceive(geo, currently, hourly, daily);
-
-                } else {
-
-                    log_w_debug("Json that received from cache is null. Then edit it from server.");
-
-                    sendMultiRequest(currentlyUrl, hourlyUrl, dailyUrl, geo, listener);
-
-                }
-
-            } else {
-
-                sendMultiRequest(currentlyUrl, hourlyUrl, dailyUrl, geo, listener);
-
-            }
-
+            sendMultiRequest(context, currentlyUrl, hourlyUrl, dailyUrl, geo, listener);
         }
 
     }
 
     // Send request by volley
 
-    private void sendRequest(WeatherProvider.URL urlType,
-                             String url,
-                             String geo,
-                             JsonResponseListener listener) {
-
-        sendRequest(urlType, url, geo, true, listener);
-    }
-
-    private void sendRequest(final WeatherProvider.URL urlType,
+    private void sendRequest(Context context,
                              String url,
                              final String geo,
-                             final boolean isGoodTimeForUpdatingCache,
                              final JsonResponseListener listener) {
 
         log_v_debug("Send request: " + url);
 
-        VolleySingletone volley = VolleySingletone.getInstance(mContext);
+        VolleySingletone volley = VolleySingletone.getInstance(context);
 
         // Cancel all previous requests
         volley.cancelAll();
@@ -545,7 +433,7 @@ class HttpClient extends WeatherClient {
 
                 response -> {
 
-                    ResponseResult result = mWeatherProvider.checkForJsonValidity(response);
+                    ResponseResult result = mWeatherProvider.checkForJsonValidity(context, response);
 
                     if (result.isSuccessful() && result.getCode() == 200) {
 
@@ -553,24 +441,6 @@ class HttpClient extends WeatherClient {
 
                         listener.onSuccessful(response, geo);
 
-                        // Save result to database
-                        if (mParams.config.isCacheEnable()) {
-
-                            if (mCache == null) {
-
-                                mCache = new Cache();
-                                mCache.setProvider(mProviderType);
-                                mCache.setCoordinate(mParams.latitude, mParams.longitude);
-
-                            }
-
-                            mCache = mWeatherProvider.updateCache(mCache, urlType, response);
-
-                            if (isGoodTimeForUpdatingCache) {
-                                updateCache();
-                            }
-
-                        }
                     } else {
 
                         log_e("result not successful.");
@@ -593,29 +463,30 @@ class HttpClient extends WeatherClient {
     }
 
     // Send multi request
-    private void sendMultiRequest(String currentlyUrl,
+    private void sendMultiRequest(Context context,
+                                  String currentlyUrl,
                                   final String hourlyUrl,
                                   final String dailyUrl,
                                   final String geo,
                                   final JsonResponseListener listener) {
 
-        sendRequest(WeatherProvider.URL.CURRENTLY, currentlyUrl, geo, false, new JsonResponseListener() {
+        sendRequest(context, currentlyUrl, geo, new JsonResponseListener() {
 
             @Override
-            void onSuccessful(@NonNull final String currently, @Nullable String geo) {
+            public void onSuccessful(@NonNull final String currently, @Nullable String geo) {
 
                 log_i_debug("Currently weather data received successfully.");
 
-                sendRequest(WeatherProvider.URL.HOURLY, hourlyUrl, geo, false, new JsonResponseListener() {
+                sendRequest(context, hourlyUrl, geo, new JsonResponseListener() {
 
                     @Override
-                    void onSuccessful(@NonNull final String hourly, @Nullable String geo) {
+                    public void onSuccessful(@NonNull final String hourly, @Nullable String geo) {
 
                         log_i_debug("Hourly weather data received successfully.");
 
-                        sendRequest(WeatherProvider.URL.DAILY, dailyUrl, geo, true, new JsonResponseListener() {
+                        sendRequest(context, dailyUrl, geo, new JsonResponseListener() {
                             @Override
-                            void onSuccessful(@NonNull String daily, @Nullable String geo) {
+                            public void onSuccessful(@NonNull String daily, @Nullable String geo) {
 
                                 log_i_debug("Daily weather data received successfully.");
 
@@ -624,7 +495,7 @@ class HttpClient extends WeatherClient {
                             }
 
                             @Override
-                            void onError(int code, String message) {
+                            public void onError(int code, String message) {
 
                                 log_e_debug("Error on getting daily weather data.");
                                 log_e(message);
@@ -637,7 +508,7 @@ class HttpClient extends WeatherClient {
                     }
 
                     @Override
-                    void onError(int code, String message) {
+                    public void onError(int code, String message) {
 
                         log_e_debug("Error on getting hourly weather data.");
                         log_e(message);
@@ -651,7 +522,7 @@ class HttpClient extends WeatherClient {
             }
 
             @Override
-            void onError(int code, String message) {
+            public void onError(int code, String message) {
 
                 log_e_debug("Error on getting currently weather data.");
                 log_e(message);
@@ -661,74 +532,5 @@ class HttpClient extends WeatherClient {
             }
 
         });
-    }
-
-    // ********************************************************************************************
-    // *                                Working with Cache                                        *
-    // ********************************************************************************************
-
-    private void initCache() {
-
-        if (mCache != null) {
-
-            log_i_debug("Cache already is initialized.");
-
-            return;
-        }
-
-        // Get an instance of database
-        if (db == null) {
-
-            log_v_debug("Database is null. Then it's must initialized.");
-
-            db = Room.databaseBuilder(mContext,
-                    Database.class, CACHE_DATABASE_NAME).allowMainThreadQueries().build();
-        }
-
-        log_v_debug("Initialize cache...");
-
-        // Get Cache
-        Cache[] cacheList = db.cacheDao().getCache(mProviderType.toString(), mParams.latitude, mParams.longitude);
-
-        mCache = cacheList.length > 0 ? cacheList[0] : null;
-
-        if (mCache == null) {
-            log_e_debug("Unfortunately cache is null.");
-        } else {
-            log_i_debug("Cache initialized successfully.");
-        }
-
-    }
-
-    private void updateCache() {
-
-        if (mCache == null) {
-
-            log_e_debug("Cache is null so it's cant be inserted or updated into database.");
-
-            return;
-        }
-
-        // Get an instance of database
-        if (db == null) {
-            db = Room.databaseBuilder(mContext,
-                    Database.class, CACHE_DATABASE_NAME).allowMainThreadQueries().build();
-        }
-
-        log_v_debug("Inserting/Updating cache...");
-
-        boolean isCacheExist = db.cacheDao().isCacheExist(mProviderType.toString(), mParams.latitude, mParams.longitude).length > 0;
-
-        if (isCacheExist) {
-            db.cacheDao().update(mCache);
-
-            log_i_debug("Cache updated successfully.");
-
-        } else {
-            db.cacheDao().insert(mCache);
-
-            log_i_debug("Cache inserted successfully.");
-        }
-
     }
 }

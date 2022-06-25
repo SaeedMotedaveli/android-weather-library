@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import ir.mtapps.weatherlib.enums.PROVIDER;
-import ir.mtapps.weatherlib.interfaces.AirQualityListener;
 import ir.mtapps.weatherlib.interfaces.AllWeatherListener;
 import ir.mtapps.weatherlib.interfaces.AstronomyListener;
 import ir.mtapps.weatherlib.interfaces.CurrentWeatherListener;
@@ -17,15 +16,15 @@ import static ir.mtapps.weatherlib.Loging.*;
 
 public abstract class WeatherClient {
 
-    public abstract void allWeather(@NonNull AllWeatherListener listener);
+    public abstract void allWeather(@NonNull Context context, @NonNull AllWeatherListener listener);
 
-    public abstract void currentCondition(@NonNull CurrentWeatherListener listener);
+    public abstract void currentCondition(@NonNull Context context, @NonNull CurrentWeatherListener listener);
 
-    public abstract void todayAstronomy(@NonNull AstronomyListener listener);
+    public abstract void todayAstronomy(@NonNull Context context, @NonNull AstronomyListener listener);
 
-    public abstract void hourlyWeather(@NonNull HourlyWeatherListener listener);
+    public abstract void hourlyWeather(@NonNull Context context, @NonNull HourlyWeatherListener listener);
 
-    public abstract void dailyWeather(@NonNull DailyWeatherListener listener);
+    public abstract void dailyWeather(@NonNull Context context, @NonNull DailyWeatherListener listener);
 
     // ********************************************************************************************
     // *                                Builder
@@ -33,18 +32,12 @@ public abstract class WeatherClient {
 
     public static final class Builder {
 
-        private Context mContext;
         private PROVIDER mProvider = PROVIDER.OPEN_WEATHER;
         private boolean mAutoCoordinate = true;
         private double mLatitude;
         private double mLongitude;
         private String mApiKey;
         private WeatherConfig mConfig = null;
-
-        public Builder attach(Context context) {
-            this.mContext = context;
-            return this;
-        }
 
         /**
          * Choose provider (Default: Open Weather).
@@ -106,10 +99,6 @@ public abstract class WeatherClient {
          */
         public WeatherClient build() {
 
-            if (mContext == null) {
-                log_e("Context is null. Please attach Context.");
-            }
-
             if (mApiKey == null) {
                 log_e("API Key is null. Weather can't receive from provider.");
             }
@@ -118,18 +107,13 @@ public abstract class WeatherClient {
                 mConfig = WeatherConfig.create();
             }
 
-            if (mAutoCoordinate) {
-                mConfig.disableCache();
-                log_w("In 'Auto Coordinate' mode, caching data turn off for saving resources.");
-            }
-
             WeatherProvider.Params params = new WeatherProvider.Params();
             params.apiKey = mApiKey;
             params.latitude = mLatitude;
             params.longitude = mLongitude;
             params.config = mConfig;
 
-            return HttpClient.getInstance(mContext, mProvider, mAutoCoordinate, params);
+            return HttpClient.getInstance(mProvider, mAutoCoordinate, params);
         }
 
     }

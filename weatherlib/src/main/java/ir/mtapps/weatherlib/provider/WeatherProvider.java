@@ -8,7 +8,6 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import ir.mtapps.weatherlib.Util;
 import ir.mtapps.weatherlib.WeatherConfig;
-import ir.mtapps.weatherlib.database.Cache;
 import ir.mtapps.weatherlib.interfaces.AllWeatherListener;
 import ir.mtapps.weatherlib.interfaces.AstronomyListener;
 import ir.mtapps.weatherlib.interfaces.CurrentWeatherListener;
@@ -31,23 +30,14 @@ public abstract class WeatherProvider {
         GEO, CURRENTLY, DAILY, HOURLY, ASTRONOMY, ALL
     }
 
-    private Context mContext;
     private Params mParams;
-
-    public final void setContext(Context context) {
-        this.mContext = context;
-    }
 
     public final void setParams(@NonNull Params params) {
         this.mParams = params;
     }
 
-    protected final Context getContext() {
-        return mContext;
-    }
-
-    protected final Resources getResources() {
-        return Util.getLocalizedResources(mContext, new Locale(mParams.config.getLanguage()));
+    protected final Resources getResources(Context context) {
+        return Util.getLocalizedResources(context, new Locale(mParams.config.getLanguage()));
     }
 
     protected final Params getParams() {
@@ -64,23 +54,37 @@ public abstract class WeatherProvider {
     // *                                Getter Method
     // ********************************************************************************************
 
-    public abstract void allWeather(@NonNull String json,
+    public abstract void allWeather(@NonNull Context context,
+                                    @NonNull String json,
                                     String geo,
-                                    AllWeatherListener listener);
+                                    @NonNull AllWeatherListener listener);
 
-    public abstract void allWeather(@NonNull String currently,
+    public abstract void allWeather(@NonNull Context context,
+                                    @NonNull String currently,
                                     @NonNull String hourly,
                                     @NonNull String daily,
                                     String geo,
-                                    AllWeatherListener listener);
+                                    @NonNull AllWeatherListener listener);
 
-    public abstract void currentCondition(@NonNull String json, String geo, CurrentWeatherListener listener);
+    public abstract void currentCondition(@NonNull Context context,
+                                          @NonNull String json,
+                                          String geo,
+                                          @NonNull CurrentWeatherListener listener);
 
-    public abstract void todayAstronomy(@NonNull String json, String geo, AstronomyListener listener);
+    public abstract void todayAstronomy(@NonNull Context context,
+                                        @NonNull String json,
+                                        String geo,
+                                        @NonNull AstronomyListener listener);
 
-    public abstract void hourlyWeather(@NonNull String json, String geo, HourlyWeatherListener listener);
+    public abstract void hourlyWeather(@NonNull Context context,
+                                       @NonNull String json,
+                                       String geo,
+                                       @NonNull HourlyWeatherListener listener);
 
-    public abstract void dailyWeather(@NonNull String json, String geo, DailyWeatherListener listener);
+    public abstract void dailyWeather(@NonNull Context context,
+                                      @NonNull String json,
+                                      String geo,
+                                      @NonNull DailyWeatherListener listener);
 
 
     public abstract String getUrl(URL urlType);
@@ -93,12 +97,7 @@ public abstract class WeatherProvider {
         return false;
     }
 
-    public abstract String getJsonFromCache(Cache cache, URL urlType);
-
-    @NonNull
-    public abstract Cache updateCache(@NonNull Cache cache, @NonNull URL urlType, @NonNull String json);
-
-    public ResponseResult checkForJsonValidity(@NonNull String json) {
+    public ResponseResult checkForJsonValidity(@NonNull Context context, @NonNull String json) {
         return new ResponseResult.Builder().isSuccessful(true).build();
     }
 

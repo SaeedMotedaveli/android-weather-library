@@ -109,7 +109,7 @@ class DailyWeatherModel {
 
         @SerializedName("uvi")
         @Expose
-        int uvi;
+        float uvi;
     }
 
     static class Temp {

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 32
@@ -8,34 +9,47 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        aarMetadata {
+            minCompileSdk = 17
+        }
+
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     productFlavors {
     }
+
     namespace 'ir.mtapps.weatherlib'
+
+    publishing {
+        singleVariant("release") {}
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
-    // Android and Google libraries
-    implementation "androidx.appcompat:appcompat:1.4.1"
-
-    // Google Room
-    implementation "androidx.room:room-runtime:2.4.2"
-    annotationProcessor "androidx.room:room-compiler:2.4.2"
-    implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation "androidx.appcompat:appcompat:1.4.2"
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'com.android.volley:volley:1.2.1'
-    implementation 'com.google.android.gms:play-services-auth:20.2.0'
     implementation 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
 
     androidTestImplementation 'com.google.code.findbugs:jsr305:3.0.2'
 }
 
-apply from: 'publish.gradle'
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId 'ir.mtapps'
+                artifactId 'WeatherLib'
+                version = android.defaultConfig.versionName
+            }
+        }
+    }
+}

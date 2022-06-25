@@ -20,7 +20,7 @@ public class Provider extends AirQualityProvider {
 
         if (json == null || json.isEmpty()) {
             Resources resources = ir.mtapps.weatherlib.Util.getLocalizedResources(getContext(), new Locale(getParams().config.getLanguage()));
-            listener.onError(Error.RESPONSE_IS_NULL, resources.getString(R.string.error_response_is_null));
+            listener.onFailure(Error.RESPONSE_IS_NULL, resources.getString(R.string.error_response_is_null));
             return;
         }
 
@@ -30,7 +30,7 @@ public class Provider extends AirQualityProvider {
 
         if (!model.isDataValid()) {
             Resources resources = ir.mtapps.weatherlib.Util.getLocalizedResources(getContext(), new Locale(getParams().config.getLanguage()));
-            listener.onError(Error.RESPONSE_NOT_OK, resources.getString(R.string.error_response_not_ok));
+            listener.onFailure(Error.RESPONSE_NOT_OK, resources.getString(R.string.error_response_not_ok));
             return;
         }
 
@@ -39,7 +39,7 @@ public class Provider extends AirQualityProvider {
 
         if (!isDistanceValid) {
             Resources resources = ir.mtapps.weatherlib.Util.getLocalizedResources(getContext(), new Locale(getParams().config.getLanguage()));
-            listener.onError(Error.AIR_QUALITY_NOT_FOUND, resources.getString(R.string.error_aq_not_found));
+            listener.onFailure(Error.AIR_QUALITY_NOT_FOUND, resources.getString(R.string.error_aq_not_found));
             return;
         }
 

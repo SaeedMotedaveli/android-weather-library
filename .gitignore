@@ -13,5 +13,3 @@
 .externalNativeBuild
 .cxx
 keystore.jks
-/demo/release
-bintray_publish.txt

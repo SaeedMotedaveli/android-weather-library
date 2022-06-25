@@ -9,7 +9,6 @@ import ir.mtapps.weatherlib.interfaces.AirQualityListener;
 import ir.mtapps.weatherlib.provider.AirQualityProvider;
 
 import static ir.mtapps.weatherlib.Loging.log_e;
-import static ir.mtapps.weatherlib.Loging.log_w;
 
 public abstract class AirQualityClient {
 
@@ -96,11 +95,6 @@ public abstract class AirQualityClient {
 
             if (mConfig == null) {
                 mConfig = WeatherConfig.create();
-            }
-
-            if (mAutoCoordinate) {
-                mConfig.disableCache();
-                log_w("In 'Auto Coordinate' mode, caching data turn off for saving resources.");
             }
 
             AirQualityProvider.Params params = new AirQualityProvider.Params();

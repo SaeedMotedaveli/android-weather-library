@@ -102,7 +102,7 @@ class AirQualityHttpClient extends AirQualityClient {
             @Override
             void onError(int code, String message) {
 
-                listener.onError(code, message);
+                listener.onFailure(code, message);
 
             }
         });

@@ -26,10 +26,6 @@ public class WeatherConfig {
     private PRESSURE pressureUnit = PRESSURE.mmHg;
     private LENGTH visibilityUnit = LENGTH.Km;
 
-    // Cache
-    private boolean useCache = false;
-    private int cacheValidity = 3600000;
-
     // Limit hourly and daily items
     private int limitNextHours = -1;
     private int limitNextDays = -1;
@@ -59,14 +55,6 @@ public class WeatherConfig {
         return visibilityUnit;
     }
 
-    public boolean isCacheEnable() {
-        return useCache;
-    }
-
-    public int getCacheValidity() {
-        return cacheValidity;
-    }
-
     public AMOUNT getPrecipitationAmountUnit() {
         return precipitationAmountUnit;
     }
@@ -83,10 +71,6 @@ public class WeatherConfig {
         return airQualityValidRadius;
     }
 
-    void disableCache() {
-        this.useCache = false;
-    }
-
     public final static class Builder {
 
         private final WeatherConfig config = new WeatherConfig();
@@ -98,41 +82,6 @@ public class WeatherConfig {
          */
         public Builder language(String language) {
             config.language = language;
-            return this;
-        }
-
-        /**
-         * This option enable caching weather data that received from providers.
-         * Default cache validity time is 60 minutes (1 hour).
-         */
-        public Builder enableCache() {
-            config.useCache = true;
-            config.cacheValidity = 3600000;
-            return this;
-        }
-
-        /**
-         * This option enable caching weather data that received from providers.
-         * You can set time that cache is valid by minutes.
-         *
-         * @param validityTimeInMinutes cache validity time by minutes
-         */
-        public Builder enableCache(int validityTimeInMinutes) {
-
-            if (validityTimeInMinutes <= 0) {
-                return disableCache();
-            }
-
-            config.useCache = true;
-            config.cacheValidity = validityTimeInMinutes * 60000;
-            return this;
-        }
-
-        /**
-         * Disable caching weather data. Every time that weather requested, its received from providers.
-         */
-        public Builder disableCache() {
-            config.useCache = false;
             return this;
         }
 
