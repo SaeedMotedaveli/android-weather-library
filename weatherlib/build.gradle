@@ -42,9 +42,6 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId 'ir.mtapps'
-                artifactId 'WeatherLib'
-                version = android.defaultConfig.versionName
             }
         }
     }
