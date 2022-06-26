@@ -6,6 +6,7 @@ import static ir.mtapps.weatherlib.Loging.log_i_debug;
 import static ir.mtapps.weatherlib.Loging.log_v_debug;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -232,6 +233,7 @@ class HttpClient extends WeatherClient {
 
     // STEP 1: Check for user location
 
+    @SuppressLint("MissingPermission")
     private void getJson(Context context, final WeatherProvider.URL urlType, final JsonResponseListener listener) {
 
         log_v_debug("Start getting json...");
