@@ -1,5 +1,5 @@
 # MT Weather Library
-[![](https://jitpack.io/v/SaeedMotedaveli/android-weather-library.svg)](https://jitpack.io/#SaeedMotedaveli/android-weather-library)
+[<img src="https://jitpack.io/v/SaeedMotedaveli/android-weather-library.svg)](https://jitpack.io/#SaeedMotedaveli/android-weather-library)
 
 An android library for request weather from different providers. Supported weather providers:
 1. [AccuWeather](https://developer.accuweather.com/apis)
@@ -16,7 +16,7 @@ And air quality provider:
 
 *For testing library, please have a look at the Demo Project (demo) or download apk file from [here](https://mtapps.ir/wp-content/uploads/2022/06/mt_weather_library_v2.0.apk).*
 
-<img src="/assets/mt-weather-lib-demo-preview.png" />  
+<img src="/assets/mt-weather-lib-demo-preview.png" width="200" />  
 
 # Usage
 
@@ -191,10 +191,10 @@ All above data together:
 weatherClient.allWeather(context, new AllWeatherListener() {
 	@Override
 	public void onSuccessful(City city,
-							 CurrentWeather weather,
-							 Astronomy astronomy,
-							 List<HourlyWeather> hourlyWeatherList,
-							 List<DailyWeather> dailyWeatherList) {
+                 CurrentWeather weather,
+                 Astronomy astronomy,
+                 List<HourlyWeather> hourlyWeatherList,
+                 List<DailyWeather> dailyWeatherList) {
 		...
 	}
 
@@ -222,12 +222,12 @@ airQualityClient.airQuality(new AirQualityListener() {
 Data has its own value and unit. example:
 ```java
 float temp = weather.temperature().getValue();	// example: 19.5
-String unit = weather.temperature().getUnit();	// example: °C
+String tempUnit = weather.temperature().getUnit();	// example: °C
 ```  
 
-You can get weather condition:
+weather condition:
 ```java
-String desc = weather.condition().getDescription();			// example: Clear
+String desc = weather.condition().getDescription();		// example: Clear
 String iconCode = weather.condition().getIcon().getCode();	// example: 1000d
 String iconName = weather.condition().getIcon().getName();	// example: clear_day
 int iconRes = weather.condition().getIcon().getIconRes();	// default library icon
@@ -236,62 +236,62 @@ Icon package: [Weather is Nice Today](https://www.iconfinder.com/iconsets/the-we
 
 | enum | Code | Name | Icon |
 |--|:--:|:--:|:--:|
-| CLEAR_DAY | 1000d | clear_day | ![](/assets/clear_day.png =48x48) |
-| CLEAR_NIGHT | 1000n | clear_night | ![](/assets/clear_night.png =48x48) |
-| PARTLY_CLOUDY_DAY | 1100d | partly_cloudy_day | ![](/assets/partly_cloudy_day.png =48x48) |
-| PARTLY_CLOUDY_NIGHT | 1100n | partly_cloudy_night | ![](/assets/partly_cloudy_night.png =48x48) |
-| MOSTLY_CLOUDY_DAY | 1200d | mostly_cloudy_day | ![](/assets/mostly_cloudy_day.png =48x48) |
-| MOSTLY_CLOUDY_NIGHT | 1200n | mostly_cloudy_night | ![](/assets/mostly_cloudy_night.png =48x48) |
-| CLOUDY | 1300 | cloudy | ![](/assets/cloudy.png =48x48) |
-| CLOUDY_WINDY | 1400 | cloudy_windy | ![](/assets/cloudy_windy.png =48x48) |
-| CLOUDY_WINDY_DAY | 1400d | cloudy_windy_day | ![](/assets/cloudy_windy_day.png =48x48) |
-| CLOUDY_WINDY_NIGHT | 1400n | cloudy_windy_night | ![](/assets/cloudy_windy_night.png =48x48) |
-| FOG | 1500 | fog | ![](/assets/fog.png =48x48) |
-| FOG_DAY | 1500d | fog_day | ![](/assets/fog_day.png =48x48) |
-| FOG_NIGHT | 1500n | fog_night | ![](/assets/fog_night.png =48x48) |
-| CLOUDY_FOG | 1600 | cloudy_fog | ![](/assets/cloudy_fog.png =48x48) |
-| CLOUDY_FOG_DAY | 1600d | cloudy_fog_day | ![](/assets/cloudy_fog_day.png =48x48) |
-| CLOUDY_FOG_NIGHT | 1600n | cloudy_fog_night | ![](/assets/cloudy_fog_night.png =48x48) |
-| DRIZZLE | 1700 | drizzle | ![](/assets/drizzle.png =48x48) |
-| LIGHT_RAIN | 1800 | light_rain | ![](/assets/light_rain.png =48x48) |
-| LIGHT_RAIN_DAY | 1800d | light_rain_day | ![](/assets/light_rain_day.png =48x48) |
-| LIGHT_RAIN_NIGHT | 1800n | light_rain_night | ![](/assets/light_rain_night.png =48x48) |
-| RAIN | 1900 | rain | ![](/assets/rain.png =48x48) |
-| RAIN_DAY | 1900d | rain_day | ![](/assets/rain_day.png =48x48) |
-| RAIN_NIGHT | 1900n | rain_night | ![](/assets/rain_night.png =48x48) |
-| HEAVY_RAIN | 2000 | heavy_rain | ![](/assets/heavy_rain.png =48x48) |
-| HEAVY_RAIN_DAY | 2000d | heavy_rain_day | ![](/assets/heavy_rain_day.png =48x48) |
-| HEAVY_RAIN_NIGHT | 2000n | heavy_rain_night | ![](/assets/heavy_rain_night.png =48x48) |
-|SHOWER_RAIN | 2100 | shower_rain | ![](/assets/shower_rain.png =48x48) |
-| SHOWER_RAIN_DAY | 2100d | shower_rain_day | ![](/assets/shower_rain_day.png =48x48) |
-| SHOWER_RAIN_NIGHT | 2100n | shower_rain_night | ![](/assets/shower_rain_night.png =48x48) |
-| LIGHT_SNOW | 2200 | light_snow | ![](/assets/light_snow.png =48x48) |
-| SNOW | 2300 | snow | ![](/assets/snow.png =48x48) |
-| SNOW_DAY | 2300d | snow_day | ![](/assets/snow_day.png =48x48) |
-| SNOW_NIGHT | 2300n | snow_night | ![](/assets/snow_night.png =48x48) |
-| HEAVY_SNOW | 2400 | heavy_snow | ![](/assets/heavy_snow.png =48x48) |
-| FREEZING_RAIN | 2500 | freezing_rain | ![](/assets/freezing_rain.png =48x48) |
-| FREEZING_RAIN_DAY | 2500d | freezing_rain_day | ![](/assets/freezing_rain_day.png =48x48) |
-| FREEZING_RAIN_NIGHT | 2500n | freezing_rain_night | ![](/assets/freezing_rain_night.png =48x48) |
-| THUNDERSTORM | 2600 | thunderstorm | ![](/assets/thunderstorm.png =48x48) |
-| THUNDERSTORM_WITH_RAIN | 2700 | thunderstorm_with_rain | ![](/assets/thunderstorm_with_rain.png =48x48) |
-| THUNDERSTORM_WITH_RAIN_DAY | 2700d | thunderstorm_with_rain_day | ![](/assets/thunderstorm_with_rain_day.png =48x48) |
-| THUNDERSTORM_WITH_RAIN_NIGHT | 2700n | thunderstorm_with_rain_night | ![](/assets/thunderstorm_with_rain_night.png =48x48) |
-| HAIL | 2800 | hail | ![](/assets/hail.png =48x48) |
-| HAIL_DAY | 2800d | hail_day | ![](/assets/hail_day.png =48x48) |
-| HAIL_NIGHT | 2800n | hail_night | ![](/assets/hail_night.png =48x48) |
-| HEAVY_HAIL | 2900 | heavy_hail | ![](/assets/heavy_hail.png =48x48) |
-| RAIN_AND_SNOW | 3000 | rain_and_snow | ![](/assets/rain_and_snow-1.png =48x48) |
-| SNOW_AND_HAIL | 3100 | snow_and_hail | ![](/assets/snow_and_hail.png =48x48) |
-| COLD | 3200 | cold | ![](/assets/cold.png =48x48) |
-| HOT | 3300 | hot | ![](/assets/hot.png =48x48) |
-| DUST | 3400 | dust | ![](/assets/dust.png =48x48) |
-| SMOKE | 3500 | smoke | ![](/assets/smoke.png =48x48) |
-| WINDY | 3600 | windy | ![](/assets/windy.png =48x48) |
-| SNOW_AND_WINDY | 3700 | snow_and_windy | ![](/assets/snow_and_windy.png =48x48) |
-| TORNADO | 3800 | tornado | ![](/assets/tornado.png =48x48) |
-| VOLCANO_ASH | 3900 | volcano_ash | ![](/assets/volcano_ash.png =48x48) |
-| NA | 0 | na | ![](/assets/na.png =48x48) |
+| CLEAR_DAY | 1000d | clear_day | <img src="/assets/clear_day.png" width="48" />  |
+| CLEAR_NIGHT | 1000n | clear_night | <img src="/assets/clear_night.png" width="48" />  |
+| PARTLY_CLOUDY_DAY | 1100d | partly_cloudy_day | <img src="/assets/partly_cloudy_day.png" width="48" />  |
+| PARTLY_CLOUDY_NIGHT | 1100n | partly_cloudy_night | <img src="/assets/partly_cloudy_night.png" width="48" />  |
+| MOSTLY_CLOUDY_DAY | 1200d | mostly_cloudy_day | <img src="/assets/mostly_cloudy_day.png" width="48" />  |
+| MOSTLY_CLOUDY_NIGHT | 1200n | mostly_cloudy_night | <img src="/assets/mostly_cloudy_night.png" width="48" />  |
+| CLOUDY | 1300 | cloudy | <img src="/assets/cloudy.png" width="48" />  |
+| CLOUDY_WINDY | 1400 | cloudy_windy | <img src="/assets/cloudy_windy.png" width="48" />  |
+| CLOUDY_WINDY_DAY | 1400d | cloudy_windy_day | <img src="/assets/cloudy_windy_day.png" width="48" />  |
+| CLOUDY_WINDY_NIGHT | 1400n | cloudy_windy_night | <img src="/assets/cloudy_windy_night.png" width="48" />  |
+| FOG | 1500 | fog | <img src="/assets/fog.png" width="48" />  |
+| FOG_DAY | 1500d | fog_day | <img src="/assets/fog_day.png" width="48" />  |
+| FOG_NIGHT | 1500n | fog_night | <img src="/assets/fog_night.png" width="48" />  |
+| CLOUDY_FOG | 1600 | cloudy_fog | <img src="/assets/cloudy_fog.png" width="48" />  |
+| CLOUDY_FOG_DAY | 1600d | cloudy_fog_day | <img src="/assets/cloudy_fog_day.png" width="48" />  |
+| CLOUDY_FOG_NIGHT | 1600n | cloudy_fog_night | <img src="/assets/cloudy_fog_night.png" width="48" />  |
+| DRIZZLE | 1700 | drizzle | <img src="/assets/drizzle.png" width="48" />  |
+| LIGHT_RAIN | 1800 | light_rain | <img src="/assets/light_rain.png" width="48" />  |
+| LIGHT_RAIN_DAY | 1800d | light_rain_day | <img src="/assets/light_rain_day.png" width="48" />  |
+| LIGHT_RAIN_NIGHT | 1800n | light_rain_night | <img src="/assets/light_rain_night.png" width="48" />  |
+| RAIN | 1900 | rain | <img src="/assets/rain.png" width="48" />  |
+| RAIN_DAY | 1900d | rain_day | <img src="/assets/rain_day.png" width="48" />  |
+| RAIN_NIGHT | 1900n | rain_night | <img src="/assets/rain_night.png" width="48" />  |
+| HEAVY_RAIN | 2000 | heavy_rain | <img src="/assets/heavy_rain.png" width="48" />  |
+| HEAVY_RAIN_DAY | 2000d | heavy_rain_day | <img src="/assets/heavy_rain_day.png" width="48" />  |
+| HEAVY_RAIN_NIGHT | 2000n | heavy_rain_night | <img src="/assets/heavy_rain_night.png" width="48" />  |
+|SHOWER_RAIN | 2100 | shower_rain | <img src="/assets/shower_rain.png" width="48" />  |
+| SHOWER_RAIN_DAY | 2100d | shower_rain_day | <img src="/assets/shower_rain_day.png" width="48" />  |
+| SHOWER_RAIN_NIGHT | 2100n | shower_rain_night | <img src="/assets/shower_rain_night.png" width="48" />  |
+| LIGHT_SNOW | 2200 | light_snow | <img src="/assets/light_snow.png" width="48" />  |
+| SNOW | 2300 | snow | <img src="/assets/snow.png" width="48" />  |
+| SNOW_DAY | 2300d | snow_day | <img src="/assets/snow_day.png" width="48" />  |
+| SNOW_NIGHT | 2300n | snow_night | <img src="/assets/snow_night.png" width="48" />  |
+| HEAVY_SNOW | 2400 | heavy_snow | <img src="/assets/heavy_snow.png" width="48" />  |
+| FREEZING_RAIN | 2500 | freezing_rain | <img src="/assets/freezing_rain.png" width="48" />  |
+| FREEZING_RAIN_DAY | 2500d | freezing_rain_day | <img src="/assets/freezing_rain_day.png" width="48" />  |
+| FREEZING_RAIN_NIGHT | 2500n | freezing_rain_night | <img src="/assets/freezing_rain_night.png" width="48" />  |
+| THUNDERSTORM | 2600 | thunderstorm | <img src="/assets/thunderstorm.png" width="48" />  |
+| THUNDERSTORM_WITH_RAIN | 2700 | thunderstorm_with_rain | <img src="/assets/thunderstorm_with_rain.png" width="48" />  |
+| THUNDERSTORM_WITH_RAIN_DAY | 2700d | thunderstorm_with_rain_day | <img src="/assets/thunderstorm_with_rain_day.png" width="48" />  |
+| THUNDERSTORM_WITH_RAIN_NIGHT | 2700n | thunderstorm_with_rain_night | <img src="/assets/thunderstorm_with_rain_night.png" width="48" />  |
+| HAIL | 2800 | hail | <img src="/assets/hail.png" width="48" />  |
+| HAIL_DAY | 2800d | hail_day | <img src="/assets/hail_day.png" width="48" />  |
+| HAIL_NIGHT | 2800n | hail_night | <img src="/assets/hail_night.png" width="48" />  |
+| HEAVY_HAIL | 2900 | heavy_hail | <img src="/assets/heavy_hail.png" width="48" />  |
+| RAIN_AND_SNOW | 3000 | rain_and_snow | <img src="/assets/rain_and_snow-1.png" width="48" />  |
+| SNOW_AND_HAIL | 3100 | snow_and_hail | <img src="/assets/snow_and_hail.png" width="48" />  |
+| COLD | 3200 | cold | <img src="/assets/cold.png" width="48" />  |
+| HOT | 3300 | hot | <img src="/assets/hot.png" width="48" />  |
+| DUST | 3400 | dust | <img src="/assets/dust.png" width="48" />  |
+| SMOKE | 3500 | smoke | <img src="/assets/smoke.png" width="48" />  |
+| WINDY | 3600 | windy | <img src="/assets/windy.png" width="48" />  |
+| SNOW_AND_WINDY | 3700 | snow_and_windy | <img src="/assets/snow_and_windy.png" width="48" />  |
+| TORNADO | 3800 | tornado | <img src="/assets/tornado.png" width="48" />  |
+| VOLCANO_ASH | 3900 | volcano_ash | <img src="/assets/volcano_ash.png" width="48" />  |
+| NA | 0 | na | <img src="/assets/na.png" width="48" />  |
 
 ## proguard
 If you want to use proguard, just this to end of `proguard-rules.pro` file:
@@ -320,7 +320,16 @@ If you want to use proguard, just this to end of `proguard-rules.pro` file:
 
 ## License
 
-Copyright 2019-2022, Saeed Motedaveli  
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at  
-http://www.apache.org/licenses/LICENSE-2.0  
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+      Copyright 2019, Saeed Motedaveli
+
+      Licensed under the Apache License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
