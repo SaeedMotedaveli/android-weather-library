@@ -1,142 +1,326 @@
 # MT Weather Library
-#### An android library for request weather from different providers
-*For testing library, please have a look at the Demo Project (demo) or download apk file from [here](https://github.com/SaeedMotedaveli/android-weather-library/releases).*
+[![](https://jitpack.io/v/SaeedMotedaveli/android-weather-library.svg)](https://jitpack.io/#SaeedMotedaveli/android-weather-library)
 
-<img src="/assets/demo-preview.png" />
+An android library for request weather from different providers. Supported weather providers:
+1. [AccuWeather](https://developer.accuweather.com/apis)
+2. [Aeris Weather](https://www.aerisweather.com/support/docs/api/)
+3. [Dark Sky](https://darksky.net/dev)
+4. [Open Weather](https://openweathermap.org/api)
+5. [Tomorrow.io](https://www.tomorrow.io/weather-api/)
+6. [VisualCrossing](https://www.visualcrossing.com/weather-api)
+7. [Weatherbit](https://www.weatherbit.io/api)
+8. [World Weather Online](https://www.worldweatheronline.com/developer/api/)
 
-# Supported providers
+And air quality provider:
+1. [World's Air Pollution](https://aqicn.org/api/)
 
-1. AccuWeather
-2. Dark Sky
-3. Open Weather
-4. Weatherbit
-5. World Weather Online
-6. World's Air Pollution
+*For testing library, please have a look at the Demo Project (demo) or download apk file from [here](https://mtapps.ir/wp-content/uploads/2022/06/mt_weather_library_v2.0.apk).*
+
+<img src="/assets/mt-weather-lib-demo-preview.png" />  
 
 # Usage
 
-1. Include the library as local library project.
+1. Add it in your root `build.gradle` at the end of repositories:
+```java
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+```
+or add it at `settings.gradle`:
+```java
+dependencyResolutionManagement {
+  repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+```
+2. Add the dependency:
+```java
+dependencies {
+  implementation 'com.github.SaeedMotedaveli:android-weather-library:1.0.5'
+}
+```
+4. Use default Configuration:
 
-   ```
-   dependencies {
-      implementation 'ir.mtapps:WeatherLib:0.9.0'
-   }
-   ```
+ ```java
+ WeatherConfig weatherConfig = WeatherConfig.create();
+ ```
 
-2. Use default Configuration:
+Or create your configuration:
 
-   ```java
-   WeatherConfig config = WeatherConfig.create();
-   ```
+  ```java
+  int numberOfDays = 7;
+int numberOfHours = 24;
+String language = "en";
+UNIT_SYSTEM unitSystem = UNIT_SYSTEM.METRIC;
+        
+WeatherConfig weatherConfig = WeatherConfig.edit()
+	.limitDailyWeather(numberOfDays)
+	.limitHourlyWeather(numberOfHours)
+	.language(language)
+	.unitSystem(unitSystem)
+	.create();
+  ```
 
-   Or create your configuration:
+| method | description | defualt |
+|--|--| :--: |
+| `limitDailyWeather(int)` | Number of days that daily weather return (include today). | no limit |
+| `limitHourlyWeather(int)` | Number of hours that hourly weather return (include current hour) every 60 minutes | no limit |
+| `language(String)` | Language of weather data | en |
+| `unitSystem(UNIT_SYSTEM)` | **`UNIT_SYSTEM.METRIC`** (*Temperature: °C, Speed: Km/h, Amount: mm, Pressure: mmHg and Length: Km*)  or **`UNIT_SYSTEM.IMPERIAL`** (*Temperature: °F, Speed: mph, Amount: in, Pressure: mmHg and Length: miles*) | `UNIT_SYSTEM.METRIC` |
+| `unitOfTemperature(TEMPERATURE)` | `TEMPERATURE.C`, `TEMPERATURE.F`  or `TEMPERATURE.K` | `TEMPERATURE.C` |
+| `unitOfSpeed(SPEED)` | `SPEED.Km_h`, `SPEED.m_s`, `SPEED.mph` or `SPEED.Knot` | `SPEED.Km_h` |
+| `unitOfPressure(PRESSURE)` | `PRESSURE.mb`, `PRESSURE.mmHg`, `PRESSURE.inHg`, `PRESSURE.hPa`, `PRESSURE.kPa` or `PRESSURE.atm` | `SPEED.Km_h` |
+| `unitOfVisibility(LENGTH)` | `LENGTH.m`, `LENGTH.Km` or `LENGTH.miles` | `LENGTH.Km` |
+| `unitOfPrecipitationAmount(AMOUNT)` | `AMOUNT.mm`, `AMOUNT.inch` or `AMOUNT.Cm` | `AMOUNT.mm` |
+| `validRadiusOfAirQuality(int)` | valid radius of air quality (unit: Kilometers) | 5 |
 
-   ```java
-   String language = "en";   // Language of weather data
-   UNIT_SYSTEM unit_system = UNIT_SYSTEM.METRIC; // or UNIT_SYSTEM.IMPERIAL. You can also change unit for every parameter.
 
-   WeatherConfig config = WeatherConfig.edit()
-      .language(language)
-      .unitSystem(unit_system)
-      .disableCache() // NOTE: caching data enable by default
-      .create();
-   ```
+5. Create client. For weather client:
 
-3. Create client. For weather client:
+```java
+PROVIDER provider = PROVIDER.OPEN_WEATHER;	// or any you want...
+String apiKey = "<your api key>";
+double latitude = 0;
+double longitude = 0;
+        
+WeatherClient weatherClient = new WeatherClient.Builder()
+	.config(weatherConfig)
+	.provider(provider)
+	.apiKey(apiKey)
+	.coordinate(latitude, longitude)	// remove it if you want use GPS
+	.build();  
+  ```
 
-   ```java
-   WeatherClient client = new WeatherClient.Builder()
-      .attach(context)
-      .config(config)
-      .provider(provider) // PROVIDER.ACCUWEATHER, PROVIDER.DARK_SKY, ...
-      .apiKey(key)  // provider api key
-      .coordinate(latitude, longitude)  // remove it if you want to use GPS
-      .build();
-   ```
+| method | description |
+|--|--|
+| `config(WeatherConfig)` | Use `WeatherConfig` instance |
+| `provider(PROVIDER)` | `PROVIDER.DARK_SKY`, `PROVIDER.OPEN_WEATHER`, `PROVIDER.WORLD_WEATHER_ONLINE`, `PROVIDER.ACCUWEATHER`, `PROVIDER.WEATHERBIT`, `PROVIDER.VISUAL_CROSSING`, `PROVIDER.TOMORROW` or `PROVIDER.AERIS_WEATHER` |
+| `apiKey(String)` or `apiKey(String, String)` | For Aeris Weather use `apiKey(clientId, clientSecret)` and for others use `apiKey(key)` |
+| `coordinate(double, double)` | Latitude and longitude of your place. If you want to use GPS, just remove this method. |
 
-   For air quality:
+for air quality:
+```java
+AIR_QUALITY_PROVIDER airQualityProvider = AIR_QUALITY_PROVIDER.WORLD_AIR_POLLUTION;
+String apiKey = "<your api key>";
+double latitude = 0;
+double longitude = 0;
+        
+AirQualityClient airQualityClient = new AirQualityClient.Builder()
+	.config(weatherConfig)
+	.provider(airQualityProvider)
+	.apiKey(apiKey)
+	.coordinate(latitude, longitude)
+	.build();
+```
 
-   ```java
-   AirQualityClient aqClient = new AirQualityClient.Builder()
-      .attach(context)
-      .config(config)
-      .provider(provider) // AIR_QUALITY_PROVIDER.WORLD_AIR_POLLUTION
-      .apiKey(key)  // provider api key
-      .coordinate(latitude, longitude)  // remove it if you want to use GPS
-      .build();
-   ```
+| method | description |
+|--|--|
+| `config(WeatherConfig)` | Use `WeatherConfig` instance |
+| `provider(PROVIDER)` | `AIR_QUALITY_PROVIDER.WORLD_AIR_POLLUTION` |
+| `apiKey(String)` | api key |
+| `coordinate(double, double)` | Latitude and longitude of your place. If you want to use GPS, just remove this method. |
 
-4. Get current weather:
+6. Get weather data. Current weather:
+  ```java
+  weatherClient.currentCondition(context, new CurrentWeatherListener() {
+	@Override
+	public void onSuccessful(City city, CurrentWeather weather) {
+		...
+	}
 
-   ```java
-   client.currentCondition(new CurrentWeatherListener() {
-      @Override
-      public void onSuccessful(City city, CurrentWeather weather) {
-         // do something with city or weather
-         // ...
-      }
+	@Override
+	public void onFailure(int code, String message) {
+		...
+	}
+});
+  ```
 
-      @Override
-      public void onError(int code, String message) {
-         // do something with error
-         // ...
-      }
-   });
-   ```
+Hourly weather:
+```java
+weatherClient.hourlyWeather(context, new HourlyWeatherListener() {
+	@Override
+	public void onSuccessful(City city, List<HourlyWeather> hourlyWeatherList) {
+		...
+	}
 
-   or other options like ``` client.todayAstronomy() ```, ``` client.hourlyWeather() ``` and ``` client.dailyWeather() ```.
-   If you want get all this data in one request, use ``` client.allWeather() ```.
+	@Override
+	public void onFailure(int code, String message) {
+		...
+	}
+});
+```
 
-   ```java
-   client.allWeather(new AllWeatherListener() {
-      @Override
-      public void onSuccessful(City city,
-                               CurrentWeather weather,
-                               Astronomy astronomy,
-                               List<HourlyWeather> hourlyWeatherList,
-                               List<DailyWeather> dailyWeatherList) {
-         // do something with this data
-         // ...
-      }
+Daily weather:
+```java
+weatherClient.dailyWeather(context, new DailyWeatherListener() {
+	@Override
+	public void onSuccessful(City city, List<DailyWeather> dailyWeatherList) {
+		...
+	}
 
-      @Override
-      public void onError(int code, String message) {
-         // do something with error
-         // ...
-      }
-   });
-   ```
+	@Override
+	public void onFailure(int code, String message) {
+		...
+	}
+});
+```
 
-   For get air quality use this method:
+Today astronomy:
+```java
+weatherClient.todayAstronomy(context, new AstronomyListener() {
+	@Override
+	public void onSuccessful(City city, Astronomy astronomy) {
+		...
+	}
 
-   ```java
-   aqClient.airQuality(new AirQualityListener() {
-      @Override
-      public void onSuccessful(AirQuality airQuality) {
-          // do something with airQuality
-          // ...
-      }
+	@Override
+	public void onFailure(int code, String message) {
+		...
+	}
+});
+```
 
-      @Override
-      public void onError(int code, String message) {
-         // do something with error
-         // ...
-      }
-   });
-   ```
+All above data together:
+```java
+weatherClient.allWeather(context, new AllWeatherListener() {
+	@Override
+	public void onSuccessful(City city,
+							 CurrentWeather weather,
+							 Astronomy astronomy,
+							 List<HourlyWeather> hourlyWeatherList,
+							 List<DailyWeather> dailyWeatherList) {
+		...
+	}
 
-  ## License
+	@Override
+	public void onFailure(int code, String message) {
+		...
+	}
+});
+```
 
-      Copyright 2019, Saeed Motedaveli
+Air quality:
+```java
+airQualityClient.airQuality(new AirQualityListener() {
+	@Override
+	public void onSuccessful(AirQuality airQuality) {
+		...
+	}
 
-      Licensed under the Apache License, Version 2.0 (the "License");
-      you may not use this file except in compliance with the License.
-      You may obtain a copy of the License at
+	@Override
+	public void onFailure(int code, String message) {
+		...
+	}
+});
+```
+Data has its own value and unit. example:
+```java
+float temp = weather.temperature().getValue();	// example: 19.5
+String unit = weather.temperature().getUnit();	// example: °C
+```  
 
-         http://www.apache.org/licenses/LICENSE-2.0
+You can get weather condition:
+```java
+String desc = weather.condition().getDescription();			// example: Clear
+String iconCode = weather.condition().getIcon().getCode();	// example: 1000d
+String iconName = weather.condition().getIcon().getName();	// example: clear_day
+int iconRes = weather.condition().getIcon().getIconRes();	// default library icon
+```
+Icon package: [Weather is Nice Today](https://www.iconfinder.com/iconsets/the-weather-is-nice-today).
 
-      Unless required by applicable law or agreed to in writing, software
-      distributed under the License is distributed on an "AS IS" BASIS,
-      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-      See the License for the specific language governing permissions and
-      limitations under the License.
+| enum | Code | Name | Icon |
+|--|:--:|:--:|:--:|
+| CLEAR_DAY | 1000d | clear_day | ![](/assets/clear_day.png =48x48) |
+| CLEAR_NIGHT | 1000n | clear_night | ![](/assets/clear_night.png =48x48) |
+| PARTLY_CLOUDY_DAY | 1100d | partly_cloudy_day | ![](/assets/partly_cloudy_day.png =48x48) |
+| PARTLY_CLOUDY_NIGHT | 1100n | partly_cloudy_night | ![](/assets/partly_cloudy_night.png =48x48) |
+| MOSTLY_CLOUDY_DAY | 1200d | mostly_cloudy_day | ![](/assets/mostly_cloudy_day.png =48x48) |
+| MOSTLY_CLOUDY_NIGHT | 1200n | mostly_cloudy_night | ![](/assets/mostly_cloudy_night.png =48x48) |
+| CLOUDY | 1300 | cloudy | ![](/assets/cloudy.png =48x48) |
+| CLOUDY_WINDY | 1400 | cloudy_windy | ![](/assets/cloudy_windy.png =48x48) |
+| CLOUDY_WINDY_DAY | 1400d | cloudy_windy_day | ![](/assets/cloudy_windy_day.png =48x48) |
+| CLOUDY_WINDY_NIGHT | 1400n | cloudy_windy_night | ![](/assets/cloudy_windy_night.png =48x48) |
+| FOG | 1500 | fog | ![](/assets/fog.png =48x48) |
+| FOG_DAY | 1500d | fog_day | ![](/assets/fog_day.png =48x48) |
+| FOG_NIGHT | 1500n | fog_night | ![](/assets/fog_night.png =48x48) |
+| CLOUDY_FOG | 1600 | cloudy_fog | ![](/assets/cloudy_fog.png =48x48) |
+| CLOUDY_FOG_DAY | 1600d | cloudy_fog_day | ![](/assets/cloudy_fog_day.png =48x48) |
+| CLOUDY_FOG_NIGHT | 1600n | cloudy_fog_night | ![](/assets/cloudy_fog_night.png =48x48) |
+| DRIZZLE | 1700 | drizzle | ![](/assets/drizzle.png =48x48) |
+| LIGHT_RAIN | 1800 | light_rain | ![](/assets/light_rain.png =48x48) |
+| LIGHT_RAIN_DAY | 1800d | light_rain_day | ![](/assets/light_rain_day.png =48x48) |
+| LIGHT_RAIN_NIGHT | 1800n | light_rain_night | ![](/assets/light_rain_night.png =48x48) |
+| RAIN | 1900 | rain | ![](/assets/rain.png =48x48) |
+| RAIN_DAY | 1900d | rain_day | ![](/assets/rain_day.png =48x48) |
+| RAIN_NIGHT | 1900n | rain_night | ![](/assets/rain_night.png =48x48) |
+| HEAVY_RAIN | 2000 | heavy_rain | ![](/assets/heavy_rain.png =48x48) |
+| HEAVY_RAIN_DAY | 2000d | heavy_rain_day | ![](/assets/heavy_rain_day.png =48x48) |
+| HEAVY_RAIN_NIGHT | 2000n | heavy_rain_night | ![](/assets/heavy_rain_night.png =48x48) |
+|SHOWER_RAIN | 2100 | shower_rain | ![](/assets/shower_rain.png =48x48) |
+| SHOWER_RAIN_DAY | 2100d | shower_rain_day | ![](/assets/shower_rain_day.png =48x48) |
+| SHOWER_RAIN_NIGHT | 2100n | shower_rain_night | ![](/assets/shower_rain_night.png =48x48) |
+| LIGHT_SNOW | 2200 | light_snow | ![](/assets/light_snow.png =48x48) |
+| SNOW | 2300 | snow | ![](/assets/snow.png =48x48) |
+| SNOW_DAY | 2300d | snow_day | ![](/assets/snow_day.png =48x48) |
+| SNOW_NIGHT | 2300n | snow_night | ![](/assets/snow_night.png =48x48) |
+| HEAVY_SNOW | 2400 | heavy_snow | ![](/assets/heavy_snow.png =48x48) |
+| FREEZING_RAIN | 2500 | freezing_rain | ![](/assets/freezing_rain.png =48x48) |
+| FREEZING_RAIN_DAY | 2500d | freezing_rain_day | ![](/assets/freezing_rain_day.png =48x48) |
+| FREEZING_RAIN_NIGHT | 2500n | freezing_rain_night | ![](/assets/freezing_rain_night.png =48x48) |
+| THUNDERSTORM | 2600 | thunderstorm | ![](/assets/thunderstorm.png =48x48) |
+| THUNDERSTORM_WITH_RAIN | 2700 | thunderstorm_with_rain | ![](/assets/thunderstorm_with_rain.png =48x48) |
+| THUNDERSTORM_WITH_RAIN_DAY | 2700d | thunderstorm_with_rain_day | ![](/assets/thunderstorm_with_rain_day.png =48x48) |
+| THUNDERSTORM_WITH_RAIN_NIGHT | 2700n | thunderstorm_with_rain_night | ![](/assets/thunderstorm_with_rain_night.png =48x48) |
+| HAIL | 2800 | hail | ![](/assets/hail.png =48x48) |
+| HAIL_DAY | 2800d | hail_day | ![](/assets/hail_day.png =48x48) |
+| HAIL_NIGHT | 2800n | hail_night | ![](/assets/hail_night.png =48x48) |
+| HEAVY_HAIL | 2900 | heavy_hail | ![](/assets/heavy_hail.png =48x48) |
+| RAIN_AND_SNOW | 3000 | rain_and_snow | ![](/assets/rain_and_snow-1.png =48x48) |
+| SNOW_AND_HAIL | 3100 | snow_and_hail | ![](/assets/snow_and_hail.png =48x48) |
+| COLD | 3200 | cold | ![](/assets/cold.png =48x48) |
+| HOT | 3300 | hot | ![](/assets/hot.png =48x48) |
+| DUST | 3400 | dust | ![](/assets/dust.png =48x48) |
+| SMOKE | 3500 | smoke | ![](/assets/smoke.png =48x48) |
+| WINDY | 3600 | windy | ![](/assets/windy.png =48x48) |
+| SNOW_AND_WINDY | 3700 | snow_and_windy | ![](/assets/snow_and_windy.png =48x48) |
+| TORNADO | 3800 | tornado | ![](/assets/tornado.png =48x48) |
+| VOLCANO_ASH | 3900 | volcano_ash | ![](/assets/volcano_ash.png =48x48) |
+| NA | 0 | na | ![](/assets/na.png =48x48) |
+
+## proguard
+If you want to use proguard, just this to end of `proguard-rules.pro` file:
+```
+-keepattributes Signature
+
+# For using GSON @Expose annotation
+-keepattributes *Annotation*
+
+# Gson specific classes
+-dontwarn sun.misc.**
+#-keep class com.google.gson.stream.** { *; }
+
+# Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,
+# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
+-keep class * implements com.google.gson.TypeAdapter
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+
+# Prevent R8 from leaving Data object members always null
+-keepclassmembers,allowobfuscation class * {
+  @com.google.gson.annotations.SerializedName <fields>;
+}
+```
+
+## License
+
+Copyright 2019-2022, Saeed Motedaveli  
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at  
+http://www.apache.org/licenses/LICENSE-2.0  
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
