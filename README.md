@@ -1,5 +1,5 @@
 # MT Weather Library
-[<img src="https://jitpack.io/v/SaeedMotedaveli/android-weather-library.svg)](https://jitpack.io/#SaeedMotedaveli/android-weather-library)
+[![](https://jitpack.io/v/SaeedMotedaveli/android-weather-library.svg)](https://jitpack.io/#SaeedMotedaveli/android-weather-library)
 
 An android library for request weather from different providers. Supported weather providers:
 1. [AccuWeather](https://developer.accuweather.com/apis)
@@ -54,17 +54,17 @@ dependencies {
 Or create your configuration:
 
   ```java
-  int numberOfDays = 7;
+int numberOfDays = 7;
 int numberOfHours = 24;
 String language = "en";
 UNIT_SYSTEM unitSystem = UNIT_SYSTEM.METRIC;
         
 WeatherConfig weatherConfig = WeatherConfig.edit()
-	.limitDailyWeather(numberOfDays)
-	.limitHourlyWeather(numberOfHours)
-	.language(language)
-	.unitSystem(unitSystem)
-	.create();
+  .limitDailyWeather(numberOfDays)
+  .limitHourlyWeather(numberOfHours)
+  .language(language)
+  .unitSystem(unitSystem)
+  .create();
   ```
 
 | method | description | defualt |
@@ -90,11 +90,11 @@ double latitude = 0;
 double longitude = 0;
         
 WeatherClient weatherClient = new WeatherClient.Builder()
-	.config(weatherConfig)
-	.provider(provider)
-	.apiKey(apiKey)
-	.coordinate(latitude, longitude)	// remove it if you want use GPS
-	.build();  
+  .config(weatherConfig)
+  .provider(provider)
+  .apiKey(apiKey)
+  .coordinate(latitude, longitude)	// remove it if you want use GPS
+  .build();  
   ```
 
 | method | description |
@@ -112,11 +112,11 @@ double latitude = 0;
 double longitude = 0;
         
 AirQualityClient airQualityClient = new AirQualityClient.Builder()
-	.config(weatherConfig)
-	.provider(airQualityProvider)
-	.apiKey(apiKey)
-	.coordinate(latitude, longitude)
-	.build();
+  .config(weatherConfig)
+  .provider(airQualityProvider)
+  .apiKey(apiKey)
+  .coordinate(latitude, longitude)
+  .build();
 ```
 
 | method | description |
@@ -128,100 +128,100 @@ AirQualityClient airQualityClient = new AirQualityClient.Builder()
 
 6. Get weather data. Current weather:
   ```java
-  weatherClient.currentCondition(context, new CurrentWeatherListener() {
-	@Override
-	public void onSuccessful(City city, CurrentWeather weather) {
-		...
-	}
+weatherClient.currentCondition(context, new CurrentWeatherListener() {
+  @Override
+  public void onSuccessful(City city, CurrentWeather weather) {
+    ...
+  }
 
-	@Override
-	public void onFailure(int code, String message) {
-		...
-	}
+  @Override
+  public void onFailure(int code, String message) {
+    ...
+  }
 });
   ```
 
 Hourly weather:
 ```java
 weatherClient.hourlyWeather(context, new HourlyWeatherListener() {
-	@Override
-	public void onSuccessful(City city, List<HourlyWeather> hourlyWeatherList) {
-		...
-	}
+  @Override
+  public void onSuccessful(City city, List<HourlyWeather> hourlyWeatherList) {
+    ...
+  }
 
-	@Override
-	public void onFailure(int code, String message) {
-		...
-	}
+  @Override
+  public void onFailure(int code, String message) {
+    ...
+  }
 });
 ```
 
 Daily weather:
 ```java
 weatherClient.dailyWeather(context, new DailyWeatherListener() {
-	@Override
-	public void onSuccessful(City city, List<DailyWeather> dailyWeatherList) {
-		...
-	}
+  @Override
+  public void onSuccessful(City city, List<DailyWeather> dailyWeatherList) {
+    ...
+  }
 
-	@Override
-	public void onFailure(int code, String message) {
-		...
-	}
+  @Override
+  public void onFailure(int code, String message) {
+    ...
+  }
 });
 ```
 
 Today astronomy:
 ```java
 weatherClient.todayAstronomy(context, new AstronomyListener() {
-	@Override
-	public void onSuccessful(City city, Astronomy astronomy) {
-		...
-	}
+  @Override
+  public void onSuccessful(City city, Astronomy astronomy) {
+    ...
+  }
 
-	@Override
-	public void onFailure(int code, String message) {
-		...
-	}
+  @Override
+  public void onFailure(int code, String message) {
+    ...
+  }
 });
 ```
 
 All above data together:
 ```java
 weatherClient.allWeather(context, new AllWeatherListener() {
-	@Override
-	public void onSuccessful(City city,
-                     CurrentWeather weather,
-                     Astronomy astronomy,
-                     List<HourlyWeather> hourlyWeatherList,
-                     List<DailyWeather> dailyWeatherList) {
-        ...
-	}
+  @Override
+  public void onSuccessful(City city,
+        CurrentWeather weather,
+        Astronomy astronomy,
+        List<HourlyWeather> hourlyWeatherList,
+        List<DailyWeather> dailyWeatherList) {
+    ...
+  }
 
-	@Override
-	public void onFailure(int code, String message) {
-		...
-	}
+  @Override
+  public void onFailure(int code, String message) {
+    ...
+  }
 });
 ```
 
 Air quality:
 ```java
 airQualityClient.airQuality(new AirQualityListener() {
-	@Override
-	public void onSuccessful(AirQuality airQuality) {
-		...
-	}
+  @Override
+  public void onSuccessful(AirQuality airQuality) {
+    ...
+  }
 
-	@Override
-	public void onFailure(int code, String message) {
-		...
-	}
+  @Override
+  public void onFailure(int code, String message) {
+    ...
+  }
 });
 ```
 Data has its own value and unit. example:
 ```java
-float temp = weather.temperature().getValue();	    // example: 19.5
+float temp = weather.temperature().getValue();      // example: 19.5
 String tempUnit = weather.temperature().getUnit();	// example: °C
 ```  
 
@@ -294,7 +294,7 @@ Icon package: [Weather is Nice Today](https://www.iconfinder.com/iconsets/the-we
 | NA | 0 | na | <img src="/assets/na.png" width="48" />  |
 
 ## proguard
-If you want to use proguard, just this to end of `proguard-rules.pro` file:
+If you want to use proguard, just add this to end of `proguard-rules.pro` file:
 ```
 -keepattributes Signature
 
