@@ -191,11 +191,11 @@ All above data together:
 weatherClient.allWeather(context, new AllWeatherListener() {
 	@Override
 	public void onSuccessful(City city,
-                 CurrentWeather weather,
-                 Astronomy astronomy,
-                 List<HourlyWeather> hourlyWeatherList,
-                 List<DailyWeather> dailyWeatherList) {
-		...
+                     CurrentWeather weather,
+                     Astronomy astronomy,
+                     List<HourlyWeather> hourlyWeatherList,
+                     List<DailyWeather> dailyWeatherList) {
+        ...
 	}
 
 	@Override
@@ -221,7 +221,7 @@ airQualityClient.airQuality(new AirQualityListener() {
 ```
 Data has its own value and unit. example:
 ```java
-float temp = weather.temperature().getValue();	// example: 19.5
+float temp = weather.temperature().getValue();	    // example: 19.5
 String tempUnit = weather.temperature().getUnit();	// example: °C
 ```  
 
@@ -281,7 +281,7 @@ Icon package: [Weather is Nice Today](https://www.iconfinder.com/iconsets/the-we
 | HAIL_DAY | 2800d | hail_day | <img src="/assets/hail_day.png" width="48" />  |
 | HAIL_NIGHT | 2800n | hail_night | <img src="/assets/hail_night.png" width="48" />  |
 | HEAVY_HAIL | 2900 | heavy_hail | <img src="/assets/heavy_hail.png" width="48" />  |
-| RAIN_AND_SNOW | 3000 | rain_and_snow | <img src="/assets/rain_and_snow-1.png" width="48" />  |
+| RAIN_AND_SNOW | 3000 | rain_and_snow | <img src="/assets/rain_and_snow.png" width="48" />  |
 | SNOW_AND_HAIL | 3100 | snow_and_hail | <img src="/assets/snow_and_hail.png" width="48" />  |
 | COLD | 3200 | cold | <img src="/assets/cold.png" width="48" />  |
 | HOT | 3300 | hot | <img src="/assets/hot.png" width="48" />  |
@@ -320,7 +320,7 @@ If you want to use proguard, just this to end of `proguard-rules.pro` file:
 
 ## License
 
-      Copyright 2019, Saeed Motedaveli
+      Copyright 2019-2022, Saeed Motedaveli
 
       Licensed under the Apache License, Version 2.0 (the "License");
       you may not use this file except in compliance with the License.
